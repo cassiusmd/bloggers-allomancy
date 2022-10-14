@@ -4,7 +4,8 @@ import {ColorScheme, ColorSchemeProvider, MantineProvider} from '@mantine/core';
 import {useState} from "react";
 import {getCookie, setCookie} from 'cookies-next';
 import {GetServerSidePropsContext} from "next";
-import { NotificationsProvider } from '@mantine/notifications';
+import {NotificationsProvider} from '@mantine/notifications';
+import {AuthProvider} from "../auth/AuthContext";
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     const {Component, pageProps} = props;
@@ -21,14 +22,16 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <>
             <Head>
                 <title>Allomancy Bloggers</title>
-                <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-                <link rel="shortcut icon" href="/favicon.svg" />
+                <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
+                <link rel="shortcut icon" href="/favicon.svg"/>
             </Head>
 
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-                <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+                <MantineProvider theme={{colorScheme}} withGlobalStyles withNormalizeCSS>
                     <NotificationsProvider>
-                        <Component {...pageProps} />
+                        <AuthProvider>
+                            <Component {...pageProps} />
+                        </AuthProvider>
                     </NotificationsProvider>
                 </MantineProvider>
             </ColorSchemeProvider>
