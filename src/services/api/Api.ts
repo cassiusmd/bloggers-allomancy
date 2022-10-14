@@ -138,6 +138,7 @@ api.interceptors.response.use(
                 showNotification({
                     title: 'Email not verified',
                     message: 'Please verify your email before logging in.',
+                    autoClose: 4000
                 })
                 Router.push('/auth/signin');
             });
