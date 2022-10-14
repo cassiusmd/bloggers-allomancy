@@ -1,10 +1,11 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { auth, logout } from '../../auth/FirebaseAuth';
+import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
+import {auth, logout} from '../../auth/FirebaseAuth';
 import {getCookies} from "cookies-next";
-import { ApiResponse } from './models/ApiResponse';
+import {ApiResponse} from './models/ApiResponse';
 
 import Router from 'next/router';
-import { ApiPaginatedResponse } from './models/ApiPaginatedResponse';
+import {ApiPaginatedResponse} from './models/ApiPaginatedResponse';
+import {showNotification} from "@mantine/notifications";
 
 let isRefreshing = false;
 let failedRequestsQueue: {
@@ -40,8 +41,9 @@ export async function ApiGet<Type>(
 
 export function GetErrorsList(error: ApiResponse<any>): string[] {
     // console.log(error.errors);
-    return error.errors?.messages ?? ['An error ocurred'];
+    return error.errors?.messages ?? ['An error occurred'];
 }
+
 export function GetErrorsString(error: ApiResponse<any>) {
     return GetErrorsList(error).join('\n');
 }
@@ -58,7 +60,7 @@ export async function ApiGetPaginated<Type>(
     let result: AxiosResponse;
     try {
         result = await api.get(url, {
-            params: { pageNumber, pageSize, search, startDate, endDate },
+            params: {pageNumber, pageSize, search, startDate, endDate},
             ...params,
         });
         return extractPaginatedResponse<Type>(result);
@@ -133,7 +135,10 @@ api.interceptors.response.use(
             // email not verified
 
             logout().then(() => {
-                WarningToast('Please verify your email before logging in.');
+                showNotification({
+                    title: 'Email not verified',
+                    message: 'Please verify your email before logging in.',
+                })
                 Router.push('/auth/signin');
             });
         }
@@ -148,7 +153,7 @@ api.interceptors.request.use(
         // const tokendata = await profile?.getIdTokenResult();
 
         // eslint-disable-next-line prefer-const
-        let { 'blogger-token': token, 'blogger-token-expire': tokenExpiration } =
+        let {'blogger-token': token, 'blogger-token-expire': tokenExpiration} =
             getCookies();
 
         if (isTokenExpired(tokenExpiration)) {
@@ -160,7 +165,7 @@ api.interceptors.request.use(
                 const tokenResult = await auth.currentUser?.getIdTokenResult();
                 if (tokenResult) {
                     token = tokenResult.token;
-                    failedRequestsQueue.forEach((request) => request.onSuccess(token));
+                    failedRequestsQueue.forEach((request) => request.onSuccess(tokenResult.token));
                     failedRequestsQueue = [];
                 } else {
                     failedRequestsQueue.forEach((request) =>
