@@ -11,7 +11,7 @@ import {ApiGet, GetErrorsString} from '../../services/api/Api';
 import {useRouter} from 'next/router';
 import {AuthContext} from "../../auth/AuthContext";
 import {ErrorToast, SuccessToast} from "../../services/utils/Toasts";
-import {Stack, Text, TextInput, Button} from "@mantine/core";
+import {Stack, Text, TextInput, Button, Group, Paper, Center} from "@mantine/core";
 import {zodResolver} from "@hookform/resolvers/zod";
 
 type GenerateTokenFormData = {
@@ -63,42 +63,47 @@ const GenerateToken: NextPage = () => {
         );
     };
 
-    return (
-        <Stack
-            sx={{
-                marginTop: 8,
-                display: 'flex',
-                alignItems: 'center',
-                // justifyContent: 'center',
-                flexDirection: 'column',
-                minHeight: '80vh',
-                gap: 1,
-            }}
-        >
-            {/*<Text size="lg" weight={500}>*/}
-            {/*    Welcome to Mantine, {type} with*/}
-            {/*</Text>*/}
-            <Text>Associate your Second Life account</Text>
+    return (<Center style={{ height: '70vh' }}>
+            <Paper radius="md" p="xl" withBorder
+                   sx={{margin: 'auto'}}
+                // sx={{
+                //     marginTop: 8,
+                //     display: 'flex',
+                //     alignItems: 'center',
+                //     // justifyContent: 'center',
+                //     flexDirection: 'column',
+                //     minHeight: '80vh',
+                //     gap: 1,
+                // }}
+            >
+                {/*<Text size="lg" weight={500}>*/}
+                {/*    Welcome to Mantine, {type} with*/}
+                {/*</Text>*/}
+                <Text>Associate your Second Life account</Text>
 
-            <form onSubmit={handleSubmit(handleGenerateToken)}>
-                <TextInput
-                    // required
-                    label={'SL username'}
-                    {...register('username')}
-                    error={!!errors.username && errors.username?.message}
-                    // helperText={errors.username?.message ?? ''}
+                <form onSubmit={handleSubmit(handleGenerateToken)}>
+                    <Stack>
+                        <TextInput
+                            // required
+                            label={'SL username'}
+                            {...register('username')}
+                            error={!!errors.username && errors.username?.message}
+                            // helperText={errors.username?.message ?? ''}
 
-                />
-                <Button
-                    type="submit"
-                    fullWidth
-                    sx={{mt: 3, mb: 2}}
-                    disabled={requested}
-                >
-                    Generate token
-                </Button>
-            </form>
-        </Stack>
+                        />
+                    </Stack>
+                    <Group position={'apart'} mt={'xl'}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            sx={{mt: 3, mb: 2}}
+                            disabled={requested || !!errors.username}
+                        >
+                            Generate token
+                        </Button>
+                    </Group>
+                </form>
+            </Paper></Center>
     );
 };
 

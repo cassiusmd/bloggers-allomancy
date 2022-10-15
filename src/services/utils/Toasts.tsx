@@ -2,7 +2,7 @@ import { IconCheck, IconCross } from '@tabler/icons';
 import { showNotification } from '@mantine/notifications';
 
 // Bare minimum – message is required for all notifications
-showNotification({ message: 'Hello' });
+// showNotification({ message: 'Hello' });
 
 // Most used notification props
 // showNotification({
