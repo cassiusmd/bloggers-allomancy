@@ -1,5 +1,5 @@
 import {NextPage} from "next";
-import {AuthenticationForm} from "../../components/auth/authentication-form";
+import {AuthenticationForm} from "../../components/auth/AuthenticationForm";
 import {Center, Stack} from "@mantine/core";
 
 const Signin: NextPage = () => {

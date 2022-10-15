@@ -13,13 +13,13 @@ import {
     Text,
     TextInput,
 } from '@mantine/core';
-import {IconBrandGoogle} from "@tabler/icons";
 import {ErrorToast} from "../../services/utils/Toasts";
 import {EmailRegister, EmailSignIn} from "../../auth/FirebaseAuth";
 
 import {SubmitHandler, useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import SocialSignIn from "./SocialSignIn";
 
 const signInFormSchema = z
     .object({
@@ -102,13 +102,14 @@ export function AuthenticationForm(props: PaperProps) {
 
     return (
         <Paper radius="md" p="xl" withBorder {...props}>
-            <Text size="lg" weight={500}>
-                Welcome to Mantine, {type} with
+            <Text size="lg" weight={500} align={'center'}>
+                {upperFirst(type)} with
             </Text>
 
             <Group grow mb="md" mt="md">
                 {/*<GoogleButton radius="xl">Google</GoogleButton>*/}
-                <Button>Google sign in <IconBrandGoogle size={24}/></Button>
+                {/*<Button><IconBrandGoogle style={{marginRight: '0.5rem'}} /> Google sign in</Button>*/}
+                <SocialSignIn/>
             </Group>
 
             <Divider label="Or continue with email" labelPosition="center" my="lg"/>
