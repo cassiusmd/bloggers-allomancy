@@ -1,4 +1,4 @@
-import { IconCheck, IconCross } from '@tabler/icons';
+import {IconCheck, IconX} from '@tabler/icons';
 import { showNotification } from '@mantine/notifications';
 
 // Bare minimum – message is required for all notifications
@@ -47,6 +47,6 @@ export function ErrorToast(message: string) {
         title: "Error",
         message: message,
         color: 'red',
-        icon: <IconCross />,
+        icon: <IconX />,
     })
 }

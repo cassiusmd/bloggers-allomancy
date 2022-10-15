@@ -47,6 +47,7 @@ const EmailSignIn = async (
     return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in
+            console.log('logged in');
             const user = userCredential.user;
             return { success: true };
             // ...
