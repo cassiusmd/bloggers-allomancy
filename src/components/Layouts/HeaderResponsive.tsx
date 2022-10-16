@@ -1,12 +1,12 @@
 import {useState} from 'react';
-import {Text, Burger, Container, createStyles, Group, Header, Paper, Transition} from '@mantine/core';
+import {Burger, Container, createStyles, Group, Header, Paper, Text, Transition} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 
 const HEADER_HEIGHT = 60;
 
 const useStyles = createStyles((theme) => ({
     root: {
-        position: 'relative',
+        // position: 'relative',
         zIndex: 1,
     },
 
@@ -102,9 +102,9 @@ export function HeaderResponsive({links}: HeaderResponsiveProps) {
             <Container className={classes.header}>
                 {/*<MantineLogo size={28} />*/}
                 {/*"AllomancyBloggers" text, with Bloggers in pink, inline*/}
-                <Text size="xl" weight="bold" color="pink">
+                <Text size="xl" weight="bold" color="pink" inline>
                     Allomancy
-                    <Text size="xl" weight="bold" color="gray">
+                    <Text size="xl" weight="bold" color="dimmed" inline>
                         Bloggers
                     </Text>
                 </Text>

@@ -8,7 +8,7 @@ export default function IndexPage() {
     return (
         <Group mt={50} position="center">
             <Button size="xl">Welcome to Mantine!</Button>
-            <ColorSchemeToggle/>
+
             {/*    show user profile bellow */}
             {userProfile && <pre>{JSON.stringify(userProfile, null, 2)}</pre>}
         </Group>
