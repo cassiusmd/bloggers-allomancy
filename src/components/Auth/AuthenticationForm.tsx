@@ -20,6 +20,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import SocialSignIn from "./SocialSignIn";
+import Link from "next/link";
 
 const signInFormSchema = z
     .object({
@@ -168,6 +169,11 @@ export function AuthenticationForm(props: PaperProps) {
                     </Anchor>
                     <Button type="submit">{upperFirst(type)}</Button>
                 </Group>
+                <Link href="/auth/forgot-password">
+                    <Anchor component="a" color="dimmed" size="xs">
+                        Forgot password?
+                    </Anchor>
+                </Link>
             </form>
         </Paper>
     );
