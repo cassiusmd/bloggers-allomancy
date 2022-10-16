@@ -124,7 +124,7 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
     ));
 
     return (
-        <Navbar hidden={!opened} height={840} width={{sm: 300}} p="md" className={classes.navbar}>
+        <Navbar hidden={!opened} hiddenBreakpoint="sm" height={840} width={{sm: 250}} p="md" className={classes.navbar}>
             <Navbar.Section>
                 <Text weight={500} size="sm" className={classes.title} color="dimmed" mb="xs">
                     bgluesticker@mantine.dev

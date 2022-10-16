@@ -28,13 +28,13 @@ export default function Layout({children}: LayoutProps) {
                 // </Navbar>
                 <NavbarSegmented opened={opened}/>
             }
-            aside={
-                <MediaQuery smallerThan="sm" styles={{display: 'none'}}>
-                    <Aside p="md" hiddenBreakpoint="sm" width={{sm: 200, lg: 300}}>
-                        <Text>Application sidebar</Text>
-                    </Aside>
-                </MediaQuery>
-            }
+            // aside={
+            //     <MediaQuery smallerThan="sm" styles={{display: 'none'}}>
+            //         <Aside p="md" hiddenBreakpoint="sm" width={{sm: 200, lg: 300}}>
+            //             <Text>Application sidebar</Text>
+            //         </Aside>
+            //     </MediaQuery>
+            // }
             footer={
                 <Footer height={60} p="md">
                     Application footer
