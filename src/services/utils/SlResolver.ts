@@ -36,10 +36,20 @@ import axios from "axios";
 import {ImageResponseDto} from "./models/ImageResponseDto";
 
 // const noImage = 'https://stores.allomancy.com/assets/noimage.png';
+
+function isDevelopment(): boolean {
+    return process.env.NODE_ENV === 'development';
+}
+
+function bypassCorsOnDevelopment(url: string): string {
+    if(isDevelopment()) return `https://cors-anywhere.herokuapp.com/${url}/`;
+    return url;
+}
+
 export async function getBiggerResTexture(uuid: string): Promise<string> {
 
     try {
-        const result = await axios.get<ImageResponseDto>('https://slimage.allomancy.net/imagestore/' + uuid);
+        const result = await axios.get<ImageResponseDto>(bypassCorsOnDevelopment('https://slimage.allomancy.net/imagestore/' + uuid));
         return result.data.url ?? gettextureUuidSlUrl(uuid);
     } catch (e) {
         return gettextureUuidSlUrl(uuid);
@@ -47,10 +57,10 @@ export async function getBiggerResTexture(uuid: string): Promise<string> {
 
 }
 
-export async function getUserProfilePicture(userUuid: string): Promise<string | null> {
+export async function getUserProfilePicture(userUuid: string): Promise<ImageResponseDto | null> {
     try {
-        const result = await axios.get<ImageResponseDto>('https://slimage.allomancy.net/profileimage/' + userUuid);
-        return result.data.url ?? null;
+        const result = await axios.get<ImageResponseDto>(bypassCorsOnDevelopment('https://slimage.allomancy.net/profileimage/' + userUuid));
+        return result.data ?? null;
     } catch (e) {
         return null;
     }
