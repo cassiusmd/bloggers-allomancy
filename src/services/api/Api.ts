@@ -130,7 +130,7 @@ api.interceptors.response.use(
     },
     (error: AxiosError) => {
         if (error.response?.status === 401) {
-            logout().then(() => Router.push('/auth/signin'));
+            logout().then(() => Router.push('/Auth/signin'));
         } else if (error.response?.status === 412) {
             // email not verified
 
@@ -140,7 +140,7 @@ api.interceptors.response.use(
                     message: 'Please verify your email before logging in.',
                     autoClose: 4000
                 })
-                Router.push('/auth/signin');
+                Router.push('/Auth/signin');
             });
         }
         return Promise.reject(error);
@@ -150,7 +150,7 @@ api.interceptors.response.use(
 api.interceptors.request.use(
     // add authorization header with firebase token
     async (config) => {
-        // const profile = auth.currentUser;
+        // const profile = Auth.currentUser;
         // const tokendata = await profile?.getIdTokenResult();
 
         // eslint-disable-next-line prefer-const
@@ -170,7 +170,7 @@ api.interceptors.request.use(
                     failedRequestsQueue = [];
                 } else {
                     failedRequestsQueue.forEach((request) =>
-                        request.onFailure('Error refreshing auth')
+                        request.onFailure('Error refreshing Auth')
                     );
                     failedRequestsQueue = [];
                 }

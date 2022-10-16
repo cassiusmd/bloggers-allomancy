@@ -25,7 +25,7 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData);
 
-// const authPaths = ['/auth/signin', '/auth/signup', '/auth/forgot-password'];
+// const authPaths = ['/Auth/signin', '/Auth/signup', '/Auth/forgot-password'];
 
 export function AuthProvider({children}: AuthProviderProps) {
     const [user, setUser] = useState<User | null>(null);
@@ -60,7 +60,7 @@ export function AuthProvider({children}: AuthProviderProps) {
                         // console.log('profile: ' + profile);
                         setUserProfile(profile.data);
 
-                        if (Router.asPath.startsWith('/auth')) {
+                        if (Router.asPath.startsWith('/Auth')) {
                             // get return url from query parameters or default to '/'
                             const returnUrl = Router.query.returnUrl || '/';
                             Router.push(String(returnUrl));

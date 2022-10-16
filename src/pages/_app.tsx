@@ -6,6 +6,7 @@ import {getCookie, setCookie} from 'cookies-next';
 import {GetServerSidePropsContext} from "next";
 import {NotificationsProvider} from '@mantine/notifications';
 import {AuthProvider} from "../auth/AuthContext";
+import Layout from "../components/Layouts/Layout";
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     const {Component, pageProps} = props;
@@ -28,11 +29,13 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
                 <MantineProvider theme={{colorScheme}} withGlobalStyles withNormalizeCSS>
-                    <NotificationsProvider >
-                        <AuthProvider>
-                            <Component {...pageProps} />
-                        </AuthProvider>
-                    </NotificationsProvider>
+                    <AuthProvider>
+                        <Layout>
+                            <NotificationsProvider>
+                                <Component {...pageProps} />
+                            </NotificationsProvider>
+                        </Layout>
+                    </AuthProvider>
                 </MantineProvider>
             </ColorSchemeProvider>
         </>

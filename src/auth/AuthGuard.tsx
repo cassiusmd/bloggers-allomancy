@@ -10,26 +10,26 @@ export function AuthGuard(Component: ComponentType) {
         // return <LoadingOverlay />;
         useEffect(() => {
             if (!initializing) {
-                //auth is initialized and there is no user
+                //Auth is initialized and there is no user
                 if (!isAuthenticated) {
                     // remember the page that user tried to access
 
                     // redirect
                     router.push({
-                        pathname: '/auth/signin',
+                        pathname: '/Auth/signin',
                         query: { returnUrl: router.asPath },
                     });
                 }
             }
         }, [initializing, router, isAuthenticated]);
 
-        /* show loading indicator while the auth provider is still initializing */
+        /* show loading indicator while the Auth provider is still initializing */
         if (initializing) {
             // return <LoadingOverlay />;
             return <></>
         }
 
-        // if auth initialized with a valid user show protected page
+        // if Auth initialized with a valid user show protected page
         if (!initializing && isAuthenticated) {
             return <Component {...props} />;
         }
