@@ -1,5 +1,4 @@
-import {Button, Group, Text} from "@mantine/core";
-import {ColorSchemeToggle} from "../components/ColorSchemeToggle/ColorSchemeToggle";
+import {Button, Group} from "@mantine/core";
 import {useContext} from "react";
 import {AuthContext} from "../auth/AuthContext";
 
@@ -10,7 +9,7 @@ export default function IndexPage() {
             <Button size="xl">Welcome to Mantine!</Button>
 
             {/*    show user profile bellow */}
-            {userProfile && <Text>{JSON.stringify(userProfile, null, 2)}</Text>}
+            {userProfile && <pre style={{fontSize:'0.75rem'}}>{JSON.stringify(userProfile, null, 2)}</pre>}
         </Group>
     );
 }
