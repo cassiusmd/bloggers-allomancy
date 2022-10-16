@@ -77,7 +77,7 @@ const GenerateToken: NextPage = () => {
                 // }}
             >
                 {/*<Text size="lg" weight={500}>*/}
-                {/*    Welcome to Mantine, {type} with*/}
+                {/*    Welcome to Allomancy, {type} with*/}
                 {/*</Text>*/}
                 <Text>Associate your Second Life account</Text>
 
