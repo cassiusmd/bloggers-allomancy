@@ -140,7 +140,7 @@ api.interceptors.response.use(
                     message: 'Please verify your email before logging in.',
                     autoClose: 4000
                 })
-                Router.push('/Auth/signin');
+                Router.push('/auth/signin');
             });
         }
         return Promise.reject(error);

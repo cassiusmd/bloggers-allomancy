@@ -6,11 +6,10 @@ import {ApiGet, ApiPut} from '../../services/api/Api';
 import {BloggerProfileDto} from '../../models/BloggerProfileDto';
 import {useEffect} from 'react';
 import {BloggerProfilePutDto} from '../../models/BloggerProfilePutDto';
-import SocialIcon from '../../components/Icons/SocialIcons';
 import {z} from "zod";
 import {SuccessToast} from "../../services/utils/Toasts";
-import {Button, List, Stack, Text, Textarea, TextInput} from "@mantine/core";
-import {IconTrash} from "@tabler/icons";
+import {Button, Group, List, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {IconLink, IconTrash} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
 
 
@@ -117,7 +116,7 @@ const BloggerProfile: NextPage = () => {
     }, []);
     return (
         <Stack>
-            <Stack spacing={5} align={'center'}>
+            <Stack spacing={5} align={'center'} justify={'center'}>
                 <Stack>
                     <div>
                         <Text size={'lg'} align={'center'}>Blogger Profile</Text>
@@ -135,7 +134,7 @@ const BloggerProfile: NextPage = () => {
                     noValidate
                     onSubmit={handleSubmit(handlePost)}
                 >
-                    <List spacing={2}>
+                    <Stack align={'center'} justify={'center'}><List spacing={2}>
                         <List.Item>
                             <Textarea
                                 id="description"
@@ -151,31 +150,30 @@ const BloggerProfile: NextPage = () => {
                             <List.Item
                                 key={field.id} // important to include key with field's id
                             >
-                                <Stack
-                                    // display="flex"
-                                    justify={'center'}
-                                    align={'center'}
-                                    spacing={1}
-                                >
-                                    <TextInput
-                                        sx={{width: '90%'}}
-                                        id={field.id}
-                                        label={`Blog/social url ${index + 1}`}
-                                        {...register(`urls.${index}.value` as const)}
-                                        error={(!!errors.urls?.[index]?.value ?? '') && errors.urls?.[index]?.value?.message}
-                                    />
-                                    <SocialIcon link={''}/>
-                                </Stack>
+
+                                <TextInput
+                                    icon={<IconLink size={14}/>}
+                                    sx={{width: '90%'}}
+                                    id={field.id}
+                                    label={`Blog/social url ${index + 1}`}
+                                    {...register(`urls.${index}.value` as const)}
+                                    error={(!!errors.urls?.[index]?.value ?? '') && errors.urls?.[index]?.value?.message}
+                                />
+
+
                             </List.Item>
                         ))}
-                        <List.Item>
+
+                    </List>
+
+                        <Group mt={'1rem'}>
                             {/*<IconButton*/}
                             {/*  disabled={fields.length >= 5}*/}
                             {/*  onClick={() => append('')}*/}
                             {/*>*/}
                             {/*  <AddIcon />*/}
                             {/*</IconButton>*/}
-                            <Button
+                            <Button variant={'outline'}
                                 disabled={fields.length >= 5}
                                 onClick={() => append({value: ''})}
                             >
@@ -187,14 +185,14 @@ const BloggerProfile: NextPage = () => {
                             {/*>*/}
                             {/*    <RemoveIcon/>*/}
                             {/*</IconButton>*/}
-                            <Button disabled={fields.length <= 0}
+                            <Button color={'red'} disabled={fields.length <= 0}
                                     onClick={() => remove(-1)}><IconTrash/></Button>
-                        </List.Item>
-                    </List>
+                        </Group>
+                        <Stack align={'center'}>
+                            <Button onClick={handleSubmit(handlePost)}>Save</Button>
+                        </Stack>
+                    </Stack>
                 </form>
-                <Stack>
-                    <Button onClick={handleSubmit(handlePost)}>Save</Button>
-                </Stack>
             </Stack>
         </Stack>
     );

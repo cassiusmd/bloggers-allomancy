@@ -4,6 +4,7 @@ import {AuthContext} from "../../auth/AuthContext";
 import {AppShell, Aside, Burger, Footer, Header, MediaQuery, Navbar, Text, useMantineTheme} from "@mantine/core";
 import {NavbarSegmented} from "./NavbarSegmented";
 import {HeaderResponsive} from "./HeaderResponsive";
+import {ColorSchemeToggle} from "../ColorSchemeToggle/ColorSchemeToggle";
 
 interface LayoutProps {
     children: ReactNode;
@@ -54,6 +55,7 @@ export default function Layout({children}: LayoutProps) {
                         </MediaQuery>
 
                         <Text>Application header</Text>
+                        <ColorSchemeToggle/>
                     </div>
                 </Header>
                 // <HeaderResponsive links={[{link: '/', label: 'Home'}]}/>

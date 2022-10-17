@@ -16,7 +16,7 @@ export function AuthGuard(Component: ComponentType) {
 
                     // redirect
                     router.push({
-                        pathname: '/Auth/signin',
+                        pathname: '/auth/signin',
                         query: { returnUrl: router.asPath },
                     });
                 }
