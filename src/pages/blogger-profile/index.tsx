@@ -140,8 +140,8 @@ const BloggerProfile: NextPage = () => {
                                 <Textarea
                                     id="description"
                                     // rows={2}
-                                    minRows={2}
-                                    maxRows={6}
+                                    minRows={5}
+                                    maxRows={10}
                                     label="Description"
                                     {...register('description')}
                                     error={!!errors.description && errors.description?.message}
