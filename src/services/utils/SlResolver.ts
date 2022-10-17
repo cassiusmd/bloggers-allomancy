@@ -42,7 +42,7 @@ function isDevelopment(): boolean {
 }
 
 function bypassCorsOnDevelopment(url: string): string {
-    if(isDevelopment()) return `https://cors-anywhere.herokuapp.com/${url}/`;
+    if (isDevelopment()) return `https://cors-anywhere.herokuapp.com/${url}/`;
     return url;
 }
 
@@ -67,7 +67,7 @@ export async function getUserProfilePicture(userUuid: string): Promise<ImageResp
 }
 
 
-function gettextureUuidSlUrl(uuid: string): string {
+export function gettextureUuidSlUrl(uuid: string): string {
     return `https://picture-service.secondlife.com/${uuid}/320x240.png`;
 }
 
@@ -87,5 +87,15 @@ function getAvatarSlUrl(username: string): string {
 function getRegionSlUrl(region: string, position: string): string {
     //  http://maps.secondlife.com/secondlife/Samurai/90/220/4001
     return `http://maps.secondlife.com/secondlife/${region}/${position.replace(/\,/g, '/')}`;
+}
+
+export function NullKeyToNull(key?: string): string | null {
+    if (key) {
+        if (key === '00000000-0000-0000-0000-000000000000') {
+            return null;
+        }
+        return key;
+    }
+    return null;
 }
 
