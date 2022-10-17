@@ -59,7 +59,15 @@ const BloggerStores: NextPage = () => {
                     stores.map((store) => {
                         return (
                             <Grid.Col key={store.id}>
-                                <Link href={`/stores/${store.id}`}><Card
+                                <Link href={`/stores/${store.id}`}>
+                                    <Card sx={{
+                                        cursor: 'pointer',
+                                        minWidth: 240,
+                                        maxWidth: 240,
+                                        ":hover": {
+                                            filter: 'brightness(1.2)'
+                                        }
+                                    }}
                                     // sx={{
                                     //     minWidth: 240,
                                     //     maxWidth: 240,

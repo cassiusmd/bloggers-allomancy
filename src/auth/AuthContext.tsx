@@ -60,7 +60,7 @@ export function AuthProvider({children}: AuthProviderProps) {
                         // console.log('profile: ' + profile);
                         setUserProfile(profile.data);
 
-                        if (Router.asPath.startsWith('/Auth')) {
+                        if (Router.asPath.startsWith('/auth')) {
                             // get return url from query parameters or default to '/'
                             const returnUrl = Router.query.returnUrl || '/';
                             Router.push(String(returnUrl));
