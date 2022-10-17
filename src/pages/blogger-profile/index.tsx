@@ -8,7 +8,7 @@ import {useEffect} from 'react';
 import {BloggerProfilePutDto} from '../../models/BloggerProfilePutDto';
 import {z} from "zod";
 import {SuccessToast} from "../../services/utils/Toasts";
-import {Button, Grid, Group, List, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Button, Grid, Group, Stack, Text, Textarea, TextInput} from "@mantine/core";
 import {IconLink, IconTrash} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
 
@@ -116,7 +116,7 @@ const BloggerProfile: NextPage = () => {
     }, []);
     return (
         <Stack>
-            <Stack spacing={5} align={'center'} justify={'center'}>
+            <Stack spacing={5} align={'stretch'} justify={'center'}>
                 <Stack>
                     <div>
                         <Text size={'lg'} align={'center'}>Blogger Profile</Text>
@@ -134,8 +134,8 @@ const BloggerProfile: NextPage = () => {
                     noValidate
                     onSubmit={handleSubmit(handlePost)}
                 >
-                    <Stack align={'center'} justify={'center'}>
-                        <Grid >
+                    <Stack align={'stretch'} justify={'center'}>
+                        <Grid align={'stretch'} columns={1}>
                             <Grid.Col>
                                 <Textarea
                                     id="description"
