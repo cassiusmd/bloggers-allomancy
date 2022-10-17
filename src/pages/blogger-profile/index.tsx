@@ -8,7 +8,7 @@ import {useEffect} from 'react';
 import {BloggerProfilePutDto} from '../../models/BloggerProfilePutDto';
 import {z} from "zod";
 import {SuccessToast} from "../../services/utils/Toasts";
-import {Button, Grid, Group, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Button, Grid, Group, Stack, Center, Text, Textarea, TextInput} from "@mantine/core";
 import {IconLink, IconTrash} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
 
@@ -116,10 +116,10 @@ const BloggerProfile: NextPage = () => {
     }, []);
     return (
         <Stack>
-            <Stack spacing={5} align={'stretch'} justify={'center'}>
-                <Stack>
+            <Stack spacing={5} align={'stretch'} >
+                <Stack align={'center'}>
                     <div>
-                        <Text size={'lg'} align={'center'}>Blogger Profile</Text>
+                        <Text size={'lg'} weight={700} align={'center'}>Blogger Profile</Text>
                     </div>
                     <Text>
                         Add here your blog or social pages urls and write a bit about
@@ -134,12 +134,13 @@ const BloggerProfile: NextPage = () => {
                     noValidate
                     onSubmit={handleSubmit(handlePost)}
                 >
-                    <Stack align={'stretch'} justify={'center'}>
+                    <Center><Stack align={'stretch'} sx={{maxWidth: '600px', width: '100%'}}>
                         <Grid align={'stretch'} columns={1}>
                             <Grid.Col>
                                 <Textarea
                                     id="description"
                                     // rows={2}
+                                    minRows={2}
                                     maxRows={6}
                                     label="Description"
                                     {...register('description')}
@@ -191,7 +192,7 @@ const BloggerProfile: NextPage = () => {
                         <Stack align={'center'}>
                             <Button onClick={handleSubmit(handlePost)}>Save</Button>
                         </Stack>
-                    </Stack>
+                    </Stack></Center>
                 </form>
             </Stack>
         </Stack>
