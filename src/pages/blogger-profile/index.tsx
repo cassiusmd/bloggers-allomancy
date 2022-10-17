@@ -8,7 +8,7 @@ import {useEffect} from 'react';
 import {BloggerProfilePutDto} from '../../models/BloggerProfilePutDto';
 import {z} from "zod";
 import {SuccessToast} from "../../services/utils/Toasts";
-import {Button, Group, List, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Button, Grid, Group, List, Stack, Text, Textarea, TextInput} from "@mantine/core";
 import {IconLink, IconTrash} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
 
@@ -134,37 +134,37 @@ const BloggerProfile: NextPage = () => {
                     noValidate
                     onSubmit={handleSubmit(handlePost)}
                 >
-                    <Stack align={'center'} justify={'center'}><List spacing={2}>
-                        <List.Item>
-                            <Textarea
-                                id="description"
-                                // rows={2}
-                                maxRows={6}
-                                label="Description"
-                                {...register('description')}
-                                error={!!errors.description && errors.description?.message}
-                            />
-                        </List.Item>
-
-                        {fields.map((field, index) => (
-                            <List.Item
-                                key={field.id} // important to include key with field's id
-                            >
-
-                                <TextInput
-                                    icon={<IconLink size={14}/>}
-                                    sx={{width: '90%'}}
-                                    id={field.id}
-                                    label={`Blog/social url ${index + 1}`}
-                                    {...register(`urls.${index}.value` as const)}
-                                    error={(!!errors.urls?.[index]?.value ?? '') && errors.urls?.[index]?.value?.message}
+                    <Stack align={'center'} justify={'center'}>
+                        <Grid >
+                            <Grid.Col>
+                                <Textarea
+                                    id="description"
+                                    // rows={2}
+                                    maxRows={6}
+                                    label="Description"
+                                    {...register('description')}
+                                    error={!!errors.description && errors.description?.message}
                                 />
+                            </Grid.Col>
+
+                            {fields.map((field, index) => (
+                                <Grid.Col
+                                    key={field.id} // important to include key with field's id
+                                >
+
+                                    <TextInput
+                                        icon={<IconLink size={14}/>}
+                                        id={field.id}
+                                        label={`Blog/social url ${index + 1}`}
+                                        {...register(`urls.${index}.value` as const)}
+                                        error={(!!errors.urls?.[index]?.value ?? '') && errors.urls?.[index]?.value?.message}
+                                    />
 
 
-                            </List.Item>
-                        ))}
+                                </Grid.Col>
+                            ))}
 
-                    </List>
+                        </Grid>
 
                         <Group mt={'1rem'}>
                             {/*<IconButton*/}
@@ -174,8 +174,8 @@ const BloggerProfile: NextPage = () => {
                             {/*  <AddIcon />*/}
                             {/*</IconButton>*/}
                             <Button variant={'outline'}
-                                disabled={fields.length >= 5}
-                                onClick={() => append({value: ''})}
+                                    disabled={fields.length >= 5}
+                                    onClick={() => append({value: ''})}
                             >
                                 Add Url
                             </Button>
