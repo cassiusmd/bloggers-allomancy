@@ -7,6 +7,7 @@ import Router from 'next/router';
 import {ApiPaginatedResponse} from './models/ApiPaginatedResponse';
 import {showNotification} from "@mantine/notifications";
 import useSWR from "swr";
+import {ErrorToast} from "../utils/Toasts";
 
 let isRefreshing = false;
 let failedRequestsQueue: {
@@ -36,11 +37,12 @@ export function useFetchApi<Type>(
     params?: AxiosRequestConfig) {
     const {data, error, mutate, isLoading} = useFetch<ApiResponse<Type>>(url, params);
     if (error) {
-        showNotification({
-            title: 'Error',
-            message: error.message,
-            color: 'red',
-        });
+        // showNotification({
+        //     title: 'Error',
+        //     message: error.message,
+        //     color: 'red',
+        // });
+        ErrorToast(error.message);
     }
     return {data, error, mutate, isLoading}
 }
@@ -65,11 +67,7 @@ export function useFetchPaginatedApi<Type>(
         }
     });
     if (error) {
-        showNotification({
-            title: 'Error',
-            message: error.message,
-            color: 'red',
-        });
+        ErrorToast(error.message);
     }
     return {data, error, mutate, isLoading}
 }
