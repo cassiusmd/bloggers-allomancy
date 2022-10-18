@@ -42,7 +42,8 @@ export function useFetchApi<Type>(
         //     message: error.message,
         //     color: 'red',
         // });
-        ErrorToast(error.message);
+        // ErrorToast(error.message);
+        ErrorToast(GetErrorsString(error));
     }
     return {data, error, mutate, isLoading}
 }
@@ -67,7 +68,8 @@ export function useFetchPaginatedApi<Type>(
         }
     });
     if (error) {
-        ErrorToast(error.message);
+        // ErrorToast(error.message);
+        ErrorToast(GetErrorsString(error));
     }
     return {data, error, mutate, isLoading}
 }

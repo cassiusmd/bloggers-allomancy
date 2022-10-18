@@ -1,13 +1,12 @@
 import {NextPage} from 'next';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import {useCallback} from 'react';
 import {StoreBloggerCouponSettingsDto} from '../../../../models/StoreBloggerCouponSettingsDto';
-import {ApiGet, GetErrorsString} from '../../../../services/api/Api';
+import {useFetchApi} from '../../../../services/api/Api';
 import {useRouter} from 'next/router';
 import {CouponDto} from '../../../../models/CouponDto';
-import {ErrorToast} from "../../../../services/utils/Toasts";
-import {Box, Card, Group, Loader, Stack, Text, Tooltip} from "@mantine/core";
+import {Card, Group, Loader, Stack, Text, Tooltip} from "@mantine/core";
 import CopyToClipboardSpan from "../../../../components/Clipboard/CopyToClipboardSpan";
 import CopyToClipboardButton from "../../../../components/Clipboard/CopyToClipboardButton";
 import CouponDialog from "../../../../components/Dialogs/CouponDialog";
@@ -16,43 +15,57 @@ const Coupons: NextPage = () => {
     const router = useRouter();
     const {storeid} = router.query;
 
-    const [couponSettings, setCouponSettings] =
-        useState<StoreBloggerCouponSettingsDto | null>(null);
+    // const [couponSettings, setCouponSettings] =
+    //     useState<StoreBloggerCouponSettingsDto | null>(null);
+    //
+    // const [coupon, setCoupon] = useState<CouponDto | null>(null);
+    //
+    // const fetchSettings = async () => {
+    //     ApiGet<StoreBloggerCouponSettingsDto>(
+    //         `BloggerCoupon/${storeid}/settings`
+    //     ).then(
+    //         (response) => {
+    //             // console.log(response.data);
+    //             setCouponSettings(response.data);
+    //         },
+    //         (error) => {
+    //             // toast.error(GetErrorsString(error));
+    //             ErrorToast(GetErrorsString(error));
+    //             //
+    //         }
+    //     );
+    // };
 
-    const [coupon, setCoupon] = useState<CouponDto | null>(null);
 
-    const fetchSettings = async () => {
-        ApiGet<StoreBloggerCouponSettingsDto>(
-            `BloggerCoupon/${storeid}/settings`
-        ).then(
-            (response) => {
-                // console.log(response.data);
-                setCouponSettings(response.data);
-            },
-            (error) => {
-                // toast.error(GetErrorsString(error));
-                ErrorToast(GetErrorsString(error));
-                //
-            }
-        );
-    };
+    // const fetchCoupon = async () => {
+    //     ApiGet<CouponDto>(`BloggerCoupon/${storeid}/coupon`).then(
+    //         (response) => {
+    //             // console.log(response.data);
+    //             setCoupon(response.data);
+    //         },
+    //         (error) => {
+    //             // toast.error(GetErrorsString(error));
+    //             ErrorToast(GetErrorsString(error));
+    //         }
+    //     );
+    // };
+    //
+    // useEffect(() => {
+    //     fetchSettings().then(() => fetchCoupon());
+    // }, [storeid]);
 
-    const fetchCoupon = async () => {
-        ApiGet<CouponDto>(`BloggerCoupon/${storeid}/coupon`).then(
-            (response) => {
-                // console.log(response.data);
-                setCoupon(response.data);
-            },
-            (error) => {
-                // toast.error(GetErrorsString(error));
-                ErrorToast(GetErrorsString(error));
-            }
-        );
-    };
+    const settingsData = useFetchApi<StoreBloggerCouponSettingsDto>(`BloggerCoupon/${storeid}/settings`);
+    const couponData = useFetchApi<CouponDto>(`BloggerCoupon/${storeid}/coupon`);
 
-    useEffect(() => {
-        fetchSettings().then(() => fetchCoupon());
-    }, [storeid]);
+    const coupon = couponData.data?.data;
+
+    const handleCouponChange = useCallback(() => {
+
+
+        couponData.mutate(couponData.data, true)
+
+    }, [couponData.data, couponData.mutate()]);
+
     return (
         <>
             <Stack spacing={5} align={'center'}>
@@ -68,11 +81,11 @@ const Coupons: NextPage = () => {
                 </Text>
                 {/*{JSON.stringify(couponSettings)}*/}
 
-                {storeid === undefined || couponSettings === null ? (
+                {storeid === undefined || coupon === null ? (
                     // <Typography variant={'h5'}>Loading</Typography>
                     // <LoadingOverlay />
                     <Loader size="xl"/>
-                ) : couponSettings?.enabled ? (
+                ) : settingsData.data?.data?.enabled ? (
                     <Card sx={{minWidth: 275}} shadow="sm" p="lg" withBorder mt={20}>
 
                         <Text sx={{fontSize: 14}} color="text.secondary">
@@ -94,13 +107,14 @@ const Coupons: NextPage = () => {
                                     </Text>
                                     {/*<CopyToClipboardButton text={currentCoupon.code} />*/}
                                 </Group>
-                                <Tooltip multiline color={'dark'} label={'Profit you will receive from each sale your coupon is used'}>
+                                <Tooltip multiline color={'dark'}
+                                         label={'Profit you will receive from each sale your coupon is used'}>
                                     <Group spacing={5}>
                                         <Text color={'secondary'}>
                                             Your profit:
                                         </Text>
                                         <Text color={'yellow'}>
-                                            {couponSettings.bloggerProfit}%
+                                            {settingsData.data.data.bloggerProfit}%
                                         </Text>
                                     </Group>
                                 </Tooltip>
@@ -115,7 +129,7 @@ const Coupons: NextPage = () => {
                                         </Text>
 
                                         <Text color={'yellow'}>
-                                            {couponSettings.customerDiscount}%
+                                            {settingsData.data.data.customerDiscount}%
                                         </Text>
                                     </Group>
                                 </Tooltip>
@@ -126,7 +140,8 @@ const Coupons: NextPage = () => {
                         {/*<Button size="small">Learn More</Button>*/}
                         {/*<Center m={10}>*/}
                         <Group mt={20}>
-                            <CouponDialog currentCode={coupon?.code} storeId={storeid.toString()} callback={fetchCoupon}/>
+                            <CouponDialog currentCode={coupon?.code} storeId={storeid.toString()}
+                                          callback={handleCouponChange}/>
                             {coupon && (
                                 <span style={{marginLeft: 'auto'}}>
                                     <CopyToClipboardButton text={coupon.code}/>
