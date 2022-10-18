@@ -130,7 +130,7 @@ api.interceptors.response.use(
     },
     (error: AxiosError) => {
         if (error.response?.status === 401) {
-            logout().then(() => Router.push('/Auth/signin'));
+            logout().then(() => Router.push('/auth/signin'));
         } else if (error.response?.status === 412) {
             // email not verified
 
