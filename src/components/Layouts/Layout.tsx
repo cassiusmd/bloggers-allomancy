@@ -1,9 +1,8 @@
 import {ReactNode, useContext, useState} from "react";
 import {AuthContext} from "../../auth/AuthContext";
 
-import {AppShell, Aside, Burger, Footer, Header, MediaQuery, Navbar, Text, useMantineTheme} from "@mantine/core";
+import {AppShell, Burger, Footer, Group, Header, MediaQuery, Text, useMantineTheme} from "@mantine/core";
 import {NavbarSegmented} from "./NavbarSegmented";
-import {HeaderResponsive} from "./HeaderResponsive";
 import {ColorSchemeToggle} from "../ColorSchemeToggle/ColorSchemeToggle";
 
 interface LayoutProps {
@@ -43,7 +42,13 @@ export default function Layout({children}: LayoutProps) {
             }
             header={
                 <Header height={70} p="md">
-                    <div style={{display: 'flex', alignItems: 'center', height: '100%'}}>
+
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        height: '100%',
+                        justifyContent: 'space-between',
+                    }}>
                         <MediaQuery largerThan="sm" styles={{display: 'none'}}>
                             <Burger
                                 opened={opened}
@@ -55,8 +60,11 @@ export default function Layout({children}: LayoutProps) {
                         </MediaQuery>
 
                         <Text>Application header</Text>
-                        <ColorSchemeToggle/>
+                        <Group>
+                            <ColorSchemeToggle/>
+                        </Group>
                     </div>
+
                 </Header>
                 // <HeaderResponsive links={[{link: '/', label: 'Home'}]}/>
             }
