@@ -78,7 +78,7 @@ export default function CouponDialog({currentCode, storeId, callback}: CouponDia
             </Modal>
 
             <Group position="center">
-                <Button onClick={() => setOpened(true)}>Open Modal</Button>
+                <Button onClick={() => setOpened(true)}>{currentCode ? 'Change' : 'Generate'}</Button>
             </Group>
         </>
     );

@@ -73,63 +73,68 @@ const Coupons: NextPage = () => {
                     // <LoadingOverlay />
                     <Loader size="xl"/>
                 ) : couponSettings?.enabled ? (
-                    <Card sx={{minWidth: 275}}>
-                        <Card.Section>
-                            <Text sx={{fontSize: 14}} color="text.secondary">
-                                {coupon ? 'Your coupon code:' : 'Generate your coupon'}
+                    <Card sx={{minWidth: 275}} shadow="sm" p="lg" withBorder mt={20}>
+
+                        <Text sx={{fontSize: 14}} color="text.secondary">
+                            {coupon ? 'Your coupon code:' : 'Generate your coupon'}
+                        </Text>
+                        {coupon == null ? (
+                            <Text sx={{mb: 1.5, mt: 1.5}} color="text.secondary">
+                                No coupon yet...
                             </Text>
-                            {coupon == null ? (
-                                <Text sx={{mb: 1.5, mt: 1.5}} color="text.secondary">
-                                    No coupon yet...
-                                </Text>
-                            ) : (
-                                <>
-                                    <Group>
-                                        <Text
-                                            sx={{mb: 1.5, mt: 1.5}}
-                                            size={'md'}
-                                        >
-                                            {/*{currentCoupon.code}*/}
-                                            <CopyToClipboardSpan text={coupon.code}/>
-                                        </Text>
-                                        {/*<CopyToClipboardButton text={currentCoupon.code} />*/}
-                                    </Group>
-                                    <Tooltip label={'Profit you will receive from each sale your coupon is used'}>
-                                        <Box>
-                                            <Text color={'secondary'}>
-                                                Your profit:
-                                            </Text>
-                                            <Text color={'primary'}>
-                                                {couponSettings.bloggerProfit}%
-                                            </Text>
-                                        </Box>
-                                    </Tooltip>
-                                    <Tooltip
-                                        label={'Discount the customer will receive, as store credit'}
+                        ) : (
+                            <>
+                                <Group>
+                                    <Text
+                                        sx={{mb: 1.5, mt: 1.5}}
+                                        size={'lg'} weight={700}
                                     >
-                                        <Box>
-                                            <Text color={'secondary'}>
-                                                Customer discount:
-                                            </Text>
+                                        {/*{currentCoupon.code}*/}
+                                        <CopyToClipboardSpan text={coupon.code}/>
+                                    </Text>
+                                    {/*<CopyToClipboardButton text={currentCoupon.code} />*/}
+                                </Group>
+                                <Tooltip multiline color={'dark'} label={'Profit you will receive from each sale your coupon is used'}>
+                                    <Group spacing={5}>
+                                        <Text color={'secondary'}>
+                                            Your profit:
+                                        </Text>
+                                        <Text color={'yellow'}>
+                                            {couponSettings.bloggerProfit}%
+                                        </Text>
+                                    </Group>
+                                </Tooltip>
+                                <Tooltip
+                                    color={'dark'}
+                                    multiline
+                                    label={'Discount the customer will receive, as store credit'}
+                                >
+                                    <Group spacing={5}>
+                                        <Text color={'secondary'}>
+                                            Customer discount:
+                                        </Text>
 
-                                            <Text color={'primary'}>
-                                                {couponSettings.customerDiscount}%
-                                            </Text>
-                                        </Box>
-                                    </Tooltip>
-                                </>
-                            )}
-                        </Card.Section>
-                        <Card.Section>
-                            {/*<Button size="small">Learn More</Button>*/}
+                                        <Text color={'yellow'}>
+                                            {couponSettings.customerDiscount}%
+                                        </Text>
+                                    </Group>
+                                </Tooltip>
+                            </>
+                        )}
 
+
+                        {/*<Button size="small">Learn More</Button>*/}
+                        {/*<Center m={10}>*/}
+                        <Group mt={20}>
                             <CouponDialog currentCode={coupon?.code} storeId={storeid.toString()}/>
                             {coupon && (
                                 <span style={{marginLeft: 'auto'}}>
-              <CopyToClipboardButton text={coupon.code}/>
-            </span>
+                                    <CopyToClipboardButton text={coupon.code}/>
+                                    </span>
                             )}
-                        </Card.Section>
+                        </Group>
+                        {/*</Center>*/}
+
                     </Card>
                 ) : (
                     <Text size={'lg'} weight={600}>
