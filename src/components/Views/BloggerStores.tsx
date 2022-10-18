@@ -1,6 +1,6 @@
 import {NextPage} from 'next';
 
-import {ApiGetPaginated} from '../../services/api/Api';
+import {ApiGetPaginated, useFetchPaginatedApi} from '../../services/api/Api';
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Store} from '../../models/Store';
@@ -29,34 +29,39 @@ const BloggerStores: NextPage = () => {
     //     (state) => state.selectedStore
     // );
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [stores, setStores] = useState<Store[]>([]);
-    useEffect(() => {
-        setLoading(true);
-        ApiGetPaginated<Store>('/blogger/stores', 1, 100)
-            .then((res) => {
-                // console.log(res);
-                setStores(res.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setLoading(false);
-                // console.log('error: ' + err);
-            });
-    }, []);
+    // const [loading, setLoading] = useState<boolean>(true);
+    // const [stores, setStores] = useState<Store[]>([]);
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     ApiGetPaginated<Store>('/blogger/stores', 1, 100)
+    //         .then((res) => {
+    //             // console.log(res);
+    //             setStores(res.data);
+    //             setLoading(false);
+    //         })
+    //         .catch((err) => {
+    //             setLoading(false);
+    //             // console.log('error: ' + err);
+    //         });
+    // }, []);
+    const {data, error, mutate, isLoading} = useFetchPaginatedApi<Store>(
+        '/blogger/stores',
+        1,
+        100);
 
     return (
         <Stack spacing={10} align={'center'}>
             <Text size={'xl'}>Select a store</Text>
 
-            {!loading ? (
-                <NoStoresFound storeAmount={stores.length}/>
+            {!isLoading ? (
+                <NoStoresFound storeAmount={data!.data.length}/>
             ) : (
                 <Loader size={'xl'}/>
             )}
             <Grid justify={'center'}>
-                {!!stores.length &&
-                    stores.map((store) => {
+                {!!data?.data.length &&
+                    data.data.map((store) => {
                         return (
                             <Grid.Col key={store.id}>
                                 <Link href={`/stores/${store.id}`}>

@@ -6,6 +6,7 @@ import {ApiResponse} from './models/ApiResponse';
 import Router from 'next/router';
 import {ApiPaginatedResponse} from './models/ApiPaginatedResponse';
 import {showNotification} from "@mantine/notifications";
+import useSWR from "swr";
 
 let isRefreshing = false;
 let failedRequestsQueue: {
@@ -18,6 +19,60 @@ export const api = axios.create({
     //     'Content-Type': 'application/json',
     // },
 });
+
+
+export function useFetch<Data = any, Error = any>(url: string, params?: AxiosRequestConfig) {
+    const {data, error, mutate} = useSWR<Data, Error>([url, params], async () => {
+        const response = await api.get(url, params);
+
+        return response.data;
+    })
+
+    return {data, error, mutate, isLoading: !error && !data}
+}
+
+export function useFetchApi<Type>(
+    url: string,
+    params?: AxiosRequestConfig) {
+    const {data, error, mutate, isLoading} = useFetch<ApiResponse<Type>>(url, params);
+    if (error) {
+        showNotification({
+            title: 'Error',
+            message: error.message,
+            color: 'red',
+        });
+    }
+    return {data, error, mutate, isLoading}
+}
+
+export function useFetchPaginatedApi<Type>(
+    url: string,
+    pageNumber: number,
+    pageSize: number,
+    search: string | null = null,
+    startDate: Date | null = null,
+    endDate: Date | null = null,
+    params?: AxiosRequestConfig
+) {
+    const {data, error, mutate, isLoading} = useFetch<ApiPaginatedResponse<Type>>(url, {
+        params: {
+            pageNumber,
+            pageSize,
+            search,
+            startDate,
+            endDate,
+            ...params?.params
+        }
+    });
+    if (error) {
+        showNotification({
+            title: 'Error',
+            message: error.message,
+            color: 'red',
+        });
+    }
+    return {data, error, mutate, isLoading}
+}
 
 export async function ApiGet<Type>(
     url: string,
