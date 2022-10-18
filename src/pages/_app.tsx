@@ -31,7 +31,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
                 <MantineProvider theme={{colorScheme, loader: 'dots'}} withGlobalStyles withNormalizeCSS>
                     <AuthProvider>
                         <Layout>
-                            <NotificationsProvider>
+                            <NotificationsProvider position={'top-center'}>
                                 <Component {...pageProps} />
                             </NotificationsProvider>
                         </Layout>
