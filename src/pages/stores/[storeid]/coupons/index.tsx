@@ -126,7 +126,7 @@ const Coupons: NextPage = () => {
                         {/*<Button size="small">Learn More</Button>*/}
                         {/*<Center m={10}>*/}
                         <Group mt={20}>
-                            <CouponDialog currentCode={coupon?.code} storeId={storeid.toString()}/>
+                            <CouponDialog currentCode={coupon?.code} storeId={storeid.toString()} callback={fetchCoupon}/>
                             {coupon && (
                                 <span style={{marginLeft: 'auto'}}>
                                     <CopyToClipboardButton text={coupon.code}/>

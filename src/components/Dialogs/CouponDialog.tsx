@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {Box, Button, Group, Modal, Stack, TextInput} from '@mantine/core';
-import SocialIcon from "../Icons/SocialIcons";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
@@ -58,23 +57,23 @@ export default function CouponDialog({currentCode, storeId, callback}: CouponDia
                 title="Introduce yourself!"
             >
                 {/* Modal content */}
-                <Stack align={'center'} spacing={1}>
+                <Stack align={'center'} spacing={10}>
                     {/*<Typography>Your coupon</Typography>*/}
-                    <Box>
+
                         <TextInput
                             autoFocus={true}
-                            sx={{width: '90%'}}
+                            sx={{width: '90%', maxWidth: '230px'}}
                             label={'Coupon Code'}
                             {...register('code')}
                             error={!!errors.code && errors.code?.message}
                         />
-                        <SocialIcon link={''}/>
-                    </Box>
+
+
+                    <Group>
+                        <Button onClick={handleSubmit(handlePost)}>Save</Button>
+                        <Button onClick={() => setOpened(false)}>Close</Button>
+                    </Group>
                 </Stack>
-                <Group>
-                    <Button onClick={handleSubmit(handlePost)}>Save</Button>
-                    <Button onClick={() => setOpened(false)}>Close</Button>
-                </Group>
             </Modal>
 
             <Group position="center">
