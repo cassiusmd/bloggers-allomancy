@@ -64,7 +64,7 @@ const Coupons: NextPage = () => {
 
         couponData.mutate(couponData.data, true)
 
-    }, [couponData.data, couponData.mutate()]);
+    }, [couponData.data, couponData.mutate]);
 
     return (
         <>
