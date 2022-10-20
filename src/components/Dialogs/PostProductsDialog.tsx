@@ -164,9 +164,9 @@ const PostProductsDialog = ({products, callSuccess, disabled}: PostProductsDialo
                             <Grid.Col xs={12}>
                                 <Textarea
                                     id="description"
-                                    minRows={4}
+                                    minRows={6}
                                     // rows={2}
-                                    maxRows={7}
+                                    maxRows={10}
                                     label="Description"
                                     {...register('description')}
                                     error={!!errors.description && errors.description?.message}
