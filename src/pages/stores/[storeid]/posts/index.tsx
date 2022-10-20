@@ -7,12 +7,12 @@ import {ApiGetPaginated} from '../../../../services/api/Api';
 import {NextPage} from 'next';
 
 import {AuthGuard} from '../../../../auth/AuthGuard';
-import {Anchor, Grid, Group, Pagination, Stack, Table, Text, Tooltip} from "@mantine/core";
-import ImgSl from "../../../../components/Images/ImgSl";
+import {Anchor, Box, Group, Pagination, Stack, Table, Text, Tooltip} from "@mantine/core";
 import SocialIcon from "../../../../components/Icons/SocialIcons";
 import GetExternalUrl from '../../../../services/utils/GetExternalUrl';
 import {ToFormattedDate} from "../../../../services/utils/Timeformat";
 import BlogPostState from "../../../../components/Utils/BlogPostState";
+import ImageViewDialog from "../../../../components/Images/ImageViewDialog";
 
 const Posts: NextPage = () => {
     // const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -107,25 +107,26 @@ const Posts: NextPage = () => {
                                 <BlogPostState accepted={row.accepted}/>
                             </th>
                             <td>
-                                <Grid>
+                                <Group>
                                     {row.products.map((p) => (
-                                        <Grid.Col key={p.name}>
+                                        <Box key={p.name}>
                                             {/*<Typography>*/}
                                             {/*  {p.slice(0, isMobile ? 14 : 50)}*/}
                                             {/*</Typography>*/}
 
                                             <Tooltip label={p.name}>
                             <span>
-                              <ImgSl
-                                  uuid={p.image}
-                                  width={'4rem'}
-                                  height={'3rem'}
-                              />
+                              {/*<ImgSl*/}
+                                {/*    uuid={p.image}*/}
+                                {/*    width={'4rem'}*/}
+                                {/*    height={'3rem'}*/}
+                                {/*/>*/}
+                                <ImageViewDialog uuid={p.image}/>
                             </span>
                                             </Tooltip>
-                                        </Grid.Col>
+                                        </Box>
                                     ))}
-                                </Grid>
+                                </Group>
                             </td>
                             <td align="right">
                                 <Group spacing={1}>
