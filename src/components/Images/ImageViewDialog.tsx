@@ -20,6 +20,7 @@ export default function ImageViewDialog({uuid, miniWidth = '4rem', miniHeight = 
     return (
         <>
             <Modal
+                size={'xl'}
                 opened={opened}
                 onClose={() => setOpened(false)}
                 title=""
