@@ -7,7 +7,7 @@ import {BlogProductListing} from '../../../../models/BlogProductListing';
 import {useFetchPaginatedApi} from '../../../../services/api/Api';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import BloggerProductDto from "../../../../models/BloggerProductDto";
-import {Card, Grid, Stack, Text, Group, Box} from "@mantine/core";
+import {Badge, Box, Card, Group, Stack, Text} from "@mantine/core";
 import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialog";
 import ImgSl from "../../../../components/Images/ImgSl";
 
@@ -70,11 +70,12 @@ const Post: NextPage = () => {
                 {/*<Button variant={'contained'} disabled={!selectedProducts.length}>*/}
                 {/*  Post*/}
                 {/*</Button>*/}
-                <PostProductsDialog disabled={!selectedProducts.length} products={selectedProducts} callSuccess={() => handlePosPostChange}/>
+                <PostProductsDialog disabled={!selectedProducts.length} products={selectedProducts}
+                                    callSuccess={() => handlePosPostChange}/>
 
                 <Text>Selected: {selectedProducts.length}</Text>
             </Stack>
-            <Group align={'center'} >
+            <Group align={'center'}>
                 {products.map((product) => {
                     return (
                         <Box key={product.id}>
@@ -99,18 +100,20 @@ const Post: NextPage = () => {
                             {/*    active={isProductSelected(product)}*/}
                             {/*    disableSelection={selectedProducts.length >= 3}*/}
                             {/*/>*/}
-                            <Card sx={{
+                            <Card sx={ (theme) => ({
                                 shadow: 'lg',
                                 cursor: 'pointer',
                                 border: '1px solid #eaeaea',
                                 // show border only if selected, and according to theme
-                                borderColor: isProductSelected(product) ? 'white' : 'transparent',
+                                borderColor: isProductSelected(product)
+                                    ? theme.colorScheme === 'dark' ? 'white' : 'black'
+                                    : 'transparent',
                                 minWidth: 160,
                                 maxWidth: 160,
                                 ":hover": {
                                     filter: 'brightness(1.2)'
                                 }
-                            }}
+                            })}
 
                                   onClick={() => toggleProductSelection(product)}
                                 // sx={{
@@ -121,6 +124,7 @@ const Post: NextPage = () => {
                                 //     borderColor: `${theme.palette.primary.main} !important`,
                                 // }}
                             >
+
                                 <Card.Section>
 
                                     <div
@@ -130,6 +134,10 @@ const Post: NextPage = () => {
                                             height: '100%',
                                         }}
                                     >
+                                        {isProductSelected(product)
+                                            ? (<Badge color={'orange'}>Selected</Badge>)
+                                            : (<Badge color={'primary'}>Select</Badge>)
+                                        }
                                         <ImgSl
                                             uuid={product.image}
                                             // height={'180px'}
