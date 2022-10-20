@@ -7,7 +7,7 @@ import {BlogProductListing} from '../../../../models/BlogProductListing';
 import {useFetchPaginatedApi} from '../../../../services/api/Api';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import BloggerProductDto from "../../../../models/BloggerProductDto";
-import {Card, Grid, Stack, Text} from "@mantine/core";
+import {Card, Grid, Stack, Text, Group, Box} from "@mantine/core";
 import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialog";
 import ImgSl from "../../../../components/Images/ImgSl";
 
@@ -51,12 +51,13 @@ const Post: NextPage = () => {
     const {data, mutate, isLoading} = useFetchPaginatedApi<BloggerProductDto>(
         `blogger/stores/${storeid}/unblogged-products`,
         1,
-        100
+        200
     );
     const products = data?.data ?? [];
 
     const handlePosPostChange = useCallback(() => {
         mutate(data, true)
+        setSelectedProducts([]);
     }, [data, mutate]);
 
     // useEffect(() => {
@@ -69,14 +70,14 @@ const Post: NextPage = () => {
                 {/*<Button variant={'contained'} disabled={!selectedProducts.length}>*/}
                 {/*  Post*/}
                 {/*</Button>*/}
-                <PostProductsDialog products={selectedProducts} callSuccess={() => handlePosPostChange}/>
+                <PostProductsDialog disabled={!selectedProducts.length} products={selectedProducts} callSuccess={() => handlePosPostChange}/>
 
                 <Text>Selected: {selectedProducts.length}</Text>
             </Stack>
-            <Grid justify={'center'}>
+            <Group align={'center'} >
                 {products.map((product) => {
                     return (
-                        <Grid.Col key={product.id}>
+                        <Box key={product.id}>
                             {/*<CardImageDialog*/}
                             {/*  contentComponent={ProductDialogContent}*/}
                             {/*  componentData={product}*/}
@@ -99,13 +100,19 @@ const Post: NextPage = () => {
                             {/*    disableSelection={selectedProducts.length >= 3}*/}
                             {/*/>*/}
                             <Card sx={{
+                                shadow: 'lg',
                                 cursor: 'pointer',
-                                minWidth: 240,
-                                maxWidth: 240,
+                                border: '1px solid #eaeaea',
+                                // show border only if selected, and according to theme
+                                borderColor: isProductSelected(product) ? 'white' : 'transparent',
+                                minWidth: 160,
+                                maxWidth: 160,
                                 ":hover": {
                                     filter: 'brightness(1.2)'
                                 }
                             }}
+
+                                  onClick={() => toggleProductSelection(product)}
                                 // sx={{
                                 //     minWidth: 240,
                                 //     maxWidth: 240,
@@ -125,7 +132,8 @@ const Post: NextPage = () => {
                                     >
                                         <ImgSl
                                             uuid={product.image}
-                                            height={'180px'}
+                                            // height={'180px'}
+                                            height={'100%'}
                                             width={'100%'}
                                         />
                                     </div>
@@ -141,10 +149,10 @@ const Post: NextPage = () => {
                                     </Card.Section>
                                 </Card.Section>
                             </Card>
-                        </Grid.Col>
+                        </Box>
                     );
                 })}
-            </Grid>
+            </Group>
         </Stack>
     );
 };

@@ -12,11 +12,6 @@ import {IconMinus, IconPlus} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
 
 
-type PostDialogButtonContentsProps = {
-    products: BlogProductListing[];
-    disabled?: boolean;
-    callSuccess?: () => void;
-};
 
 interface PostFormData {
     description: string;
@@ -55,9 +50,10 @@ const postFormSchema = z
 export interface PostProductsDialogProps {
     products: BlogProductListing[];
     callSuccess?: () => void;
+    disabled?: boolean;
 }
 
-const PostProductsDialog = ({products, callSuccess}: PostProductsDialogProps) => {
+const PostProductsDialog = ({products, callSuccess, disabled}: PostProductsDialogProps) => {
     const router = useRouter();
     const {storeid} = router.query;
     // console.log('storeId: ' + storeid);
@@ -86,6 +82,9 @@ const PostProductsDialog = ({products, callSuccess}: PostProductsDialogProps) =>
         formState: {errors},
     } = useForm<PostFormData>({
         resolver: zodResolver(postFormSchema),
+        defaultValues: {
+            urls: [{value: ''}],
+        }
     });
 
     const {fields, append, prepend, remove, swap, move, insert} = useFieldArray(
@@ -95,11 +94,12 @@ const PostProductsDialog = ({products, callSuccess}: PostProductsDialogProps) =>
             // keyName: "id", default to "id", you can change the key name
         }
     );
-    useEffect(() => {
-        if (fields.length === 0) {
-            append({value: ''});
-        }
-    }, [fields]);
+    // useEffect(() => {
+    //     if (fields.length === 0) {
+    //         console.log(fields.length);
+    //         append({value: ''});
+    //     }
+    // }, [fields]);
 
     const handlePost: SubmitHandler<PostFormData> = (data) => {
         const productPostData: ProductsPostData = {
@@ -117,7 +117,7 @@ const PostProductsDialog = ({products, callSuccess}: PostProductsDialogProps) =>
             <Modal
                 opened={opened}
                 onClose={() => setOpened(false)}
-                title="Introduce yourself!"
+                title="Post products"
             >
                 {/* Modal content */}
                 <Card>
@@ -150,16 +150,18 @@ const PostProductsDialog = ({products, callSuccess}: PostProductsDialogProps) =>
                                 </Grid.Col>
                             ))}
                             <Grid.Col xs={12}>
-                                <Button
-                                    leftIcon={<IconPlus/>}
-                                    disabled={fields.length >= 3}
-                                    onClick={() => append({value: ''})}
-                                >Add</Button>
-                                <Button
-                                    leftIcon={<IconMinus/>}
-                                    disabled={fields.length <= 1}
-                                    onClick={() => remove(-1)}
-                                >Remove</Button>
+                                <Group spacing={5}>
+                                    <Button
+                                        leftIcon={<IconPlus/>}
+                                        disabled={fields.length >= 3}
+                                        onClick={() => append({value: ''})}
+                                    >Add</Button>
+                                    <Button
+                                        leftIcon={<IconMinus/>}
+                                        disabled={fields.length <= 1}
+                                        onClick={() => remove(-1)}
+                                    >Remove</Button>
+                                </Group>
                             </Grid.Col>
                             <Grid.Col xs={12}>
                                 <Textarea
@@ -182,7 +184,7 @@ const PostProductsDialog = ({products, callSuccess}: PostProductsDialogProps) =>
             </Modal>
 
             <Group position="center">
-                <Button onClick={() => setOpened(true)}>Post</Button>
+                <Button disabled={disabled} onClick={() => setOpened(true)}>Post</Button>
             </Group>
 
         </>
