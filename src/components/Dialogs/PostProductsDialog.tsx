@@ -1,5 +1,5 @@
 import {BlogProductListing} from "../../models/BlogProductListing";
-import {Box, Button, Card, Grid, Group, Modal, Text, Textarea, TextInput} from "@mantine/core";
+import {Box, Button, Card, Grid, Group, Modal, Stack, Text, Textarea, TextInput} from "@mantine/core";
 import {SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import {ErrorToast, SuccessToast} from "../../services/utils/Toasts";
 import {ProductsPostData} from "../../models/ProductsPostData";
@@ -117,14 +117,12 @@ const PostProductsDialog = ({products, callSuccess, disabled}: PostProductsDialo
             <Modal
                 opened={opened}
                 onClose={() => setOpened(false)}
-                title="Post products"
+                title={`Posting ${products.length} product${products.length > 1 ? 's' : ''}`}
             >
                 {/* Modal content */}
-                <Card>
+                <Stack>
                     {/*<Typography>{products.map((p) => p.name.split(', '))}</Typography>*/}
-                    <Text>
-                        Posting {products.length} product{products.length > 1 ? 's' : ''}
-                    </Text>
+
                     {/*<ImgSl uuid={data.image} />*/}
 
                     <form
@@ -180,7 +178,7 @@ const PostProductsDialog = ({products, callSuccess, disabled}: PostProductsDialo
                         <Button onClick={handleSubmit(handlePost)}>Post</Button>
                         <Button onClick={() => setOpened(false)}>Close</Button>
                     </Group>
-                </Card>
+                </Stack>
             </Modal>
 
             <Group position="center">
