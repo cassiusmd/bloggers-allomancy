@@ -26,7 +26,10 @@ export default function ImageViewDialog({uuid, miniWidth = '4rem', miniHeight = 
                 title=""
             >
                 {/* Modal content */}
-                {data && <Image src={data} alt="Profile image" width={'100%'} height={'100%'}/>}
+                {data && <Image withPlaceholder src={data} alt="Profile image"
+                                // width={'100%'} height={'100%'}
+                    fit={'none'}
+                />}
             </Modal>
 
             <div onClick={() => {
