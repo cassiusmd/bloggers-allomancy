@@ -2,13 +2,13 @@ import {NextPage} from 'next';
 
 import {SubmitHandler, useFieldArray, useForm} from 'react-hook-form';
 
-import {ApiGet, ApiPut} from '../../services/api/Api';
+import {ApiGet, ApiPut, useFetchApi} from '../../services/api/Api';
 import {BloggerProfileDto} from '../../models/BloggerProfileDto';
 import {useEffect} from 'react';
 import {BloggerProfilePutDto} from '../../models/BloggerProfilePutDto';
 import {z} from "zod";
 import {SuccessToast} from "../../services/utils/Toasts";
-import {Button, Grid, Group, Stack, Center, Text, Textarea, TextInput} from "@mantine/core";
+import {Button, Grid, Group, Stack, Center, Text, Textarea, TextInput, Loader} from "@mantine/core";
 import {IconLink, IconTrash} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
 
@@ -76,7 +76,7 @@ const BloggerProfile: NextPage = () => {
     // }, [fields]);
 
     const handlePost: SubmitHandler<PostFormData> = (data) => {
-        console.log(data);
+        // console.log(data);
         ApiPut<BloggerProfilePutDto, boolean>('/blogger/profile', {
             description: data.description,
             socialLinks: data.urls.map((url) => url.value),
@@ -90,30 +90,48 @@ const BloggerProfile: NextPage = () => {
         );
     };
 
-    const fetchBloggerProfile = () => {
-        ApiGet<BloggerProfileDto>(`blogger`).then(
-            (res) => {
-                // console.log(res);
 
-                setValue('description', res.data?.description ?? '', {
+    // const fetchBloggerProfile = () => {
+    //     ApiGet<BloggerProfileDto>(`blogger`).then(
+    //         (res) => {
+    //             // console.log(res);
+    //
+    //             setValue('description', res.data?.description ?? '', {
+    //                 shouldDirty: true,
+    //                 shouldTouch: true,
+    //             });
+    //             setValue(
+    //                 'urls',
+    //                 res.data.socialLinks.map((url) => ({value: url}), {
+    //                     shouldDirty: true,
+    //                     shouldTouch: true,
+    //                 })
+    //             );
+    //         },
+    //         (reason) => null
+    //     );
+    // };
+    const {data, isLoading} = useFetchApi<BloggerProfileDto>('blogger');
+    useEffect(() => {
+        if (data?.data) {
+            setValue('description', data.data?.description ?? '', {
+                shouldDirty: true,
+                shouldTouch: true,
+            });
+            setValue(
+                'urls',
+                data.data.socialLinks.map((url) => ({value: url}), {
                     shouldDirty: true,
                     shouldTouch: true,
-                });
-                setValue(
-                    'urls',
-                    res.data.socialLinks.map((url) => ({value: url}), {
-                        shouldDirty: true,
-                        shouldTouch: true,
-                    })
-                );
-            },
-            (reason) => null
-        );
-    };
+                })
+            );
+        }
+    }, [data]);
 
-    useEffect(() => {
-        fetchBloggerProfile();
-    }, []);
+
+    // useEffect(() => {
+    //     fetchBloggerProfile();
+    // }, []);
     return (
         <Stack>
             <Stack spacing={5} align={'stretch'} >
@@ -128,6 +146,7 @@ const BloggerProfile: NextPage = () => {
                     <Text>
                         Stores you apply to will also have access to your profile
                     </Text>
+                    {isLoading && <Loader/>}
                 </Stack>
 
                 <form
