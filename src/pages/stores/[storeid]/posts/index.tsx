@@ -32,13 +32,17 @@ function PostsTableView({page, rowsPerPage, rowsCountCallback, storeId}: PostsTa
         }
     }, [data]);
     return (
-        <Table
-            aria-label="simple table"
+        <Table striped
+            aria-label="posts table"
             sx={{
                 // display: 'block',
+                // if mobile, display block
+                '@media (max-width: 768px)': {
+                    display: 'block',
+                },
                 overflowX: 'auto',
                 // minWidth: '400px',
-                // width: '100%',
+                width: '100%',
                 maxWidth: '100%',
                 // tableLayout: 'fixed',
             }}
@@ -131,18 +135,18 @@ const Posts: NextPage = () => {
 
 
     return (
-        <Stack spacing={5} align={'center'}>
+        <Stack spacing={5} align={'center'} >
             <Text size={'lg'}>Posts</Text>
 
             {storeid && (
-                <>
+                <Stack align={'center'} sx={{width: '100%'}}>
                     <PostsTableView page={page} storeId={storeid.toString()} rowsPerPage={rowsPerPage}
                                     rowsCountCallback={(totalPages) => setTotalRows(totalPages)}/>
                     <div style={{display: 'none'}}>
                         <PostsTableView page={page + 1} storeId={storeid.toString()} rowsPerPage={rowsPerPage}
                                         rowsCountCallback={() => null}/>
                     </div>
-                </>
+                </Stack>
             )}
 
             <Pagination total={totalRows} siblings={1} initialPage={1} page={page } onChange={x => setPage(x)}/>
