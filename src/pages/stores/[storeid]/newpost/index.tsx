@@ -7,7 +7,7 @@ import {BlogProductListing} from '../../../../models/BlogProductListing';
 import {useFetchPaginatedApi} from '../../../../services/api/Api';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import BloggerProductDto from "../../../../models/BloggerProductDto";
-import {Badge, Box, Card, Group, Stack, Text} from "@mantine/core";
+import {Badge, Box, Card, Group, Loader, Stack, Text} from "@mantine/core";
 import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialog";
 import ImgSl from "../../../../components/Images/ImgSl";
 
@@ -65,6 +65,7 @@ const Post: NextPage = () => {
     // }, []);
     return (
         <Stack spacing={5} align={'center'}>
+
             <Text size={'lg'}>Unposted products</Text>
             <Stack align={'center'} spacing={1}>
                 {/*<Button variant={'contained'} disabled={!selectedProducts.length}>*/}
@@ -75,7 +76,8 @@ const Post: NextPage = () => {
 
                 <Text>Selected: {selectedProducts.length}</Text>
             </Stack>
-            <Group align={'center'}>
+            <Group align={'center'} mt={5}>
+                {isLoading && <Loader/>}
                 {products.map((product) => {
                     return (
                         <Box key={product.id}>
@@ -100,16 +102,15 @@ const Post: NextPage = () => {
                             {/*    active={isProductSelected(product)}*/}
                             {/*    disableSelection={selectedProducts.length >= 3}*/}
                             {/*/>*/}
-                            <Card sx={ (theme) => ({
-                                shadow: 'lg',
+                            <Card sx={(theme) => ({
                                 cursor: 'pointer',
                                 border: '1px solid #eaeaea',
                                 // show border only if selected, and according to theme
                                 borderColor: isProductSelected(product)
                                     ? theme.colorScheme === 'dark' ? 'white' : 'black'
                                     : 'transparent',
-                                minWidth: 160,
-                                maxWidth: 160,
+                                minWidth: 200,
+                                maxWidth: 200,
                                 ":hover": {
                                     filter: 'brightness(1.2)'
                                 }
@@ -135,8 +136,8 @@ const Post: NextPage = () => {
                                         }}
                                     >
                                         {isProductSelected(product)
-                                            ? (<Badge color={'orange'}>Selected</Badge>)
-                                            : (<Badge color={'primary'}>Select</Badge>)
+                                            ? (<Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>)
+                                            : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)
                                         }
                                         <ImgSl
                                             uuid={product.image}
@@ -146,15 +147,16 @@ const Post: NextPage = () => {
                                         />
                                     </div>
 
-                                    <Card.Section>
-                                        <Text
-                                            size={'sm'}
-                                            component={'div'}
-                                            align={'center'}
-                                        >
-                                            {product.name}
-                                        </Text>
-                                    </Card.Section>
+
+                                </Card.Section>
+                                <Card.Section>
+                                    <Text
+                                        size={'xs'}
+                                        component={'div'}
+                                        align={'center'}
+                                    >
+                                        {product.name.substring(0, 30)}
+                                    </Text>
                                 </Card.Section>
                             </Card>
                         </Box>
