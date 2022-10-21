@@ -10,6 +10,7 @@ import BloggerProductDto from "../../../../models/BloggerProductDto";
 import {Badge, Box, Card, Group, Loader, Stack, Text} from "@mantine/core";
 import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialog";
 import ImgSl from "../../../../components/Images/ImgSl";
+import {ApiPaginatedResponse} from "../../../../services/api/models/ApiPaginatedResponse";
 
 
 const Post: NextPage = () => {
@@ -55,9 +56,20 @@ const Post: NextPage = () => {
     );
     const products = data?.data ?? [];
 
-    const handlePosPostChange = useCallback(() => {
-        mutate(data, true)
-        setSelectedProducts([]);
+    const handlePosPostChange = useCallback((productsToRemove: BlogProductListing[]) => {
+
+        // mutate removing selectedProducts from the list
+        const newProducts = data?.data.filter((p) => {
+            return productsToRemove.findIndex((pr) => pr.id === p.id) === -1;
+        });
+
+
+        mutate({...data, data: newProducts ?? []} as ApiPaginatedResponse<BloggerProductDto>, false)
+            .then(() => {
+                setSelectedProducts([]);
+            });
+        
+
     }, [data, mutate]);
 
     // useEffect(() => {
@@ -72,7 +84,7 @@ const Post: NextPage = () => {
                 {/*  Post*/}
                 {/*</Button>*/}
                 <PostProductsDialog disabled={!selectedProducts.length} products={selectedProducts}
-                                    callSuccess={() => handlePosPostChange}/>
+                                    callSuccess={() => handlePosPostChange(selectedProducts)}/>
 
                 <Text>Selected: {selectedProducts.length}</Text>
             </Stack>
