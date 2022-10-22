@@ -7,10 +7,10 @@ import {BlogProductListing} from '../../../../models/BlogProductListing';
 import {useFetchPaginatedApi} from '../../../../services/api/Api';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import BloggerProductDto from "../../../../models/BloggerProductDto";
-import {Badge, Box, Card, Group, Loader, Stack, Text} from "@mantine/core";
+import {Badge, Box, Group, Loader, Stack, Text} from "@mantine/core";
 import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialog";
-import ImgSl from "../../../../components/Images/ImgSl";
 import {ApiPaginatedResponse} from "../../../../services/api/models/ApiPaginatedResponse";
+import CardWithImage from "../../../../components/Cards/CardWithImage";
 
 
 const Post: NextPage = () => {
@@ -68,7 +68,7 @@ const Post: NextPage = () => {
             .then(() => {
                 setSelectedProducts([]);
             });
-        
+
 
     }, [data, mutate]);
 
@@ -93,84 +93,24 @@ const Post: NextPage = () => {
                 {products.map((product) => {
                     return (
                         <Box key={product.id}>
-                            {/*<CardImageDialog*/}
-                            {/*  contentComponent={ProductDialogContent}*/}
-                            {/*  componentData={product}*/}
-                            {/*  title={'Product'}*/}
-                            {/*  image={product.image}*/}
-                            {/*  name={product.name}*/}
-                            {/*/>*/}
+                            <CardWithImage description={product.name} imageUuid={product.image}
+                                           sx={(theme) => ({
+                                               cursor: 'pointer',
+                                               border: '1px solid #eaeaea',
+                                               // show border only if selected, and according to theme
+                                               borderColor: isProductSelected(product)
+                                                   ? theme.colorScheme === 'dark' ? 'white' : 'black'
+                                                   : 'transparent',
+                                               minWidth: 200,
+                                               maxWidth: 200,
 
-                            {/*<SelectableCard*/}
-                            {/*    image={product.image}*/}
-                            {/*    name={product.name}*/}
-                            {/*    info={*/}
-                            {/*        !store.vip*/}
-                            {/*            ? 'Deadline: ' +*/}
-                            {/*            ToFormattedDate(product.expireDate, 'system')*/}
-                            {/*            : undefined*/}
-                            {/*    }*/}
-                            {/*    onClick={() => toggleProductSelection(product)}*/}
-                            {/*    active={isProductSelected(product)}*/}
-                            {/*    disableSelection={selectedProducts.length >= 3}*/}
-                            {/*/>*/}
-                            <Card sx={(theme) => ({
-                                cursor: 'pointer',
-                                border: '1px solid #eaeaea',
-                                // show border only if selected, and according to theme
-                                borderColor: isProductSelected(product)
-                                    ? theme.colorScheme === 'dark' ? 'white' : 'black'
-                                    : 'transparent',
-                                minWidth: 200,
-                                maxWidth: 200,
-                                ":hover": {
-                                    filter: 'brightness(1.2)'
-                                }
-                            })}
+                                           })}
+                                           onClick={() => toggleProductSelection(product)}
 
-                                  onClick={() => toggleProductSelection(product)}
-                                // sx={{
-                                //     minWidth: 240,
-                                //     maxWidth: 240,
-                                //     height: '100%',
-                                //     border: store.id === selectedStore?.id ? '2px solid' : null,
-                                //     borderColor: `${theme.palette.primary.main} !important`,
-                                // }}
-                            >
-
-                                <Card.Section>
-
-                                    <div
-                                        style={{
-                                            position: 'relative',
-                                            width: '100%',
-                                            height: '100%',
-                                        }}
-                                    >
-                                        {isProductSelected(product)
-                                            ? (<Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>)
-                                            : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)
-                                        }
-                                        <ImgSl
-                                            uuid={product.image}
-                                            // height={'180px'}
-                                            height={'100%'}
-                                            width={'100%'}
-                                        />
-                                    </div>
-
-
-                                </Card.Section>
-                                <Card.Section>
-                                    <Text
-                                        size={'xs'}
-                                        component={'div'}
-                                        align={'center'}
-                                    >
-                                        {product.name.substring(0, 30)}
-                                    </Text>
-                                </Card.Section>
-                            </Card>
+                                           badge={isProductSelected(product) ?
+                                               <Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>
+                                               : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)}
+                            />
                         </Box>
                     );
                 })}
