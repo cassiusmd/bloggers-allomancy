@@ -1,12 +1,11 @@
 import {NextPage} from 'next';
 
-import {ApiGetPaginated, useFetchPaginatedApi} from '../../services/api/Api';
+import {useFetchPaginatedApi} from '../../services/api/Api';
 import * as React from 'react';
-import {useEffect, useState} from 'react';
 import {Store} from '../../models/Store';
 
 
-import {Card, Grid, Loader, Stack, Text} from "@mantine/core";
+import {Box, Card, Group, Loader, Stack, Text} from "@mantine/core";
 import Link from "next/link";
 import ImgSl from "../Images/ImgSl";
 import {AuthGuard} from "../../auth/AuthGuard";
@@ -59,11 +58,11 @@ const BloggerStores: NextPage = () => {
             ) : (
                 <Loader size={'xl'}/>
             )}
-            <Grid justify={'center'}>
+            <Group align={'center'}>
                 {!!data?.data.length &&
                     data.data.map((store) => {
                         return (
-                            <Grid.Col key={store.id}>
+                            <Box key={store.id}>
                                 <Link href={`/stores/${store.id}`}>
                                     <Card sx={{
                                         cursor: 'pointer',
@@ -73,45 +72,45 @@ const BloggerStores: NextPage = () => {
                                             filter: 'brightness(1.2)'
                                         }
                                     }}
-                                    // sx={{
-                                    //     minWidth: 240,
-                                    //     maxWidth: 240,
-                                    //     height: '100%',
-                                    //     border: store.id === selectedStore?.id ? '2px solid' : null,
-                                    //     borderColor: `${theme.palette.primary.main} !important`,
-                                    // }}
-                                >
-                                    <Card.Section>
-
-                                        <div
-                                            style={{
-                                                position: 'relative',
-                                                width: '100%',
-                                                height: '100%',
-                                            }}
-                                        >
-                                            <ImgSl
-                                                uuid={store.logo}
-                                                height={'180px'}
-                                                width={'100%'}
-                                            />
-                                        </div>
-
+                                        // sx={{
+                                        //     minWidth: 240,
+                                        //     maxWidth: 240,
+                                        //     height: '100%',
+                                        //     border: store.id === selectedStore?.id ? '2px solid' : null,
+                                        //     borderColor: `${theme.palette.primary.main} !important`,
+                                        // }}
+                                    >
                                         <Card.Section>
-                                            <Text
-                                                size={'sm'}
-                                                component={'div'}
-                                                align={'center'}
+
+                                            <div
+                                                style={{
+                                                    position: 'relative',
+                                                    width: '100%',
+                                                    height: '100%',
+                                                }}
                                             >
-                                                {store.name}
-                                            </Text>
+                                                <ImgSl
+                                                    uuid={store.logo}
+                                                    height={'180px'}
+                                                    width={'100%'}
+                                                />
+                                            </div>
+
+                                            <Card.Section>
+                                                <Text
+                                                    size={'sm'}
+                                                    component={'div'}
+                                                    align={'center'}
+                                                >
+                                                    {store.name}
+                                                </Text>
+                                            </Card.Section>
                                         </Card.Section>
-                                    </Card.Section>
-                                </Card></Link>
-                            </Grid.Col>
+                                    </Card></Link>
+                            </Box>
                         );
                     })}
-            </Grid>
+            </Group>
         </Stack>
     );
 };
