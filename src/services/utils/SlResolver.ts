@@ -42,7 +42,7 @@ function isDevelopment(): boolean {
 }
 
 function bypassCorsOnDevelopment(url: string): string {
-    if (isDevelopment()) return `https://cors-anywhere.herokuapp.com/${url}/`;
+    // if (isDevelopment()) return `https://cors-anywhere.herokuapp.com/${url}/`;
     return url;
 }
 

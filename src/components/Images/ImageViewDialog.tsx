@@ -27,8 +27,8 @@ export default function ImageViewDialog({uuid, miniWidth = '4rem', miniHeight = 
             >
                 {/* Modal content */}
                 {data && <Image withPlaceholder src={data} alt="Profile image"
-                                // width={'100%'} height={'100%'}
-                    fit={'contain'}
+                    // width={'100%'} height={'100%'}
+                                fit={'contain'}
                 />}
             </Modal>
 
@@ -39,7 +39,8 @@ export default function ImageViewDialog({uuid, miniWidth = '4rem', miniHeight = 
                     uuid={uuid}
                     width={miniWidth}
                     height={miniHeight}
-                /></div>
+                />
+            </div>
         </>
     );
 }

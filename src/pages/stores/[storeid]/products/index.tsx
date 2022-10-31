@@ -6,9 +6,9 @@ import {useFetchPaginatedApi} from '../../../../services/api/Api';
 import {ChangeEvent, useEffect, useState} from 'react';
 import {BlogProductListing} from '../../../../models/BlogProductListing';
 import useDebounce from '../../../../hooks/useDebounce';
-import {Badge, Box, Group, Loader, Pagination, Stack, Text} from "@mantine/core";
+import {Box, Group, Loader, Pagination, Stack, Text} from "@mantine/core";
 import SearchInput from "../../../../components/Utils/SearchInput";
-import CardWithImage from "../../../../components/Cards/CardWithImage";
+import ProductRequestDialog from "../../../../components/Dialogs/ProductRequestDialog";
 
 interface ViewProductsProps {
     storeId: string;
@@ -42,17 +42,18 @@ function ViewProducts({storeId, page, pageSize, search, totalPagesCallback}: Vie
                         <Box key={product.id}>
                             {/*if product.created is in a week or less, add 'new' badge*/}
 
-                            <CardWithImage description={product.name} imageUuid={product.image}
-                                           badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)
-                                               && (<Badge color="red">new</Badge>)} onClick={() => null}
-                                           sx={(theme) => ({
-                                               cursor: 'pointer',
-                                               // show border only if selected, and according to theme
-                                               minWidth: 200,
-                                               maxWidth: 200,
+                            {/*<CardWithImage description={product.name} imageUuid={product.image}*/}
+                            {/*               badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)*/}
+                            {/*                   && (<Badge color="red">new</Badge>)} onClick={() => null}*/}
+                            {/*               sx={(theme) => ({*/}
+                            {/*                   cursor: 'pointer',*/}
+                            {/*                   // show border only if selected, and according to theme*/}
+                            {/*                   minWidth: 200,*/}
+                            {/*                   maxWidth: 200,*/}
 
-                                           })}
-                            />
+                            {/*               })}*/}
+                            {/*/>*/}
+                            <ProductRequestDialog product={product}/>
                         </Box>
                     );
                 })}

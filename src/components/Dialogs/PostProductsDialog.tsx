@@ -1,16 +1,15 @@
 import {BlogProductListing} from "../../models/BlogProductListing";
-import {Box, Button, Card, Grid, Group, Modal, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Box, Button, Grid, Group, Modal, Stack, Textarea, TextInput} from "@mantine/core";
 import {SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import {ErrorToast, SuccessToast} from "../../services/utils/Toasts";
 import {ProductsPostData} from "../../models/ProductsPostData";
 import {ApiPost, GetErrorsString} from "../../services/api/Api";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import SocialIcon from "../Icons/SocialIcons";
 import {z} from "zod";
 import {IconMinus, IconPlus} from "@tabler/icons";
 import {zodResolver} from "@hookform/resolvers/zod";
-
 
 
 interface PostFormData {
