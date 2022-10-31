@@ -3,7 +3,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ErrorToast, SuccessToast} from "../../services/utils/Toasts";
 import {DateTime} from "luxon";
-import {Box, Button, Group, Modal, Stack, Text, TextInput} from "@mantine/core";
+import {Box, Button, Group, Modal, Stack, Text, Textarea} from "@mantine/core";
 import {ApiPost, GetErrorsString, useFetchApi} from "../../services/api/Api";
 import {useState} from "react";
 import {useRouter} from "next/router";
@@ -113,9 +113,9 @@ export default function RequestVacationButton() {
                     sx={{mt: 1}}
                     onSubmit={handleSubmit(handleRequestVacationSubmit)}
                 >
-                    <Stack spacing={2}>
+                    <Stack spacing={5}>
                         <Text>Please choose the date range for your vacation bellow.</Text>
-                        <Stack>
+                        <Box>
                             <RangeDatePicker
                                 startingDate={vacationDateRange.startingDate}
                                 endingDate={vacationDateRange.endingDate}
@@ -138,32 +138,34 @@ export default function RequestVacationButton() {
 
                                 }}
                             />
-                        </Stack>
-                        <TextInput
+                        </Box>
+                        <Textarea
                             autoFocus
+                            minRows={5}
+                            maxRows={10}
                             id="reason"
                             label="Info/reason"
-                            type="text"
                             {...register('moreInfo')}
                             error={!!errors.moreInfo && errors.moreInfo?.message}
                         />
-                    </Stack>
 
-                    <Group>
-                        <Button onClick={() => setOpened(false)}>Cancel</Button>
-                        {/* disable if picked date is before now */}
-                        <Button
-                            type="submit"
-                            disabled={
-                                // !vacationEndDate ||
-                                // vacationEndDate <=
-                                // DateTime.fromJSDate(new Date()).plus({days: 3})
-                                vacationDateRange.endingDate <= DateTime.fromJSDate(new Date()).plus({days: 3}).toJSDate()
-                            }
-                        >
-                            Request
-                        </Button>
-                    </Group>
+
+                        <Group>
+                            <Button onClick={() => setOpened(false)}>Cancel</Button>
+                            {/* disable if picked date is before now */}
+                            <Button
+                                type="submit"
+                                disabled={
+                                    // !vacationEndDate ||
+                                    // vacationEndDate <=
+                                    // DateTime.fromJSDate(new Date()).plus({days: 3})
+                                    vacationDateRange.endingDate <= DateTime.fromJSDate(new Date()).plus({days: 3}).toJSDate()
+                                }
+                            >
+                                Request
+                            </Button>
+                        </Group>
+                    </Stack>
                 </Box>
             </Modal>
             <Group position={'center'}>

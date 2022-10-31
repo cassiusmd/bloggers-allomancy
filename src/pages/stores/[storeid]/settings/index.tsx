@@ -1,6 +1,7 @@
 import {NextPage} from "next";
 import {useRouter} from "next/router";
 import {Stack, Text} from "@mantine/core";
+import RequestVacationButton from "../../../../components/Dialogs/RequestVacationButton";
 
 const Settings: NextPage = () => {
     const router = useRouter();
@@ -11,7 +12,7 @@ const Settings: NextPage = () => {
             <Text size={'md'}>Store options</Text>
             {storeid && (
                 <>
-                    {/*<RequestVacationButton />*/}
+                    <RequestVacationButton />
                     {/*<LeaveStoreButton*/}
                     {/*    storeid={storeid.toString()}*/}
                     {/*    callback={() => {*/}

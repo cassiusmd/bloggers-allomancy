@@ -18,7 +18,7 @@ export default function RangeDatePicker({startingDate, endingDate, callback}: Ra
 
     return (
         <DateRangePicker
-            label="Book hotel"
+            label="Date range"
             placeholder="Pick dates range"
             value={value}
             onChange={(val) => {
