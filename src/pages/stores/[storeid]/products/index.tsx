@@ -35,8 +35,8 @@ function ViewProducts({storeId, page, pageSize, search, totalPagesCallback}: Vie
 
     return (
         <>
-            {isLoading && (<Loader/>)}
             <Group mt={10} align={'center'}>
+                {isLoading && (<Loader/>)}
                 {products.map((product) => {
                     return (
                         <Box key={product.id}>
@@ -69,13 +69,17 @@ const Products: NextPage = () => {
     const [totalPages, setTotalPages] = useState(0);
     const pageSize = 21;
     const [page, setPage] = useState(1);
-    const handleChange = (event: ChangeEvent<unknown>, value: number) => {
-        setPage(value);
-    };
+    // const handleChange = (event: ChangeEvent<unknown>, value: number) => {
+    //     setPage(value);
+    // };
     // const [totalPages, setTotalPages] = useState(0);
     const [search, setSearch] = useState('');
     const debouncedValue = useDebounce<string>(search, 500);
 
+    // set page back to 1 on search change
+    useEffect(() => {
+        setPage(1);
+    }, [debouncedValue]);
     // function fetchProducts(): void {
     //     // console.log(page);
     //     ApiGetPaginated<BlogProductListing>(
@@ -107,6 +111,7 @@ const Products: NextPage = () => {
         <Stack spacing={5} align={'center'}>
             <Text size={'lg'}>Available products</Text>
             <SearchInput onChange={setSearch}/>
+            <Pagination mt={10} page={page} onChange={setPage} total={totalPages}/>
             {storeid && (<>
                 <ViewProducts storeId={storeid.toString()} page={page} pageSize={pageSize}
                               totalPagesCallback={setTotalPages}
@@ -117,7 +122,7 @@ const Products: NextPage = () => {
                                   search={debouncedValue}/>
                 </div>
             </>)}
-            <Pagination mt={10} page={page} onChange={setPage} total={totalPages}/>
+
 
 
         </Stack>
