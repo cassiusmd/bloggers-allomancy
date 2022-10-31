@@ -113,7 +113,7 @@ export default function RequestVacationButton() {
                     sx={{mt: 1}}
                     onSubmit={handleSubmit(handleRequestVacationSubmit)}
                 >
-                    <Stack spacing={5}>
+                    <Stack spacing={10}>
                         <Text>Please choose the date range for your vacation bellow.</Text>
                         <Box>
                             <RangeDatePicker
@@ -151,7 +151,7 @@ export default function RequestVacationButton() {
 
 
                         <Group>
-                            <Button onClick={() => setOpened(false)}>Cancel</Button>
+                            <Button color={'red'} onClick={() => setOpened(false)}>Cancel</Button>
                             {/* disable if picked date is before now */}
                             <Button
                                 type="submit"
