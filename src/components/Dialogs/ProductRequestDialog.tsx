@@ -1,4 +1,4 @@
-import {Badge, Box, Group, Image, Modal, Text} from "@mantine/core";
+import {Badge, Box, Center, Button, Group, Image, Modal, Stack, Text} from "@mantine/core";
 import {useState} from "react";
 import {ApiGet, GetErrorsString, useFetchApi} from "../../services/api/Api";
 import {BlogProductListing} from "../../models/BlogProductListing";
@@ -41,35 +41,42 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
                 title={product.name}
             >
                 {/* Modal content */}
-
-                <Group sx={{minHeight: '60vh', width: '100%'}} position="center">
-                    <Box sx={{minWidth: '30vw', maxWidth: '600px', maxHeight: '600px', height: 'auto'}}>
-                        <Image withPlaceholder src={image.data} alt="Profile image"
-                            // width={'100%'} height={'100%'}
-                               fit={'contain'}
-                        />
-                    </Box>
-                    <Box sx={{maxWidth: '600px'}}>
-                        <Text>{productDesc.data?.data ?? ''}</Text>
-                    </Box>
-                </Group>
-
+                <Stack>
+                    <Group sx={{minHeight: '60vh', width: '100%'}} position="center">
+                        <Box sx={{minWidth: '30vw', maxWidth: '600px', maxHeight: '600px', height: 'auto'}}>
+                            <Image withPlaceholder src={image.data} alt="Profile image"
+                                // width={'100%'} height={'100%'}
+                                   fit={'contain'}
+                            />
+                        </Box>
+                        <Box sx={{maxWidth: '600px'}}>
+                            <Text>{productDesc.data?.data ?? ''}</Text>
+                        </Box>
+                    </Group>
+                    <Center>
+                        <Group>
+                            <Button onClick={requestProduct}>Request</Button>
+                            <Button color={'red'} onClick={() => setOpened(false)}>Close</Button>
+                        </Group>
+                    </Center>
+                </Stack>
             </Modal>
 
-            <Group position="center">
-                {/*<Button onClick={() => setOpened(true)}>Open Modal</Button>*/}
-                <CardWithImage description={product.name} imageUuid={product.image}
-                               badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)
-                                   && (<Badge color="red">new</Badge>)} onClick={() => setOpened(true)}
-                               sx={(theme) => ({
-                                   cursor: 'pointer',
-                                   // show border only if selected, and according to theme
-                                   minWidth: 200,
-                                   maxWidth: 200,
+                <Group position="center">
+                    {/*<Button onClick={() => setOpened(true)}>Open Modal</Button>*/}
+                    <CardWithImage description={product.name} imageUuid={product.image}
+                                   badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)
+                                       && (<Badge color="red">new</Badge>)} onClick={() => setOpened(true)}
+                                   sx={(theme) => ({
+                                       cursor: 'pointer',
+                                       // show border only if selected, and according to theme
+                                       minWidth: 200,
+                                       maxWidth: 200,
 
-                               })}
-                />
-            </Group>
+                                   })}
+                    />
+                </Group>
+
         </>
     );
 }

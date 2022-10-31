@@ -15,6 +15,8 @@ export default function CardWithImage({description, imageUuid, sx, onClick, badg
     return (
         <Box sx={sx}>
             <Card
+                withBorder
+                shadow={'md'}
                 sx={{
                     ":hover": {
                         filter: 'brightness(1.2)'
