@@ -15,22 +15,12 @@ interface VacationDateRange {
     endingDate: Date;
 }
 
-export default function RequestVacationButton() {
-    // const {store} = useSelector<State, SelectedStore>(
-    //     (state) => state.selectedStore
-    // );
+interface RequestVacationButtonProps {
+    storeId: string;
+}
 
-    const router = useRouter();
-    const {storeid} = router.query;
-
-    // if (storeid !== undefined && store?.id !== storeid) {
-    //     ApiGet<Store>(`blogstores/${storeid}`).then((res) => {
-    //         // console.log(res.data);
-    //         dispatch(selectedStoreSet(res.data));
-    //     });
-    // }
-
-    const storeData = useFetchApi<Store>(`blogstores/${storeid}`);
+export default function RequestVacationButton({storeId}: RequestVacationButtonProps) {
+    const storeData = useFetchApi<Store>(`blogstores/${storeId}`);
     const store = storeData.data?.data;
 
     // const [vacationStartDate, setVacationStartDate] = useState<DateTime>(
@@ -151,7 +141,7 @@ export default function RequestVacationButton() {
 
 
                         <Group>
-                            <Button color={'red'} onClick={() => setOpened(false)}>Cancel</Button>
+                            <Button color={'gray'} onClick={() => setOpened(false)}>Cancel</Button>
                             {/* disable if picked date is before now */}
                             <Button
                                 type="submit"

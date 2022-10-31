@@ -56,7 +56,7 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
                     <Center>
                         <Group>
                             <Button onClick={requestProduct}>Request</Button>
-                            <Button color={'red'} onClick={() => setOpened(false)}>Close</Button>
+                            <Button color={'gray'} onClick={() => setOpened(false)}>Close</Button>
                         </Group>
                     </Center>
                 </Stack>
