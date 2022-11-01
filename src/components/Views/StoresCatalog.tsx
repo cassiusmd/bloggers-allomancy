@@ -110,7 +110,7 @@ const StoresCatalog: NextPage = () => {
     }, [debouncedValue]);
     return (
         <Stack spacing={5} align={'center'}>
-            <Text size={'lg'}>Available products</Text>
+            <Text size={'lg'}>Available stores</Text>
             <SearchInput onChange={setSearch}/>
             <Pagination mt={10} page={page} onChange={setPage} total={totalPages}/>
 
