@@ -45,11 +45,7 @@ function ViewStores({page, pageSize, search, totalPagesCallback}: ViewStoresProp
         <Stack spacing={10} align={'center'}>
             <Text size={'xl'}>Select a store</Text>
 
-            {!isLoading ? (
-                <NoStoresFound storeAmount={data!.data.length}/>
-            ) : (
-                <Loader size={'xl'}/>
-            )}
+            {isLoading && (<Loader size={'xl'}/>)}
             <Group align={'center'}>
                 {!!data?.data.length &&
                     data.data.map((store) => {
