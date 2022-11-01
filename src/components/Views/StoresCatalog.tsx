@@ -15,18 +15,15 @@ const NoStoresFound = ({storeAmount}: { storeAmount: number }) => {
     if (storeAmount > 0) return <></>;
     return (
         <Stack>
-            <Text>You were not added as a blogger in any store.</Text>
-            <Text>
-                You can apply for stores in the <b>Browse Stores</b> tab above
-            </Text>
+            <Text>Stores could not be loaded, please try refreshing your browser</Text>
         </Stack>
     );
 };
 
-const BloggerStores: NextPage = () => {
+const StoresCatalog: NextPage = () => {
 
     const {data, error, mutate, isLoading} = useFetchPaginatedApi<Store>(
-        '/blogger/stores',
+        '/blogstores',
         1,
         100);
 
@@ -44,7 +41,7 @@ const BloggerStores: NextPage = () => {
                     data.data.map((store) => {
                         return (
                             <Box key={store.id}>
-                                <Link href={`/stores/${store.id}`}>
+                                <Link href={`/stores/view/${store.id}`}>
                                     <Card sx={{
                                         cursor: 'pointer',
                                         minWidth: 240,
@@ -96,4 +93,4 @@ const BloggerStores: NextPage = () => {
     );
 };
 
-export default AuthGuard(BloggerStores);
+export default AuthGuard(StoresCatalog);

@@ -2,7 +2,16 @@ import {useContext} from "react";
 import {AuthContext} from "../../auth/AuthContext";
 import ProfileImage from "./ProfileImage";
 import {Box, Group, Menu, Text} from "@mantine/core";
-import {IconArrowsLeftRight, IconMessageCircle, IconPhoto, IconSearch, IconSettings, IconTrash} from "@tabler/icons";
+import {
+    IconArrowsLeftRight,
+    IconLogout,
+    IconMessageCircle,
+    IconPhoto,
+    IconSearch,
+    IconSettings,
+    IconTrash
+} from "@tabler/icons";
+import {NextLink} from "@mantine/next";
 
 export default function UserDropdown() {
     const {userProfile} = useContext(AuthContext);
@@ -12,7 +21,7 @@ export default function UserDropdown() {
         <Group spacing={5}>
             {userProfile && (
                 <>
-                    <Menu shadow="md" width={200}>
+                    <Menu shadow="md" width={200} trigger={'hover'}>
                         <Menu.Target>
                             <Box>
                                 <ProfileImage userProfile={userProfile}/>
@@ -34,8 +43,8 @@ export default function UserDropdown() {
                             <Menu.Divider/>
 
                             <Menu.Label>Danger zone</Menu.Label>
-                            <Menu.Item icon={<IconArrowsLeftRight size={14}/>}>Transfer my data</Menu.Item>,
-                            <Menu.Item color="red" icon={<IconTrash size={14}/>}>Delete my account</Menu.Item>
+                            <Menu.Item icon={<IconArrowsLeftRight size={14}/>}>Transfer my data</Menu.Item>
+                            <Menu.Item component={NextLink} href={'/logout'} color="red" icon={<IconLogout size={14}/>}>Sign out</Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
                 </>
