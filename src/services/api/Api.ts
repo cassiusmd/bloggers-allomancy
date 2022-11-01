@@ -264,6 +264,7 @@ api.interceptors.request.use(
 
 function isTokenExpired(expirationTime?: string): boolean {
     return (
-        Date.parse(expirationTime ?? '1970-01-01T00:00:00Z') < Date.now() - 5000
+        // is it about to expire in less than 5s?
+        Date.parse(expirationTime ?? '1970-01-01T00:00:00Z') < (Date.now() - 5000)
     );
 }

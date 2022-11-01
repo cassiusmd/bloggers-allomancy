@@ -4,6 +4,7 @@ import {AuthContext} from "../../auth/AuthContext";
 import {AppShell, Burger, Footer, Group, Header, MediaQuery, Text, useMantineTheme} from "@mantine/core";
 import {NavbarSegmented} from "./NavbarSegmented";
 import {ColorSchemeToggle} from "../ColorSchemeToggle/ColorSchemeToggle";
+import UserDropdown from "../User/UserDropdown";
 
 interface LayoutProps {
     children: ReactNode;
@@ -62,6 +63,7 @@ export default function Layout({children}: LayoutProps) {
                         <Text>Application header</Text>
                         <Group>
                             <ColorSchemeToggle/>
+                            <UserDropdown/>
                         </Group>
                     </div>
 

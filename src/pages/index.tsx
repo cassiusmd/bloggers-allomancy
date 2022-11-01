@@ -1,11 +1,11 @@
 import useSWR from 'swr'
-import {Button, Group, Image} from "@mantine/core";
-import {useContext, useState} from "react";
+import {Button, Group} from "@mantine/core";
+import {useContext} from "react";
 import {AuthContext} from "../auth/AuthContext";
 import {getUserProfilePicture} from "../services/utils/SlResolver";
+import ProfileImage from "../components/User/ProfileImage";
 
 const profileImageFetcher = (profileUuid: string) => getUserProfilePicture(profileUuid).then((res) => res)
-
 
 
 export default function IndexPage() {
@@ -17,7 +17,8 @@ export default function IndexPage() {
 
             {/*    show user profile bellow */}
             {userProfile && <pre style={{fontSize: '0.75rem'}}>{JSON.stringify(userProfile, null, 2)}</pre>}
-            {data && <Image src={data.url} alt="Profile image" width={200} height={200}/>}
+            {/*{data && <Image src={data.url} alt="Profile image" width={200} height={200}/>}*/}
+            {userProfile && <ProfileImage userProfile={userProfile}/>}
         </Group>
     );
 }

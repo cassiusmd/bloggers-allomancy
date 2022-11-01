@@ -4,4 +4,5 @@ export interface UserProfile {
     userId: string
     username: string
     uuid: string
+    pictureUuid: string
 }
