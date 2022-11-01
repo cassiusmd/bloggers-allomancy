@@ -1,9 +1,8 @@
 import {NextPage} from 'next';
-
 import {useRouter} from 'next/router';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import {useFetchPaginatedApi} from '../../../../services/api/Api';
-import {ChangeEvent, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {BlogProductListing} from '../../../../models/BlogProductListing';
 import useDebounce from '../../../../hooks/useDebounce';
 import {Box, Group, Loader, Pagination, Stack, Text} from "@mantine/core";
@@ -40,19 +39,6 @@ function ViewProducts({storeId, page, pageSize, search, totalPagesCallback}: Vie
                 {products.map((product) => {
                     return (
                         <Box key={product.id}>
-                            {/*if product.created is in a week or less, add 'new' badge*/}
-
-                            {/*<CardWithImage description={product.name} imageUuid={product.image}*/}
-                            {/*               badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)*/}
-                            {/*                   && (<Badge color="red">new</Badge>)} onClick={() => null}*/}
-                            {/*               sx={(theme) => ({*/}
-                            {/*                   cursor: 'pointer',*/}
-                            {/*                   // show border only if selected, and according to theme*/}
-                            {/*                   minWidth: 200,*/}
-                            {/*                   maxWidth: 200,*/}
-
-                            {/*               })}*/}
-                            {/*/>*/}
                             <ProductRequestDialog product={product}/>
                         </Box>
                     );
@@ -122,7 +108,6 @@ const Products: NextPage = () => {
                                   search={debouncedValue}/>
                 </div>
             </>)}
-
 
 
         </Stack>

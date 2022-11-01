@@ -1,14 +1,14 @@
 import {NextPage} from 'next';
-
 import {useFetchPaginatedApi} from '../../services/api/Api';
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import {Store} from '../../models/Store';
-
-
-import {Box, Card, Group, Loader, Stack, Text} from "@mantine/core";
+import {Box, Card, Group, Loader, Pagination, Stack, Text} from "@mantine/core";
 import Link from "next/link";
 import ImgSl from "../Images/ImgSl";
 import {AuthGuard} from "../../auth/AuthGuard";
+import useDebounce from "../../hooks/useDebounce";
+import SearchInput from "../Utils/SearchInput";
 
 
 const NoStoresFound = ({storeAmount}: { storeAmount: number }) => {
@@ -20,12 +20,26 @@ const NoStoresFound = ({storeAmount}: { storeAmount: number }) => {
     );
 };
 
-const StoresCatalog: NextPage = () => {
+interface ViewStoresProps {
+    page: number;
+    pageSize: number;
+    search?: string;
+    totalPagesCallback: (totalPages: number) => void;
+}
+
+function ViewStores({page, pageSize, search, totalPagesCallback}: ViewStoresProps) {
 
     const {data, error, mutate, isLoading} = useFetchPaginatedApi<Store>(
         '/blogstores',
-        1,
-        100);
+        page,
+        pageSize,
+        search);
+    const totalPages = data?.totalPages ?? 0;
+    const products = data?.data ?? [];
+
+    useEffect(() => {
+        totalPagesCallback(totalPages);
+    }, [totalPages]);
 
     return (
         <Stack spacing={10} align={'center'}>
@@ -50,13 +64,6 @@ const StoresCatalog: NextPage = () => {
                                             filter: 'brightness(1.2)'
                                         }
                                     }}
-                                        // sx={{
-                                        //     minWidth: 240,
-                                        //     maxWidth: 240,
-                                        //     height: '100%',
-                                        //     border: store.id === selectedStore?.id ? '2px solid' : null,
-                                        //     borderColor: `${theme.palette.primary.main} !important`,
-                                        // }}
                                     >
                                         <Card.Section>
 
@@ -89,6 +96,38 @@ const StoresCatalog: NextPage = () => {
                         );
                     })}
             </Group>
+        </Stack>
+    );
+}
+
+const StoresCatalog: NextPage = () => {
+
+    const [totalPages, setTotalPages] = useState(0);
+    const pageSize = 21;
+    const [page, setPage] = useState(1);
+
+    const [search, setSearch] = useState('');
+    const debouncedValue = useDebounce<string>(search, 500);
+
+    useEffect(() => {
+        setPage(1);
+    }, [debouncedValue]);
+    return (
+        <Stack spacing={5} align={'center'}>
+            <Text size={'lg'}>Available products</Text>
+            <SearchInput onChange={setSearch}/>
+            <Pagination mt={10} page={page} onChange={setPage} total={totalPages}/>
+
+            <ViewStores page={page} pageSize={pageSize}
+                        totalPagesCallback={setTotalPages}
+                        search={debouncedValue}/>
+            <div style={{display: 'none'}}>
+                <ViewStores page={page + 1} pageSize={pageSize}
+                            totalPagesCallback={() => null}
+                            search={debouncedValue}/>
+            </div>
+
+
         </Stack>
     );
 };

@@ -134,7 +134,7 @@ const StoreViewPage: NextPage = () => {
 
             <Box mt={15}>
                 <Text weight={500} size={'lg'}>About</Text>
-                <Text italic style={{whiteSpace: 'pre-wrap'}}>
+                <Text style={{whiteSpace: 'pre-wrap'}}>
                     {store !== undefined && (store?.about?.trim() ?? '') !== ''
                         ? store.about
                         : 'No description yet'}
