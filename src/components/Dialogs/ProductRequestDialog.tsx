@@ -14,10 +14,10 @@ export interface ProductRequestDialogProps {
 const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
     const [opened, setOpened] = useState(false);
 
-    const productDesc = useFetchApi<string>(`blogger/product-desc/${product.id}`);
+    const productDesc = useFetchApi<string>(opened ? `blogger/product-desc/${product.id}` : null);
     const image = useSWR<string>(product.image, getBiggerResTexture, {
-        fallbackData: `https://img.allomancy.net/sl-images/${product.image}.jpg`,
-        revalidateOnMount: true,
+        // fallbackData: `https://img.allomancy.net/sl-images/${product.image}.jpg`,
+        // revalidateOnMount: true,
     });
 
     const requestProduct = () => {
