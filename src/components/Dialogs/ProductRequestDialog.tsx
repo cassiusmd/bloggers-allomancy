@@ -16,7 +16,7 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
 
     const productDesc = useFetchApi<string>(`blogger/product-desc/${product.id}`);
     const image = useSWR<string>(product.image, getBiggerResTexture, {
-        fallbackData: 'https://stores.allomancy.com/assets/noimage.png'
+        fallbackData: `https://img.allomancy.net/sl-images/${product.image}.jpg`
     });
 
     const requestProduct = () => {
