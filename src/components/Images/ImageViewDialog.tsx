@@ -15,7 +15,7 @@ export interface ImageViewDialogProps {
 export default function ImageViewDialog({uuid, miniWidth = '4rem', miniHeight = '3rem'}: ImageViewDialogProps) {
     const [opened, setOpened] = useState(false);
 
-    const {data, error, mutate} = useSWR(uuid, opened ? getBiggerResTexture : null);
+    const {data, error, mutate} = useSWR(opened ? uuid : null, getBiggerResTexture);
 
     return (
         <>
