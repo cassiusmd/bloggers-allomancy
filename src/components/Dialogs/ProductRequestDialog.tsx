@@ -1,4 +1,4 @@
-import {Badge, Box, Button, Center, Group, Image, Modal, Stack, Text} from "@mantine/core";
+import {Badge, Box, Button, Center, Group, Image, Loader, Modal, Stack, Text} from "@mantine/core";
 import {useState} from "react";
 import {ApiGet, GetErrorsString, useFetchApi} from "../../services/api/Api";
 import {BlogProductListing} from "../../models/BlogProductListing";
@@ -47,13 +47,14 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
                 <Stack>
                     <Group sx={{minHeight: '60vh', width: '100%'}} position="center">
                         <Box sx={{minWidth: '30vw', maxWidth: '600px', maxHeight: '600px', height: 'auto'}}>
-                            <Image withPlaceholder src={image.data} alt="Product image"
+                            {!image.error && !image.data && <Loader size={'lg'}/>}
+                            {image.data && <Image withPlaceholder src={image.data} alt="Product image"
                                 // width={'100%'} height={'100%'}
-                                   fit={'contain'}
-                                   onError={(e) => {
-                                       e.currentTarget.setAttribute('src', 'https://stores.allomancy.com/assets/noimage.png')
-                                   }}
-                            />
+                                    fit={'contain'}
+                                // onError={(e) => {
+                                //     e.currentTarget.setAttribute('src', 'https://stores.allomancy.com/assets/noimage.png')
+                                // }}
+                            />}
                         </Box>
                         <Box sx={{maxWidth: '600px'}}>
                             <Text>{productDesc.data?.data ?? ''}</Text>

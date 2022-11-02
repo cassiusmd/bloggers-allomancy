@@ -1,4 +1,4 @@
-import {Image, Modal} from "@mantine/core";
+import {Image, Loader, Modal} from "@mantine/core";
 import {useState} from "react";
 import ImgSl from "./ImgSl";
 import useSWR from "swr";
@@ -26,6 +26,7 @@ export default function ImageViewDialog({uuid, miniWidth = '4rem', miniHeight = 
                 title=""
             >
                 {/* Modal content */}
+                {!error && !data && <Loader size={'lg'}/>}
                 {data && <Image withPlaceholder src={data} alt="Profile image"
                     // width={'100%'} height={'100%'}
                                 fit={'contain'}
