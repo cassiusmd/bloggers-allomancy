@@ -1,15 +1,25 @@
 import {ReactNode, useContext, useState} from "react";
 import {AuthContext} from "../../auth/AuthContext";
 
-import {AppShell, Burger, Button, Footer, Group, Header, MediaQuery, Text, useMantineTheme} from "@mantine/core";
-import {NavbarSegmented} from "./NavbarSegmented";
+import {
+    AppShell,
+    Burger,
+    Button,
+    Center,
+    Footer,
+    Group,
+    Header,
+    MediaQuery,
+    Text,
+    useMantineTheme
+} from "@mantine/core";
+import {NavbarSegmented} from "./LayoutComponents/NavbarSegmented";
 import {ColorSchemeToggle} from "../ColorSchemeToggle/ColorSchemeToggle";
 import UserDropdown from "../User/UserDropdown";
 import Link from "next/link";
 import {IconLogin} from "@tabler/icons";
 import {useRouter} from "next/router";
-import {useFetchApi} from "../../services/api/Api";
-import {Store} from "../../models/Store";
+import UserFooter from "./LayoutComponents/UserFooter";
 
 interface LayoutProps {
     children: ReactNode;
@@ -44,9 +54,14 @@ export default function Layout({children}: LayoutProps) {
             //     </MediaQuery>
             // }
             footer={
-                <Footer height={60} p="md">
-                    Application footer
-                </Footer>
+                // <Footer height={60} p="md">
+                //     Application footer
+                // </Footer>
+                isAuthenticated
+                    ? <UserFooter/>
+                    : <Footer height={60} p="md">
+                        <Center>Allomancy System</Center>
+                    </Footer>
             }
             header={
                 <Header height={70} p="md">
@@ -70,7 +85,9 @@ export default function Layout({children}: LayoutProps) {
                         <Text>Allomancy Bloggers</Text>
                         <Group>
                             <ColorSchemeToggle/>
-                            {isAuthenticated ? <UserDropdown/> : <Link href={'/auth/signin'}><Button leftIcon={<IconLogin size={14}/>}>Sign in</Button></Link>}
+                            {isAuthenticated ? <UserDropdown/> :
+                                <Link href={'/auth/signin'}><Button leftIcon={<IconLogin size={14}/>}>Sign
+                                    in</Button></Link>}
                         </Group>
                     </div>
 
