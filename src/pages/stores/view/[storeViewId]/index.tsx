@@ -16,8 +16,9 @@ import {AuthGuard} from '../../../../auth/AuthGuard';
 import * as z from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ErrorToast, SuccessToast} from "../../../../services/utils/Toasts";
-import {Box, Button, Center, Loader, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Box, Button, Center, Group, Loader, Stack, Text, Textarea, TextInput} from "@mantine/core";
 import Link from "next/link";
+import ImgSl from "../../../../components/Images/ImgSl";
 
 interface ApplicationFormData {
     info: string;
@@ -139,13 +140,12 @@ const StoreViewPage: NextPage = () => {
                 )
                 : (<>
 
-                    <Box>
-                        {/*<BackButton/>*/}
-                    </Box>
 
-                    <Text weight={700} size={'xl'}>Apply to {store?.name ?? 'store'}</Text>
-
-                    <Box mt={15}>
+                    <Stack align={'center'}>
+                        <Text weight={700} size={'xl'}>Apply to {store?.name ?? 'store'}</Text>
+                        {store && <ImgSl height={'120px'} width={'160px'} uuid={store?.logo}/>}
+                    </Stack>
+                    <Box mt={10}>
                         <Text weight={500} size={'lg'}>About</Text>
                         <Text style={{whiteSpace: 'pre-wrap'}}>
                             {store !== undefined && (store?.about?.trim() ?? '') !== ''
