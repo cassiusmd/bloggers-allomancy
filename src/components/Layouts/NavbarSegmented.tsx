@@ -1,23 +1,20 @@
 import {useState} from 'react';
-import {createStyles, Navbar, SegmentedControl, Text} from '@mantine/core';
+import {createStyles, Navbar, Text} from '@mantine/core';
 import {
-    Icon2fa,
-    IconBellRinging,
-    IconDatabaseImport,
+    IconBuildingStore,
     IconFileAnalytics,
-    IconFingerprint,
-    IconKey,
     IconLicense,
     IconLogout,
+    IconMapSearch,
     IconMessage2,
     IconMessages,
-    IconReceipt2,
     IconReceiptRefund,
-    IconSettings,
     IconShoppingCart,
     IconSwitchHorizontal,
     IconUsers,
 } from '@tabler/icons';
+import Link from "next/link";
+import {useRouter} from "next/router";
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -81,13 +78,11 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const tabs = {
     account: [
-        {link: '', label: 'Notifications', icon: IconBellRinging},
-        {link: '', label: 'Billing', icon: IconReceipt2},
-        {link: '', label: 'Security', icon: IconFingerprint},
-        {link: '', label: 'SSH Keys', icon: IconKey},
-        {link: '', label: 'Databases', icon: IconDatabaseImport},
-        {link: '', label: 'Authentication', icon: Icon2fa},
-        {link: '', label: 'Other Settings', icon: IconSettings},
+        {link: '/stores', label: 'Your stores', icon: IconBuildingStore},
+        {link: '/stores/view', label: 'Browse stores', icon: IconMapSearch},
+        // {link: '', label: 'Notifications', icon: IconBellRinging},
+        // {link: '', label: 'Billing', icon: IconReceipt2},
+        // {link: '', label: 'Other Settings', icon: IconSettings},
     ],
     general: [
         {link: '', label: 'Orders', icon: IconShoppingCart},
@@ -103,24 +98,32 @@ const tabs = {
 export interface NavbarSegmentedProps {
     opened: boolean;
 }
+
 export function NavbarSegmented({opened}: NavbarSegmentedProps) {
     const {classes, cx} = useStyles();
     const [section, setSection] = useState<'account' | 'general'>('account');
     const [active, setActive] = useState('Billing');
 
+    const router = useRouter();
+    const route = router.route;
+
     const links = tabs[section].map((item) => (
-        <a
-            className={cx(classes.link, {[classes.linkActive]: item.label === active})}
-            href={item.link}
-            key={item.label}
-            onClick={(event) => {
-                event.preventDefault();
-                setActive(item.label);
-            }}
-        >
-            <item.icon className={classes.linkIcon} stroke={1.5}/>
-            <span>{item.label}</span>
-        </a>
+        <Link href={item.link} key={item.label}>
+            <a
+                // className={cx(classes.link, {[classes.linkActive]: item.label === active})}
+                // active if the link is the current page
+                className={cx(classes.link, {[classes.linkActive]: item.link === route})}
+                // href={item.link}
+
+                onClick={(event) => {
+                    // event.preventDefault();
+                    setActive(item.label);
+                }}
+            >
+                <item.icon className={classes.linkIcon} stroke={1.5}/>
+                <span>{item.label}</span>
+            </a>
+        </Link>
     ));
 
     return (
@@ -130,16 +133,16 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
                     bgluesticker@mantine.dev
                 </Text>
 
-                <SegmentedControl
-                    value={section}
-                    onChange={(value: 'account' | 'general') => setSection(value)}
-                    transitionTimingFunction="ease"
-                    fullWidth
-                    data={[
-                        {label: 'Account', value: 'account'},
-                        {label: 'System', value: 'general'},
-                    ]}
-                />
+                {/*<SegmentedControl*/}
+                {/*    value={section}*/}
+                {/*    onChange={(value: 'account' | 'general') => setSection(value)}*/}
+                {/*    transitionTimingFunction="ease"*/}
+                {/*    fullWidth*/}
+                {/*    data={[*/}
+                {/*        {label: 'Account', value: 'account'},*/}
+                {/*        {label: 'System', value: 'general'},*/}
+                {/*    ]}*/}
+                {/*/>*/}
             </Navbar.Section>
 
             <Navbar.Section grow mt="xl">
