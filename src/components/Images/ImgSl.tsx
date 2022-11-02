@@ -17,7 +17,7 @@ export default function ImgSl({
     return (
         <Image
             withPlaceholder
-            src={NullKeyToNull(uuid) ? gettextureUuidSlUrl(uuid) : null}
+            src={NullKeyToNull(uuid) ? gettextureUuidSlUrl(uuid) : 'https://stores.allomancy.com/assets/noimage.png'}
             width={width}
             height={height}
             radius={radius}
