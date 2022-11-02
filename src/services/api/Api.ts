@@ -22,8 +22,11 @@ export const api = axios.create({
 });
 
 
-export function useFetch<Data = any, Error = any>(url: string, params?: AxiosRequestConfig) {
+export function useFetch<Data = any, Error = any>(url: string|null, params?: AxiosRequestConfig) {
     const {data, error, mutate} = useSWR<Data, Error>([url, params], async () => {
+        if (url === null) {
+            return null;
+        }
         const response = await api.get(url, params);
 
         return response.data;
@@ -33,7 +36,7 @@ export function useFetch<Data = any, Error = any>(url: string, params?: AxiosReq
 }
 
 export function useFetchApi<Type>(
-    url: string,
+    url: string|null,
     params?: AxiosRequestConfig) {
     const {data, error, mutate, isLoading} = useFetch<ApiResponse<Type>>(url, params);
     if (error) {

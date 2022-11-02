@@ -7,6 +7,9 @@ import {ColorSchemeToggle} from "../ColorSchemeToggle/ColorSchemeToggle";
 import UserDropdown from "../User/UserDropdown";
 import Link from "next/link";
 import {IconLogin} from "@tabler/icons";
+import {useRouter} from "next/router";
+import {useFetchApi} from "../../services/api/Api";
+import {Store} from "../../models/Store";
 
 interface LayoutProps {
     children: ReactNode;
@@ -16,6 +19,8 @@ export default function Layout({children}: LayoutProps) {
     const {isAuthenticated, initializing, userProfile} = useContext(AuthContext);
     const theme = useMantineTheme();
     const [opened, setOpened] = useState(false);
+
+    const router = useRouter();
     return (
         <AppShell
             styles={{

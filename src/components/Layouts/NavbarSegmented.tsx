@@ -15,6 +15,8 @@ import {
 } from '@tabler/icons';
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {useFetchApi} from "../../services/api/Api";
+import {Store} from "../../models/Store";
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -107,6 +109,9 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
     const router = useRouter();
     const route = router.route;
 
+    const {storeid} = router.query;
+    const storeData = useFetchApi<Store>(storeid ? `blogstores/${storeid.toString()}` : null);
+
     const links = tabs[section].map((item) => (
         <Link href={item.link} key={item.label}>
             <a
@@ -130,7 +135,7 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
         <Navbar hidden={!opened} hiddenBreakpoint="sm" height={840} width={{sm: 250}} p="md" className={classes.navbar}>
             <Navbar.Section>
                 <Text weight={500} size="sm" className={classes.title} color="dimmed" mb="xs">
-                    bgluesticker@mantine.dev
+                    {storeid && !storeData.isLoading ? storeData.data?.data.name ?? '' : ''}
                 </Text>
 
                 {/*<SegmentedControl*/}
