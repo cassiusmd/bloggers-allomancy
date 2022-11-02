@@ -23,7 +23,10 @@ export default function UserFooter() {
     }
     return (
         <Footer height={60} p="md">
-            <Center><Select placeholder={'Select a store'} value={selectedStore?.name ?? ''} onChange={handleChange} data={storeNames}/></Center>
+            <Center>
+                <Select searchable nothingFound={'No store found'} placeholder={'Select a store'} value={selectedStore?.name ?? ''} onChange={handleChange}
+                        data={storeNames}/>
+            </Center>
         </Footer>
     );
 }
