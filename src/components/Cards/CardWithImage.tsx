@@ -23,14 +23,14 @@ export default function CardWithImage({description, imageUuid, sx, onClick, badg
                     }
                 }}
                 // add extra css
-                  styles={{
+                styles={{
 
-                      ":hover": {
-                          filter: 'brightness(1.2)'
-                      }
+                    ":hover": {
+                        filter: 'brightness(1.2)'
+                    }
 
-                  }}
-                  onClick={onClick}>
+                }}
+                onClick={onClick}>
                 <Card.Section>
 
                     <div
@@ -44,7 +44,13 @@ export default function CardWithImage({description, imageUuid, sx, onClick, badg
                         {/*    ? (<Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>)*/}
                         {/*    : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)*/}
                         {/*}*/}
-                        {badge}
+                        {/*place badge above the image, absolute*/}
+                        <Box sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 5,
+                            zIndex: 1,
+                        }}>{badge}</Box>
                         <ImgSl
                             uuid={imageUuid}
                             // height={'180px'}

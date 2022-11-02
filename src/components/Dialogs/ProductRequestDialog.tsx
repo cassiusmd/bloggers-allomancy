@@ -1,4 +1,4 @@
-import {Badge, Box, Center, Button, Group, Image, Modal, Stack, Text} from "@mantine/core";
+import {Badge, Box, Button, Center, Group, Image, Modal, Stack, Text} from "@mantine/core";
 import {useState} from "react";
 import {ApiGet, GetErrorsString, useFetchApi} from "../../services/api/Api";
 import {BlogProductListing} from "../../models/BlogProductListing";
@@ -62,20 +62,21 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
                 </Stack>
             </Modal>
 
-                <Group position="center">
-                    {/*<Button onClick={() => setOpened(true)}>Open Modal</Button>*/}
-                    <CardWithImage description={product.name} imageUuid={product.image}
-                                   badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)
-                                       && (<Badge color="red">new</Badge>)} onClick={() => setOpened(true)}
-                                   sx={(theme) => ({
-                                       cursor: 'pointer',
-                                       // show border only if selected, and according to theme
-                                       minWidth: 200,
-                                       maxWidth: 200,
+            <Group position="center">
+                {/*<Button onClick={() => setOpened(true)}>Open Modal</Button>*/}
+                <CardWithImage description={product.name} imageUuid={product.image}
+                               badge={(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)
+                                   && (<Badge variant={'filled'} color="red">new</Badge>)}
+                               onClick={() => setOpened(true)}
+                               sx={(theme) => ({
+                                   cursor: 'pointer',
+                                   // show border only if selected, and according to theme
+                                   minWidth: 200,
+                                   maxWidth: 200,
 
-                                   })}
-                    />
-                </Group>
+                               })}
+                />
+            </Group>
 
         </>
     );
