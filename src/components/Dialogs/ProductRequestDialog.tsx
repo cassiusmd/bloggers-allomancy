@@ -16,7 +16,8 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
 
     const productDesc = useFetchApi<string>(`blogger/product-desc/${product.id}`);
     const image = useSWR<string>(product.image, getBiggerResTexture, {
-        fallbackData: `https://img.allomancy.net/sl-images/${product.image}.jpg`
+        fallbackData: `https://img.allomancy.net/sl-images/${product.image}.jpg`,
+        revalidateOnMount: true,
     });
 
     const requestProduct = () => {
@@ -46,9 +47,12 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
                 <Stack>
                     <Group sx={{minHeight: '60vh', width: '100%'}} position="center">
                         <Box sx={{minWidth: '30vw', maxWidth: '600px', maxHeight: '600px', height: 'auto'}}>
-                            <Image withPlaceholder src={image.data} alt="Profile image"
+                            <Image withPlaceholder src={image.data} alt="Product image"
                                 // width={'100%'} height={'100%'}
                                    fit={'contain'}
+                                   onError={(e) => {
+                                       e.currentTarget.setAttribute('src', 'https://stores.allomancy.com/assets/noimage.png')
+                                   }}
                             />
                         </Box>
                         <Box sx={{maxWidth: '600px'}}>
