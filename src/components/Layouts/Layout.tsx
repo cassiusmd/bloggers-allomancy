@@ -29,7 +29,7 @@ export default function Layout({children}: LayoutProps) {
                 // <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{sm: 200, lg: 300}}>
                 //     <Text>Application navbar</Text>
                 // </Navbar>
-                <NavbarSegmented opened={opened}/>
+                isAuthenticated ? <NavbarSegmented opened={opened}/> : <></>
             }
             // aside={
             //     <MediaQuery smallerThan="sm" styles={{display: 'none'}}>
@@ -62,7 +62,7 @@ export default function Layout({children}: LayoutProps) {
                             />
                         </MediaQuery>
 
-                        <Text>Application header</Text>
+                        <Text>Allomancy Bloggers</Text>
                         <Group>
                             <ColorSchemeToggle/>
                             {isAuthenticated ? <UserDropdown/> : <Link href={'/auth/signin'}><Button leftIcon={<IconLogin size={14}/>}>Sign in</Button></Link>}
