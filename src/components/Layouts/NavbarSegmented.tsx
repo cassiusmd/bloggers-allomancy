@@ -162,7 +162,7 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
                 <Link href={'/logout'}>
                     <a className={classes.link}>
                         <IconLogout className={classes.linkIcon} stroke={1.5}/>
-                        <span>Logout</span>
+                        <Text color={'red'}>Sign out</Text>
                     </a>
                 </Link>
             </Navbar.Section>
