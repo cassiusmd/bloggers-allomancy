@@ -36,7 +36,7 @@ export default function LeaveStoreButton({
         <>
             <Button
                 onClick={() => setOpened(true)}
-                color={'error'}
+                color={'red'}
             >
                 Leave Store
             </Button>

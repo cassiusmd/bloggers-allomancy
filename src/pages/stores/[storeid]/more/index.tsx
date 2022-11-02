@@ -14,7 +14,7 @@ const Settings: NextPage = () => {
             <Stack spacing={5} align={'center'}>
                 <Text size={'md'}>Store options</Text>
                 {storeid && (
-                    <>
+                    <Stack spacing={20}>
                         <RequestVacationButton storeId={storeid.toString()}/>
                         <LeaveStoreButton
                             storeid={storeid.toString()}
@@ -22,7 +22,7 @@ const Settings: NextPage = () => {
                                 router.push('/');
                             }}
                         />
-                    </>
+                    </Stack>
                 )}
             </Stack>
         </SelectedStoreLayout>
