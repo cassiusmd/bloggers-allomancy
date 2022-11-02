@@ -11,10 +11,10 @@ const Settings: NextPage = () => {
 
     return (
         <SelectedStoreLayout>
-            <Stack spacing={5} align={'center'}>
-                <Text size={'md'}>Store options</Text>
+            <Stack spacing={20} align={'center'}>
+                <Text weight={600} size={'xl'}>Store options</Text>
                 {storeid && (
-                    <Stack spacing={20}>
+                    <Stack spacing={10}>
                         <RequestVacationButton storeId={storeid.toString()}/>
                         <LeaveStoreButton
                             storeid={storeid.toString()}
