@@ -9,7 +9,7 @@ import {
     IconPhoto,
     IconSearch,
     IconSettings,
-    IconTrash
+    IconTrash, IconUser
 } from "@tabler/icons";
 import {NextLink} from "@mantine/next";
 
@@ -30,7 +30,8 @@ export default function UserDropdown() {
 
                         <Menu.Dropdown>
                             <Menu.Label>Application</Menu.Label>
-                            <Menu.Item icon={<IconSettings size={14}/>}>Settings</Menu.Item>
+                            {/*<Menu.Item icon={<IconSettings size={14}/>}>Settings</Menu.Item>*/}
+                            <Menu.Item component={NextLink} href={'/blogger-profile'} icon={<IconUser size={14}/>}>Profile</Menu.Item>
                             <Menu.Item icon={<IconMessageCircle size={14}/>}>Messages</Menu.Item>
                             <Menu.Item icon={<IconPhoto size={14}/>}>Gallery</Menu.Item>
                             <Menu.Item
