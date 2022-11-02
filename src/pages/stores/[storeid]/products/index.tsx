@@ -8,6 +8,7 @@ import useDebounce from '../../../../hooks/useDebounce';
 import {Box, Group, Loader, Pagination, Stack, Text} from "@mantine/core";
 import SearchInput from "../../../../components/Utils/SearchInput";
 import ProductRequestDialog from "../../../../components/Dialogs/ProductRequestDialog";
+import SelectedStoreLayout from "../../../../components/Layouts/SubLayouts/SelectedStores/SelectedStoreLayout";
 
 interface ViewProductsProps {
     storeId: string;
@@ -94,23 +95,25 @@ const Products: NextPage = () => {
     //     fetchProducts();
     // }, [page]);
     return (
-        <Stack spacing={5} align={'center'}>
-            <Text size={'lg'}>Available products</Text>
-            <SearchInput onChange={setSearch}/>
-            <Pagination mt={10} page={page} onChange={setPage} total={totalPages}/>
-            {storeid && (<>
-                <ViewProducts storeId={storeid.toString()} page={page} pageSize={pageSize}
-                              totalPagesCallback={setTotalPages}
-                              search={debouncedValue}/>
-                <div style={{display: 'none'}}>
-                    <ViewProducts storeId={storeid.toString()} page={page + 1} pageSize={pageSize}
-                                  totalPagesCallback={() => null}
+        <SelectedStoreLayout>
+            <Stack spacing={5} align={'center'}>
+                <Text size={'lg'}>Available products</Text>
+                <SearchInput onChange={setSearch}/>
+                <Pagination mt={10} page={page} onChange={setPage} total={totalPages}/>
+                {storeid && (<>
+                    <ViewProducts storeId={storeid.toString()} page={page} pageSize={pageSize}
+                                  totalPagesCallback={setTotalPages}
                                   search={debouncedValue}/>
-                </div>
-            </>)}
+                    <div style={{display: 'none'}}>
+                        <ViewProducts storeId={storeid.toString()} page={page + 1} pageSize={pageSize}
+                                      totalPagesCallback={() => null}
+                                      search={debouncedValue}/>
+                    </div>
+                </>)}
 
 
-        </Stack>
+            </Stack>
+        </SelectedStoreLayout>
     );
 };
 

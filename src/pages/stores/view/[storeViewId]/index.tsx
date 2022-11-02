@@ -2,7 +2,7 @@ import {NextPage} from 'next';
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
 import {BlogApplicationQuestion} from '../../../../models/BlogApplicationQuestion';
-import {ApiGet, ApiPost, GetErrorsString} from '../../../../services/api/Api';
+import {ApiGet, ApiPost, GetErrorsString, useFetchApi} from '../../../../services/api/Api';
 
 
 import {SubmitHandler, useFieldArray, useForm} from 'react-hook-form';
@@ -16,7 +16,8 @@ import {AuthGuard} from '../../../../auth/AuthGuard';
 import * as z from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ErrorToast, SuccessToast} from "../../../../services/utils/Toasts";
-import {Box, Button, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Box, Button, Center, Loader, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import Link from "next/link";
 
 interface ApplicationFormData {
     info: string;
@@ -109,7 +110,7 @@ const StoreViewPage: NextPage = () => {
                 }) ?? [],
         };
         console.log(applicationData);
-        postApplication(applicationData);
+        // postApplication(applicationData);
         // postProducts(applicationData);
     };
 
@@ -118,71 +119,84 @@ const StoreViewPage: NextPage = () => {
     // );
 
     // ApiGet<Store>(`blogstores/${storeid}`).then((res) => {
-    const [store, setStore] = useState<Store>();
-    useEffect(() => {
-        if (!storeViewId) return;
-        ApiGet<Store>(`blogstores/${storeViewId}`).then((res) => {
-            setStore(res.data);
-        });
-    }, [storeViewId]);
+    // const [store, setStore] = useState<Store>();
+    // useEffect(() => {
+    //     if (!storeViewId) return;
+    //     ApiGet<Store>(`blogstores/${storeViewId}`).then((res) => {
+    //         setStore(res.data);
+    //     });
+    // }, [storeViewId]);
+    const storeData = useFetchApi<Store>(`blogstores/${storeViewId}`);
+    const store = storeData.data?.data;
+
     return (
         <Stack spacing={5}>
-            <Box>
-                {/*<BackButton/>*/}
-            </Box>
-            <Text weight={700} size={'xl'}>Apply to {store?.name ?? 'store'}</Text>
+            <Link href={'/stores/view'}>
+                <Box><Button color={'gray'} variant={'outline'}>Back</Button></Box>
+            </Link>
+            {storeData.isLoading ? (
+                    <Center><Loader size={'lg'}/></Center>
+                )
+                : (<>
 
-            <Box mt={15}>
-                <Text weight={500} size={'lg'}>About</Text>
-                <Text style={{whiteSpace: 'pre-wrap'}}>
-                    {store !== undefined && (store?.about?.trim() ?? '') !== ''
-                        ? store.about
-                        : 'No description yet'}
-                </Text>
-            </Box>
-            <Box
-                component="form"
-                noValidate
-                sx={{mt: 3, mb: 3}}
-                onSubmit={handleSubmit(handlePost)}
-            >
-                <Stack align={'center'} mt={20}>
-                    <Stack spacing={10} align={'center'} justify={'center'} sx={{width: '100%'}}>
-                        {fields.map((field, index) => (
-
-
-                            <TextInput key={field.id}
-                                       sx={{width: '100%', maxWidth: '1000px'}}
-                                       id={field.id}
-                                       label={(field as any).question}
-                                       {...register(`answers.${index}.value` as const)}
-                                       error={!!errors.answers?.[index]?.value && errors.answers?.[index]?.value?.message}
-                            />
-
-
-                        ))}
-
-
-                        <Textarea
-                            sx={{width: '100%', maxWidth: '1000px'}}
-                            id="info"
-                            minRows={4}
-                            maxRows={6}
-                            label="Info/details about you"
-                            {...register('info')}
-                            error={!!errors.info && errors.info?.message}
-                        />
-
-
-                    </Stack>
-
-                    <Box mt={5}>
-                        <Button onClick={handleSubmit(handlePost)}>
-                            Submit application
-                        </Button>
+                    <Box>
+                        {/*<BackButton/>*/}
                     </Box>
-                </Stack>
-            </Box>
+
+                    <Text weight={700} size={'xl'}>Apply to {store?.name ?? 'store'}</Text>
+
+                    <Box mt={15}>
+                        <Text weight={500} size={'lg'}>About</Text>
+                        <Text style={{whiteSpace: 'pre-wrap'}}>
+                            {store !== undefined && (store?.about?.trim() ?? '') !== ''
+                                ? store.about
+                                : 'No description yet'}
+                        </Text>
+                    </Box>
+                    <Box
+                        component="form"
+                        noValidate
+                        sx={{mt: 3, mb: 3}}
+                        onSubmit={handleSubmit(handlePost)}
+                    >
+                        <Stack align={'center'} mt={20}>
+                            <Stack spacing={10} align={'center'} justify={'center'} sx={{width: '100%'}}>
+                                {fields.map((field, index) => (
+
+
+                                    <TextInput key={field.id}
+                                               sx={{width: '100%', maxWidth: '1000px'}}
+                                               id={field.id}
+                                               label={(field as any).question}
+                                               {...register(`answers.${index}.value` as const)}
+                                               error={!!errors.answers?.[index]?.value && errors.answers?.[index]?.value?.message}
+                                    />
+
+
+                                ))}
+
+
+                                <Textarea
+                                    sx={{width: '100%', maxWidth: '1000px'}}
+                                    id="info"
+                                    minRows={4}
+                                    maxRows={6}
+                                    label="Info/details about you"
+                                    {...register('info')}
+                                    error={!!errors.info && errors.info?.message}
+                                />
+
+
+                            </Stack>
+
+                            <Box mt={5}>
+                                <Button onClick={handleSubmit(handlePost)}>
+                                    Submit application
+                                </Button>
+                            </Box>
+                        </Stack>
+                    </Box>
+                </>)}
         </Stack>
     );
 };

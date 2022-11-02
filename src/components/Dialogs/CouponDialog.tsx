@@ -54,7 +54,7 @@ export default function CouponDialog({currentCode, storeId, callback}: CouponDia
             <Modal
                 opened={opened}
                 onClose={() => setOpened(false)}
-                title="Introduce yourself!"
+                title="Set your coupon code!"
             >
                 {/* Modal content */}
                 <Stack align={'center'} spacing={10}>

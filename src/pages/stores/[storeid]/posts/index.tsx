@@ -13,6 +13,7 @@ import GetExternalUrl from '../../../../services/utils/GetExternalUrl';
 import {ToFormattedDate} from "../../../../services/utils/Timeformat";
 import BlogPostState from "../../../../components/Utils/BlogPostState";
 import ImageViewDialog from "../../../../components/Images/ImageViewDialog";
+import SelectedStoreLayout from "../../../../components/Layouts/SubLayouts/SelectedStores/SelectedStoreLayout";
 
 interface PostsTableViewProps {
     page: number;
@@ -135,23 +136,22 @@ const Posts: NextPage = () => {
 
 
     return (
-        <Stack spacing={5} align={'center'} >
-            <Text size={'lg'}>Posts</Text>
-
-            {storeid && (
-                <Stack align={'center'} sx={{width: '100%'}}>
-                    <PostsTableView page={page} storeId={storeid.toString()} rowsPerPage={rowsPerPage}
-                                    rowsCountCallback={(totalPages) => setTotalRows(totalPages)}/>
-                    <div style={{display: 'none'}}>
-                        <PostsTableView page={page + 1} storeId={storeid.toString()} rowsPerPage={rowsPerPage}
-                                        rowsCountCallback={() => null}/>
-                    </div>
-                </Stack>
-            )}
-
-            <Pagination total={totalRows} siblings={1} initialPage={1} page={page } onChange={x => setPage(x)}/>
-            {/*</Box>*/}
-        </Stack>
+        <SelectedStoreLayout>
+            <Stack spacing={5} align={'center'}>
+                <Text size={'lg'}>Posts</Text>
+                <Pagination total={totalRows} siblings={1} initialPage={1} page={page} onChange={x => setPage(x)}/>
+                {storeid && (
+                    <Stack align={'center'} sx={{width: '100%'}}>
+                        <PostsTableView page={page} storeId={storeid.toString()} rowsPerPage={rowsPerPage}
+                                        rowsCountCallback={(totalPages) => setTotalRows(totalPages)}/>
+                        <div style={{display: 'none'}}>
+                            <PostsTableView page={page + 1} storeId={storeid.toString()} rowsPerPage={rowsPerPage}
+                                            rowsCountCallback={() => null}/>
+                        </div>
+                    </Stack>
+                )}
+            </Stack>
+        </SelectedStoreLayout>
     );
 };
 

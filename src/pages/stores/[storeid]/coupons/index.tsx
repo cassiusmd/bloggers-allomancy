@@ -10,6 +10,7 @@ import {Card, Group, Loader, Stack, Text, Tooltip} from "@mantine/core";
 import CopyToClipboardSpan from "../../../../components/Clipboard/CopyToClipboardSpan";
 import CopyToClipboardButton from "../../../../components/Clipboard/CopyToClipboardButton";
 import CouponDialog from "../../../../components/Dialogs/CouponDialog";
+import SelectedStoreLayout from "../../../../components/Layouts/SubLayouts/SelectedStores/SelectedStoreLayout";
 
 const Coupons: NextPage = () => {
     const router = useRouter();
@@ -67,7 +68,7 @@ const Coupons: NextPage = () => {
     }, [couponData.data, couponData.mutate]);
 
     return (
-        <>
+        <SelectedStoreLayout>
             <Stack spacing={5} align={'center'}>
                 <Text size={'lg'} weight={700}>Coupons</Text>
                 <Text>
@@ -157,7 +158,7 @@ const Coupons: NextPage = () => {
                     </Text>
                 )}
             </Stack>
-        </>
+        </SelectedStoreLayout>
     );
 };
 

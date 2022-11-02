@@ -11,6 +11,7 @@ import {Badge, Box, Group, Loader, Stack, Text} from "@mantine/core";
 import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialog";
 import {ApiPaginatedResponse} from "../../../../services/api/models/ApiPaginatedResponse";
 import CardWithImage from "../../../../components/Cards/CardWithImage";
+import SelectedStoreLayout from "../../../../components/Layouts/SubLayouts/SelectedStores/SelectedStoreLayout";
 
 
 const Post: NextPage = () => {
@@ -76,46 +77,48 @@ const Post: NextPage = () => {
     //     fetchUnbloggedProducts();
     // }, []);
     return (
-        <Stack spacing={5} align={'center'}>
+        <SelectedStoreLayout>
+            <Stack spacing={5} align={'center'}>
 
-            <Text size={'lg'}>Unposted products</Text>
-            <Stack align={'center'} spacing={1}>
-                {/*<Button variant={'contained'} disabled={!selectedProducts.length}>*/}
-                {/*  Post*/}
-                {/*</Button>*/}
-                <PostProductsDialog disabled={!selectedProducts.length} products={selectedProducts}
-                                    callSuccess={() => handlePosPostChange(selectedProducts)}/>
+                <Text size={'lg'}>Unposted products</Text>
+                <Stack align={'center'} spacing={1}>
+                    {/*<Button variant={'contained'} disabled={!selectedProducts.length}>*/}
+                    {/*  Post*/}
+                    {/*</Button>*/}
+                    <PostProductsDialog disabled={!selectedProducts.length} products={selectedProducts}
+                                        callSuccess={() => handlePosPostChange(selectedProducts)}/>
 
-                <Text>Selected: {selectedProducts.length}</Text>
+                    <Text>Selected: {selectedProducts.length}</Text>
+                </Stack>
+                <Group align={'center'} mt={5}>
+                    {isLoading && <Loader/>}
+                    {products.map((product) => {
+                        return (
+                            <Box key={product.id}>
+                                <CardWithImage description={product.name} imageUuid={product.image}
+                                               sx={(theme) => ({
+                                                   cursor: 'pointer',
+                                                   border: '1px solid #eaeaea',
+                                                   // show border only if selected, and according to theme
+                                                   borderColor: isProductSelected(product)
+                                                       ? theme.colorScheme === 'dark' ? 'white' : 'black'
+                                                       : 'transparent',
+                                                   minWidth: 200,
+                                                   maxWidth: 200,
+
+                                               })}
+                                               onClick={() => toggleProductSelection(product)}
+
+                                               badge={isProductSelected(product) ?
+                                                   <Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>
+                                                   : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)}
+                                />
+                            </Box>
+                        );
+                    })}
+                </Group>
             </Stack>
-            <Group align={'center'} mt={5}>
-                {isLoading && <Loader/>}
-                {products.map((product) => {
-                    return (
-                        <Box key={product.id}>
-                            <CardWithImage description={product.name} imageUuid={product.image}
-                                           sx={(theme) => ({
-                                               cursor: 'pointer',
-                                               border: '1px solid #eaeaea',
-                                               // show border only if selected, and according to theme
-                                               borderColor: isProductSelected(product)
-                                                   ? theme.colorScheme === 'dark' ? 'white' : 'black'
-                                                   : 'transparent',
-                                               minWidth: 200,
-                                               maxWidth: 200,
-
-                                           })}
-                                           onClick={() => toggleProductSelection(product)}
-
-                                           badge={isProductSelected(product) ?
-                                               <Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>
-                                               : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)}
-                            />
-                        </Box>
-                    );
-                })}
-            </Group>
-        </Stack>
+        </SelectedStoreLayout>
     );
 };
 
