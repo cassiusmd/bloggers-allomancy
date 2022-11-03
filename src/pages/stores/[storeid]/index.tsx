@@ -58,7 +58,7 @@ const StoreView: NextPage = () => {
     const router = useRouter();
     const {storeid} = router.query;
 
-    const storeData = useFetchApi<Store>(`blogstores/${storeid}`);
+    const storeData = useFetchApi<Store>(storeid ? `blogstores/${storeid}` : null);
     const store = storeData.data?.data;
     // useEffect(() => {
     //     if (storeid) {

@@ -6,12 +6,13 @@ export interface CardWithImageProps {
     sx?: CSSObject | ((theme: MantineTheme) => CSSObject);
     onClick?: () => void;
     description: string;
+    extraInfo?: string;
     imageUuid: string;
     // badge component
     badge?: React.ReactNode;
 }
 
-export default function CardWithImage({description, imageUuid, sx, onClick, badge}: CardWithImageProps) {
+export default function CardWithImage({description, imageUuid, sx, onClick, badge, extraInfo}: CardWithImageProps) {
     return (
         <Box sx={sx}>
             <Card
@@ -69,6 +70,8 @@ export default function CardWithImage({description, imageUuid, sx, onClick, badg
                     >
                         {description.substring(0, 30)}
                     </Text>
+                    {extraInfo && (
+                        <Text align={'center'} component={'div'} size={'xs'} italic color={'orange'}>{extraInfo}</Text>)}
                 </Card.Section>
             </Card>
         </Box>

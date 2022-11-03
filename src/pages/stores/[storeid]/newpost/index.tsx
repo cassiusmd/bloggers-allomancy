@@ -4,7 +4,7 @@ import {useRouter} from 'next/router';
 import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {BlogProductListing} from '../../../../models/BlogProductListing';
-import {useFetchPaginatedApi} from '../../../../services/api/Api';
+import {useFetchApi, useFetchPaginatedApi} from '../../../../services/api/Api';
 import {AuthGuard} from '../../../../auth/AuthGuard';
 import BloggerProductDto from "../../../../models/BloggerProductDto";
 import {Badge, Box, Group, Loader, Stack, Text} from "@mantine/core";
@@ -12,11 +12,14 @@ import PostProductsDialog from "../../../../components/Dialogs/PostProductsDialo
 import {ApiPaginatedResponse} from "../../../../services/api/models/ApiPaginatedResponse";
 import CardWithImage from "../../../../components/Cards/CardWithImage";
 import SelectedStoreLayout from "../../../../components/Layouts/SubLayouts/SelectedStores/SelectedStoreLayout";
+import {ToFormattedDate} from "../../../../services/utils/Timeformat";
+import {Store} from "../../../../models/Store";
 
 
 const Post: NextPage = () => {
     const router = useRouter();
     const {storeid} = router.query;
+    const {data: store} = useFetchApi<Store>(storeid ? `blogstores/${storeid}` : null);
     // const [products, setProducts] = useState<BloggerProductDto[]>([]);
     const [selectedProducts, setSelectedProducts] = useState<BlogProductListing[]>([]);
 
@@ -108,7 +111,10 @@ const Post: NextPage = () => {
 
                                                })}
                                                onClick={() => toggleProductSelection(product)}
-
+                                               extraInfo={!store?.data.vip
+                                                   ? 'Deadline: ' +
+                                                   ToFormattedDate(product.expireDate, 'system')
+                                                   : undefined}
                                                badge={isProductSelected(product) ?
                                                    <Badge sx={{cursor: "pointer"}} color={'orange'}>Selected</Badge>
                                                    : (<Badge sx={{cursor: "pointer"}} color={'primary'}>Select</Badge>)}
