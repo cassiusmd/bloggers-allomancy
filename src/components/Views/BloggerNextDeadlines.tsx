@@ -34,8 +34,8 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
             <td style={{color: ((new Date(row.expireDate).getTime() - Date.now()) < 5 * 24 * 3600 * 1000) ? 'red' : 'inherit'}}>
                 {ToFormattedDate(row.expireDate, 'system')}
             </td>
-            <td>{row.name}</td>
             <td>{row.store?.name ?? ''}</td>
+            <td>{row.name}</td>
             <td>
                 <Tooltip label={'Go to store posting page'}>
                     <span><IconNavigation color={'lightblue'} style={{cursor: 'pointer'}}
@@ -47,7 +47,7 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
     return (
         <>
             {isLoading ? <Loader/> : (
-                <Table highlightOnHover
+                <Table highlightOnHover captionSide={'top'}
                        sx={{
                            // display: 'block',
                            // if mobile, display block
@@ -60,11 +60,12 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
                            maxWidth: '100%',
                            // tableLayout: 'fixed',
                        }}>
+                    {(rows?.length ?? 0) === 0 && <caption>No retrieved products to be posted...</caption>}
                     <thead>
                     <tr>
                         <td>Expiration</td>
-                        <td>Product</td>
                         <td>Store</td>
+                        <td>Product</td>
                         <td>Action</td>
                     </tr>
                     </thead>

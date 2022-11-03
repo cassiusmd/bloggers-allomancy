@@ -52,7 +52,7 @@ export function useFetchApi<Type>(
 }
 
 export function useFetchPaginatedApi<Type>(
-    url: string,
+    key: Key,
     pageNumber: number,
     pageSize: number,
     search: string | null = null,
@@ -60,7 +60,7 @@ export function useFetchPaginatedApi<Type>(
     endDate: Date | null = null,
     params?: AxiosRequestConfig
 ) {
-    const {data, error, mutate, isLoading} = useFetch<ApiPaginatedResponse<Type>>(url, {
+    const {data, error, mutate, isLoading} = useFetch<ApiPaginatedResponse<Type>>(key, {
         params: {
             pageNumber,
             pageSize,

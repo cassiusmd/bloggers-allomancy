@@ -3,6 +3,7 @@ import {createStyles, Navbar, Text} from '@mantine/core';
 import {
     IconBuildingStore,
     IconFileAnalytics,
+    IconHome,
     IconLicense,
     IconLogout,
     IconMapSearch,
@@ -10,13 +11,10 @@ import {
     IconMessages,
     IconReceiptRefund,
     IconShoppingCart,
-    IconSwitchHorizontal,
     IconUsers,
 } from '@tabler/icons';
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {useFetchApi} from "../../../services/api/Api";
-import {Store} from "../../../models/Store";
 
 const useStyles = createStyles((theme, _params, getRef) => {
     const icon = getRef('icon');
@@ -80,6 +78,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 const tabs = {
     account: [
+        {link: '/', label: 'Home', icon: IconHome,},
         {link: '/stores', label: 'Your stores', icon: IconBuildingStore},
         {link: '/stores/view', label: 'Apply for stores', icon: IconMapSearch},
         // {link: '', label: 'Notifications', icon: IconBellRinging},
@@ -110,7 +109,6 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
     const route = router.route;
 
 
-
     const links = tabs[section].map((item) => (
         <Link href={item.link} key={item.label}>
             <a
@@ -133,20 +131,20 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
     return (
         <Navbar hidden={!opened} hiddenBreakpoint="sm" height={840} width={{sm: 250}} p="md" className={classes.navbar}>
             {/*<Navbar.Section>*/}
-                {/*<Text weight={500} size="sm" className={classes.title} color="dimmed" mb="xs">*/}
-                {/*    Navigation*/}
-                {/*</Text>*/}
+            {/*<Text weight={500} size="sm" className={classes.title} color="dimmed" mb="xs">*/}
+            {/*    Navigation*/}
+            {/*</Text>*/}
 
-                {/*<SegmentedControl*/}
-                {/*    value={section}*/}
-                {/*    onChange={(value: 'account' | 'general') => setSection(value)}*/}
-                {/*    transitionTimingFunction="ease"*/}
-                {/*    fullWidth*/}
-                {/*    data={[*/}
-                {/*        {label: 'Account', value: 'account'},*/}
-                {/*        {label: 'System', value: 'general'},*/}
-                {/*    ]}*/}
-                {/*/>*/}
+            {/*<SegmentedControl*/}
+            {/*    value={section}*/}
+            {/*    onChange={(value: 'account' | 'general') => setSection(value)}*/}
+            {/*    transitionTimingFunction="ease"*/}
+            {/*    fullWidth*/}
+            {/*    data={[*/}
+            {/*        {label: 'Account', value: 'account'},*/}
+            {/*        {label: 'System', value: 'general'},*/}
+            {/*    ]}*/}
+            {/*/>*/}
             {/*</Navbar.Section>*/}
 
             <Navbar.Section grow mt="sm">
