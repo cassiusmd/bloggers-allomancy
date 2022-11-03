@@ -48,7 +48,7 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
         <>
             {isLoading ? <Loader/> : (
                 <>
-                    {(rows?.length ?? 0) === 0 ? <Text>No retrieved products to be posted...</Text> :
+                    {(rows?.length ?? 0) === 0 ? <Text>No per product deadlines...</Text> :
                         <Table highlightOnHover
                                sx={{
                                    // display: 'block',
