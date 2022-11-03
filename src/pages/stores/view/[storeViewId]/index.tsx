@@ -18,7 +18,7 @@ import {ErrorToast, SuccessToast} from "../../../../services/utils/Toasts";
 import {Box, Button, Center, Loader, Stack, Text, Textarea, TextInput} from "@mantine/core";
 import Link from "next/link";
 import ImgSl from "../../../../components/Images/ImgSl";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 interface ApplicationFormData {
     info: string;
@@ -40,6 +40,7 @@ const StoreViewPage: NextPage = () => {
     const router = useRouter();
     const {storeViewId} = router.query;
 
+    const [posting, setPosting] = useState(false);
 
     const {
         register,
@@ -60,6 +61,7 @@ const StoreViewPage: NextPage = () => {
 
     const postApplication = (applicationData: BlogApplicationDto) => {
         if (!storeViewId) return;
+        setPosting(true);
         ApiPost<BlogApplicationDto, boolean>(
             `BlogApplication/store/${storeViewId.toString()}`,
             applicationData
@@ -76,6 +78,7 @@ const StoreViewPage: NextPage = () => {
                 },
                 (error) => {
                     ErrorToast(GetErrorsString(error));
+                    setPosting(false);
                 }
             )
             .catch((error) => {
@@ -122,7 +125,7 @@ const StoreViewPage: NextPage = () => {
             <Link href={'/stores/view'}>
                 <Box><Button color={'gray'} variant={'outline'}>Back</Button></Box>
             </Link>
-            {(storeData.isLoading || isLoading) ? (
+            {(storeData.isLoading || isLoading || posting) ? (
                     <Center><Loader size={'lg'}/></Center>
                 )
                 : (<>
