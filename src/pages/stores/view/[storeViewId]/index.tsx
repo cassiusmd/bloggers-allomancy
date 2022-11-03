@@ -153,11 +153,10 @@ const StoreViewPage: NextPage = () => {
                             <Stack spacing={10} align={'center'} justify={'center'} sx={{width: '100%'}}>
                                 {fields.map((field, index) => (
                                     <TextInput key={field.id}
-                                        // autoFocus={index === 0}
                                                sx={{width: '100%', maxWidth: '1000px'}}
                                                id={field.id}
                                                label={field.question}
-                                               {...register(`answers.${index}.value` as const)}
+                                               {...register(`answers.${index}.value`)}
                                                error={!!errors.answers?.[index]?.value && errors.answers?.[index]?.value?.message}
                                     />
 
