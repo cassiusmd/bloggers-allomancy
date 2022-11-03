@@ -1,6 +1,6 @@
 import {useFetchPaginatedApi} from "../../services/api/Api";
 import {useEffect, useState} from "react";
-import {Loader, Pagination, Stack, Table, Tooltip} from "@mantine/core";
+import {Loader, Pagination, Stack, Table, Text, Tooltip} from "@mantine/core";
 import BloggerProductDto from "../../models/BloggerProductDto";
 import {ToFormattedDate} from "../../services/utils/Timeformat";
 import {useRouter} from "next/router";
@@ -39,7 +39,7 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
             <td>
                 <Tooltip label={'Go to store posting page'}>
                     <span><IconNavigation color={'lightblue'} style={{cursor: 'pointer'}}
-                                       onClick={() => row.store?.id && router.push(`/stores/${row.store?.id}/newpost`)}/></span>
+                                          onClick={() => row.store?.id && router.push(`/stores/${row.store?.id}/newpost`)}/></span>
                 </Tooltip>
             </td>
         </tr>
@@ -47,33 +47,36 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
     return (
         <>
             {isLoading ? <Loader/> : (
-                <Table highlightOnHover captionSide={'top'}
-                       sx={{
-                           // display: 'block',
-                           // if mobile, display block
-                           '@media (max-width: 768px)': {
-                               display: 'block',
-                           },
-                           overflowX: 'auto',
-                           // minWidth: '400px',
-                           width: '100%',
-                           maxWidth: '100%',
-                           // tableLayout: 'fixed',
-                       }}>
-                    {(rows?.length ?? 0) === 0 && <caption>No retrieved products to be posted...</caption>}
-                    <thead>
-                    <tr>
-                        <td>Expiration</td>
-                        <td>Store</td>
-                        <td>Product</td>
-                        <td>Action</td>
-                    </tr>
-                    </thead>
-                    {/* {...rows} */}
-                    <tbody>
-                    {rows}
-                    </tbody>
-                </Table>
+                <>
+                    {(rows?.length ?? 0) === 0 ? <Text>No retrieved products to be posted...</Text> :
+                        <Table highlightOnHover
+                               sx={{
+                                   // display: 'block',
+                                   // if mobile, display block
+                                   '@media (max-width: 768px)': {
+                                       display: 'block',
+                                   },
+                                   overflowX: 'auto',
+                                   // minWidth: '400px',
+                                   width: '100%',
+                                   maxWidth: '100%',
+                                   // tableLayout: 'fixed',
+                               }}>
+
+                            <thead>
+                            <tr>
+                                <td>Expiration</td>
+                                <td>Store</td>
+                                <td>Product</td>
+                                <td>Action</td>
+                            </tr>
+                            </thead>
+                            {/* {...rows} */}
+                            <tbody>
+                            {rows}
+                            </tbody>
+                        </Table>}
+                </>
             )}
         </>
     );
