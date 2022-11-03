@@ -6,7 +6,7 @@ import {ApiResponse} from './models/ApiResponse';
 import Router from 'next/router';
 import {ApiPaginatedResponse} from './models/ApiPaginatedResponse';
 import {showNotification} from "@mantine/notifications";
-import useSWR from "swr";
+import useSWR, {Key} from "swr";
 import {ErrorToast} from "../utils/Toasts";
 
 let isRefreshing = false;
@@ -22,8 +22,8 @@ export const api = axios.create({
 });
 
 
-export function useFetch<Data = any, Error = any>(url: string|null, params?: AxiosRequestConfig) {
-    const {data, error, mutate} = useSWR<Data, Error>([url, params], async () => {
+export function useFetch<Data = any, Error = any>(key: Key | null, params?: AxiosRequestConfig) {
+    const {data, error, mutate} = useSWR<Data, Error>([key, params], async (url) => {
         if (url === null) {
             return null;
         }
@@ -36,9 +36,9 @@ export function useFetch<Data = any, Error = any>(url: string|null, params?: Axi
 }
 
 export function useFetchApi<Type>(
-    url: string|null,
+    key: Key,
     params?: AxiosRequestConfig) {
-    const {data, error, mutate, isLoading} = useFetch<ApiResponse<Type>>(url, params);
+    const {data, error, mutate, isLoading} = useFetch<ApiResponse<Type>>(key, params);
     if (error) {
         // showNotification({
         //     title: 'Error',
@@ -46,7 +46,7 @@ export function useFetchApi<Type>(
         //     color: 'red',
         // });
         // ErrorToast(error.message);
-        ErrorToast(GetErrorsString(error));
+        if (error.errors?.messages) ErrorToast(GetErrorsString(error));
     }
     return {data, error, mutate, isLoading}
 }
@@ -72,7 +72,7 @@ export function useFetchPaginatedApi<Type>(
     });
     if (error) {
         // ErrorToast(error.message);
-        ErrorToast(GetErrorsString(error));
+        if (error.errors?.messages) ErrorToast(GetErrorsString(error));
     }
     return {data, error, mutate, isLoading}
 }

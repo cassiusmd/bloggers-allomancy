@@ -16,9 +16,9 @@ const NoStoresFound = ({storeAmount}: { storeAmount: number }) => {
     return (
         <Stack>
             <Text>You were not added as a blogger in any store.</Text>
-            <Text>
-                You can apply for stores in the <b>Browse Stores</b> tab above
-            </Text>
+            {/*<Text>*/}
+            {/*    You can apply for stores in the <b>Browse Stores</b>*/}
+            {/*</Text>*/}
         </Stack>
     );
 };

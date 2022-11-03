@@ -81,7 +81,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 const tabs = {
     account: [
         {link: '/stores', label: 'Your stores', icon: IconBuildingStore},
-        {link: '/stores/view', label: 'Browse stores', icon: IconMapSearch},
+        {link: '/stores/view', label: 'Apply for stores', icon: IconMapSearch},
         // {link: '', label: 'Notifications', icon: IconBellRinging},
         // {link: '', label: 'Billing', icon: IconReceipt2},
         // {link: '', label: 'Other Settings', icon: IconSettings},

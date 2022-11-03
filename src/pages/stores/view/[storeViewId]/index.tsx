@@ -1,8 +1,7 @@
 import {NextPage} from 'next';
 import {useRouter} from 'next/router';
-import {useEffect, useState} from 'react';
 import {BlogApplicationQuestion} from '../../../../models/BlogApplicationQuestion';
-import {ApiGet, ApiPost, GetErrorsString, useFetchApi} from '../../../../services/api/Api';
+import {ApiPost, GetErrorsString, useFetchApi} from '../../../../services/api/Api';
 
 
 import {SubmitHandler, useFieldArray, useForm} from 'react-hook-form';
@@ -16,9 +15,10 @@ import {AuthGuard} from '../../../../auth/AuthGuard';
 import * as z from 'zod';
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ErrorToast, SuccessToast} from "../../../../services/utils/Toasts";
-import {Box, Button, Center, Group, Loader, Stack, Text, Textarea, TextInput} from "@mantine/core";
+import {Box, Button, Center, Loader, Stack, Text, Textarea, TextInput} from "@mantine/core";
 import Link from "next/link";
 import ImgSl from "../../../../components/Images/ImgSl";
+import {useEffect} from "react";
 
 interface ApplicationFormData {
     info: string;
@@ -40,23 +40,6 @@ const StoreViewPage: NextPage = () => {
     const router = useRouter();
     const {storeViewId} = router.query;
 
-    const [questions, setQuestions] = useState<BlogApplicationQuestion[]>([]);
-    useEffect(() => {
-        if (!storeViewId) return;
-        ApiGet<BlogApplicationQuestion[]>(
-            `BlogApplication/store/${storeViewId}`
-        ).then(
-            (r) => {
-                // console.log(r);
-                reset({});
-                setQuestions(r.data);
-                r.data.forEach((q) => append({question: q.question, value: ''}));
-            },
-            (e) => {
-                // console.log(e);
-            }
-        );
-    }, [storeViewId]);
 
     const {
         register,
@@ -72,7 +55,7 @@ const StoreViewPage: NextPage = () => {
             control, // control props comes from useForm (optional: if you are using FormContext)
             name: 'answers', // unique name for your Field Array
             // keyName: 'id', // default to "id", you can change the key name
-        }
+        },
     );
 
     const postApplication = (applicationData: BlogApplicationDto) => {
@@ -85,7 +68,8 @@ const StoreViewPage: NextPage = () => {
                     if (res) {
                         if (res.data) {
                             SuccessToast('Application sent!');
-                            router.push({pathname: '/stores', query: {tab: 1}});
+                            // navigate to /stores
+                            router.push('/stores');
                         } else ErrorToast('Error sending application');
                     }
                 },
@@ -110,8 +94,8 @@ const StoreViewPage: NextPage = () => {
                     };
                 }) ?? [],
         };
-        console.log(applicationData);
-        // postApplication(applicationData);
+        // console.log(applicationData);
+        postApplication(applicationData);
         // postProducts(applicationData);
     };
 
@@ -127,8 +111,42 @@ const StoreViewPage: NextPage = () => {
     //         setStore(res.data);
     //     });
     // }, [storeViewId]);
-    const storeData = useFetchApi<Store>(`blogstores/${storeViewId}`);
+    const storeData = useFetchApi<Store>(storeViewId ? `blogstores/${storeViewId}` : null);
     const store = storeData.data?.data;
+
+    // const [questions, setQuestions] = useState<BlogApplicationQuestion[]>([]);
+    // useEffect(() => {
+    //     if (!storeViewId) return;
+    //     ApiGet<BlogApplicationQuestion[]>(
+    //         `BlogApplication/store/${storeViewId}`
+    //     ).then(
+    //         (r) => {
+    //             // console.log(r);
+    //             reset({});
+    //             setQuestions(r.data);
+    //             r.data.forEach((q) => append({question: q.question, value: ''}));
+    //         },
+    //         (e) => {
+    //             // console.log(e);
+    //         }
+    //     );
+    // }, [storeViewId]);
+
+    const {
+        data: questionsData,
+        error,
+        mutate,
+        isLoading
+    } = useFetchApi<BlogApplicationQuestion[]>(storeViewId ? `BlogApplication/store/${storeViewId}` : null);
+    const questions = questionsData?.data ?? [];
+
+    useEffect(() => {
+        if (!questions) return;
+        reset({});
+        // questions.forEach((q) => append({question: q.question, value: ''}));
+        // append all at once
+        append(questions.map(q => ({question: q.question, value: ''})));
+    }, [questions]);
 
     return (
         <Stack spacing={5}>
@@ -159,15 +177,16 @@ const StoreViewPage: NextPage = () => {
                         sx={{mt: 3, mb: 3}}
                         onSubmit={handleSubmit(handlePost)}
                     >
+
                         <Stack align={'center'} mt={20}>
+
                             <Stack spacing={10} align={'center'} justify={'center'} sx={{width: '100%'}}>
                                 {fields.map((field, index) => (
-
-
                                     <TextInput key={field.id}
+                                               autoFocus={index === 0}
                                                sx={{width: '100%', maxWidth: '1000px'}}
                                                id={field.id}
-                                               label={(field as any).question}
+                                               label={field.question}
                                                {...register(`answers.${index}.value` as const)}
                                                error={!!errors.answers?.[index]?.value && errors.answers?.[index]?.value?.message}
                                     />
@@ -185,7 +204,6 @@ const StoreViewPage: NextPage = () => {
                                     {...register('info')}
                                     error={!!errors.info && errors.info?.message}
                                 />
-
 
                             </Stack>
 
