@@ -30,7 +30,7 @@ const postFormSchema = z.object({
     answers: z.array(
         z.object({
             question: z.string(),
-            value: z.string().nonempty('Required field'),
+            value: z.string().min(1, 'Required answer').max(500, 'Answer too long'),
         })
     ),
 });
@@ -50,7 +50,7 @@ const StoreViewPage: NextPage = () => {
     } = useForm<ApplicationFormData>({
         resolver: zodResolver(postFormSchema),
     });
-    const {fields, append, prepend, remove, swap, move, insert} = useFieldArray(
+    const {fields, append} = useFieldArray(
         {
             control, // control props comes from useForm (optional: if you are using FormContext)
             name: 'answers', // unique name for your Field Array
@@ -59,8 +59,9 @@ const StoreViewPage: NextPage = () => {
     );
 
     const postApplication = (applicationData: BlogApplicationDto) => {
+        if (!storeViewId) return;
         ApiPost<BlogApplicationDto, boolean>(
-            `BlogApplication/store/${storeViewId}`,
+            `BlogApplication/store/${storeViewId.toString()}`,
             applicationData
         )
             .then(
@@ -94,71 +95,37 @@ const StoreViewPage: NextPage = () => {
                     };
                 }) ?? [],
         };
-        // console.log(applicationData);
         postApplication(applicationData);
-        // postProducts(applicationData);
     };
 
-    // const { store } = useSelector<State, SelectedStore>(
-    //   (state) => state.selectedStore
-    // );
 
-    // ApiGet<Store>(`blogstores/${storeid}`).then((res) => {
-    // const [store, setStore] = useState<Store>();
-    // useEffect(() => {
-    //     if (!storeViewId) return;
-    //     ApiGet<Store>(`blogstores/${storeViewId}`).then((res) => {
-    //         setStore(res.data);
-    //     });
-    // }, [storeViewId]);
     const storeData = useFetchApi<Store>(storeViewId ? `blogstores/${storeViewId}` : null);
     const store = storeData.data?.data;
 
-    // const [questions, setQuestions] = useState<BlogApplicationQuestion[]>([]);
-    // useEffect(() => {
-    //     if (!storeViewId) return;
-    //     ApiGet<BlogApplicationQuestion[]>(
-    //         `BlogApplication/store/${storeViewId}`
-    //     ).then(
-    //         (r) => {
-    //             // console.log(r);
-    //             reset({});
-    //             setQuestions(r.data);
-    //             r.data.forEach((q) => append({question: q.question, value: ''}));
-    //         },
-    //         (e) => {
-    //             // console.log(e);
-    //         }
-    //     );
-    // }, [storeViewId]);
 
     const {
         data: questionsData,
-        error,
-        mutate,
         isLoading
     } = useFetchApi<BlogApplicationQuestion[]>(storeViewId ? `BlogApplication/store/${storeViewId}` : null);
     const questions = questionsData?.data ?? [];
 
     useEffect(() => {
-        if (!questions) return;
+        if (!questionsData?.data) return;
         reset({});
         // questions.forEach((q) => append({question: q.question, value: ''}));
         // append all at once
-        append(questions.map(q => ({question: q.question, value: ''})));
-    }, [questions]);
+        append(questionsData.data.map(q => ({question: q.question, value: ''})));
+    }, [questionsData]);
 
     return (
         <Stack spacing={5}>
             <Link href={'/stores/view'}>
                 <Box><Button color={'gray'} variant={'outline'}>Back</Button></Box>
             </Link>
-            {storeData.isLoading ? (
+            {(storeData.isLoading || isLoading) ? (
                     <Center><Loader size={'lg'}/></Center>
                 )
                 : (<>
-
-
                     <Stack align={'center'}>
                         <Text weight={700} size={'xl'}>Apply to {store?.name ?? 'store'}</Text>
                         {store && <ImgSl height={'120px'} width={'160px'} uuid={store?.logo}/>}
@@ -183,7 +150,7 @@ const StoreViewPage: NextPage = () => {
                             <Stack spacing={10} align={'center'} justify={'center'} sx={{width: '100%'}}>
                                 {fields.map((field, index) => (
                                     <TextInput key={field.id}
-                                               autoFocus={index === 0}
+                                        // autoFocus={index === 0}
                                                sx={{width: '100%', maxWidth: '1000px'}}
                                                id={field.id}
                                                label={field.question}
