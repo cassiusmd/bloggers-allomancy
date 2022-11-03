@@ -1,3 +1,5 @@
+import {Store} from "./Store";
+
 export default interface BloggerProductDto {
   id: string;
   name: string;
@@ -5,4 +7,5 @@ export default interface BloggerProductDto {
   startDate: Date;
   retrieved: Date;
   expireDate: Date;
+  store?: Store;
 }
