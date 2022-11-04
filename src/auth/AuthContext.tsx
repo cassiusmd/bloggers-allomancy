@@ -7,6 +7,7 @@ import {ApiGet} from '../services/api/Api';
 
 import Router from 'next/router';
 import {UserProfile} from "../models/UserProfile";
+import {ErrorToast, InformationToast} from "../services/utils/Toasts";
 
 type SignInCredentials = {
     email: string;
@@ -31,7 +32,8 @@ export function AuthProvider({children}: AuthProviderProps) {
     const [user, setUser] = useState<User | null>(null);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [initializing, setInitializing] = useState<boolean>(true);
-    const isAuthenticated = !!user;
+    const isEmailVerified = user?.emailVerified ?? false;
+    const isAuthenticated = !!user && isEmailVerified;
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -55,24 +57,31 @@ export function AuthProvider({children}: AuthProviderProps) {
                     }
                 );
 
-                ApiGet<UserProfile>('profile').then(
-                    (profile) => {
-                        // console.log('profile: ' + profile);
-                        setUserProfile(profile.data);
+                // console.log(JSON.stringify(user));
+                if (firebaseUser.emailVerified) {
+                    // console.log('Authenticated!');
+                    ApiGet<UserProfile>('profile').then(
+                        (profile) => {
+                            // console.log('profile: ' + profile);
+                            setUserProfile(profile.data);
 
-                        if (Router.asPath.startsWith('/auth')) {
-                            // get return url from query parameters or default to '/'
-                            const returnUrl = Router.query.returnUrl || '/';
-                            Router.push(String(returnUrl));
+                            if (Router.asPath.startsWith('/auth')) {
+                                // get return url from query parameters or default to '/'
+                                const returnUrl = Router.query.returnUrl || '/';
+                                Router.push(String(returnUrl));
+                            }
+                        },
+                        (error) => {
+                            // console.log('profile error: ' + GetErrorsString(error));
+                            if (!Router.asPath.startsWith('/account/user-token')) {
+                                Router.push('/account/generate-token');
+                            }
                         }
-                    },
-                    (error) => {
-                        // console.log('profile error: ' + GetErrorsString(error));
-                        if (!Router.asPath.startsWith('/account/user-token')) {
-                            Router.push('/account/generate-token');
-                        }
-                    }
-                );
+                    );
+                }
+                else{
+                    InformationToast('Email not verified. Please check your email for a verification link and try again.');
+                }
 
                 // ...
             } else {

@@ -147,9 +147,13 @@ export function AuthenticationForm(props: PaperProps) {
                                 {...register('passwordRepeat')}
                                 error={!!errors.passwordRepeat && errors.passwordRepeat?.message}
                             />
+                            <Anchor component="a" href={'https://privacy.allomancy.com/'} target="_blank"
+                                  rel={'noopener'}>
+                                Privacy Policy</Anchor>
                             <Checkbox
                                 label="I have read and agree with the privacy policy"
                                 {...register('terms')}
+                                error={!!errors.terms && errors.terms?.message}
                             />
                         </>
                     )}
@@ -167,7 +171,7 @@ export function AuthenticationForm(props: PaperProps) {
                             ? 'Already have an account? Login'
                             : "Don't have an account? Register"}
                     </Anchor>
-                    <Button type="submit">{upperFirst(type)}</Button>
+                    <Button type="submit" disabled={type === 'register' && !!errors.terms}>{upperFirst(type)}</Button>
                 </Group>
                 <Link href="/auth/forgot-password">
                     <Anchor component="a" color="dimmed" size="xs">

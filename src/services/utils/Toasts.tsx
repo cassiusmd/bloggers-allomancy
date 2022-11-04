@@ -1,4 +1,4 @@
-import {IconCheck, IconX} from '@tabler/icons';
+import {IconCheck, IconExclamationMark, IconX} from '@tabler/icons';
 import { showNotification } from '@mantine/notifications';
 
 // Bare minimum – message is required for all notifications
@@ -48,5 +48,19 @@ export function ErrorToast(message: string) {
         message: message,
         color: 'red',
         icon: <IconX />,
+    })
+}
+
+export function InformationToast(message: string) {
+    showNotification({
+        id: 'information-toast',
+        // disallowClose: true,
+        // onClose: () => console.log('unmounted'),
+        // onOpen: () => console.log('mounted'),
+        autoClose: 4000,
+        title: "Information",
+        message: message,
+        color: 'blue',
+        icon: <IconExclamationMark />,
     })
 }
