@@ -72,18 +72,27 @@ export default function Layout({children}: LayoutProps) {
                         height: '100%',
                         justifyContent: 'space-between',
                     }}>
-                        <MediaQuery largerThan="sm" styles={{display: 'none'}}>
-                            <Burger
-                                opened={opened}
-                                onClick={() => setOpened((o) => !o)}
-                                size="sm"
-                                color={theme.colors.gray[6]}
-                                mr="xl"
-                            />
-                        </MediaQuery>
+                        <Group spacing={1}>
+                            {isAuthenticated &&
+                                <MediaQuery largerThan="sm" styles={{display: 'none'}}>
+                                    <Burger
+                                        opened={opened}
+                                        onClick={() => setOpened((o) => !o)}
+                                        size="sm"
+                                        color={theme.colors.gray[6]}
+                                        mr="xs"
+                                    />
+                                </MediaQuery>
+                            }
 
-                        <Text>Allomancy Bloggers</Text>
-                        <Group>
+                            {/*<MediaQuery smallerThan="sm" styles={{fontSize: '0.9rem'}}>*/}
+                                <Group spacing={1}>
+                                    <Text>Allomancy</Text>
+                                    <Text>Bloggers</Text> </Group>
+                            {/*</MediaQuery>*/}
+                        </Group>
+
+                        <Group spacing={10}>
                             <ColorSchemeToggle/>
                             {isAuthenticated ? <UserDropdown/> :
                                 <Link href={'/auth/signin'}><Button leftIcon={<IconLogin size={14}/>}>Sign
