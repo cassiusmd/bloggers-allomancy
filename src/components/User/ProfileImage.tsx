@@ -3,6 +3,7 @@ import {UserProfile} from "../../models/UserProfile";
 import useSWR from "swr";
 import {useEffect} from "react";
 import ImgSl from "../Images/ImgSl";
+import {ApiPut} from "../../services/api/Api";
 
 export interface ProfileImageProps {
     userProfile: UserProfile
@@ -17,6 +18,7 @@ export default function ProfileImage({userProfile}: ProfileImageProps) {
         if (imageResponse) {
             if (userProfile.pictureUuid !== imageResponse.imageUuid) {
                 userProfile.pictureUuid = imageResponse.imageUuid
+                ApiPut('profile/update-picture', {uuid: userProfile.pictureUuid});
             }
         }
     }, [imageResponse])
