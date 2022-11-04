@@ -86,18 +86,19 @@ export default function Layout({children}: LayoutProps) {
                             }
 
                             {/*<MediaQuery smallerThan="sm" styles={{fontSize: '0.9rem'}}>*/}
-                                <Group spacing={1}>
-                                    <Text>Allomancy</Text>
-                                    <Text>Bloggers</Text> </Group>
+                            <Group spacing={1}>
+                                <Text>Allomancy</Text>
+                                <Text>Bloggers</Text> </Group>
                             {/*</MediaQuery>*/}
                         </Group>
-
-                        <Group spacing={10}>
-                            <ColorSchemeToggle/>
-                            {isAuthenticated ? <UserDropdown/> :
-                                <Link href={'/auth/signin'}><Button leftIcon={<IconLogin size={14}/>}>Sign
-                                    in</Button></Link>}
-                        </Group>
+                        {!initializing &&
+                            <Group spacing={10}>
+                                <ColorSchemeToggle/>
+                                {isAuthenticated ? <UserDropdown/> :
+                                    <Link href={'/auth/signin'}><Button leftIcon={<IconLogin size={14}/>}>Sign
+                                        in</Button></Link>}
+                            </Group>
+                        }
                     </div>
 
                 </Header>
