@@ -82,7 +82,7 @@ const Coupons: NextPage = () => {
                 </Text>
                 {/*{JSON.stringify(couponSettings)}*/}
 
-                {storeid === undefined || coupon === null ? (
+                {storeid === undefined ? (
                     // <Typography variant={'h5'}>Loading</Typography>
                     // <LoadingOverlay />
                     <Loader size="xl"/>
