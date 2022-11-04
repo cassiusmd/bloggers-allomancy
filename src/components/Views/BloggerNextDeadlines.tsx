@@ -28,9 +28,6 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
 
     const rows = data?.data.map((row) => (
         <tr key={row.id}>
-            {/*<td>{ToFormattedDate(row.expireDate, 'system')}</td>*/}
-            {/*if expiration is in less than 5 days, make it red*/}
-            {/*(Date.now() - new Date(product.created ?? Date.now()).getTime() < 14 * 24 * 3600 * 1000)*/}
             <td style={{color: ((new Date(row.expireDate).getTime() - Date.now()) < 5 * 24 * 3600 * 1000) ? 'red' : 'inherit'}}>
                 {ToFormattedDate(row.expireDate, 'system')}
             </td>
