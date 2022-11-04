@@ -42,5 +42,5 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     );
 }
 App.getInitialProps = ({ctx}: { ctx: GetServerSidePropsContext }) => ({
-    colorScheme: getCookie('mantine-color-scheme', ctx) || 'light',
+    colorScheme: getCookie('mantine-color-scheme', ctx) || 'dark',
 });
