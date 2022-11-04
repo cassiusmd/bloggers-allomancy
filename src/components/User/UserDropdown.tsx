@@ -29,7 +29,7 @@ export default function UserDropdown() {
                         </Menu.Target>
 
                         <Menu.Dropdown>
-                            <Menu.Label>Application</Menu.Label>
+                            <Menu.Label>Account</Menu.Label>
                             {/*<Menu.Item icon={<IconSettings size={14}/>}>Settings</Menu.Item>*/}
                             <Menu.Item component={NextLink} href={'/blogger-profile'} icon={<IconUser size={14}/>}>Profile</Menu.Item>
                             {/*<Menu.Item icon={<IconMessageCircle size={14}/>}>Messages</Menu.Item>*/}
