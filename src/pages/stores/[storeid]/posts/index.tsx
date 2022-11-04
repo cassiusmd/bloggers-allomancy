@@ -29,7 +29,8 @@ function PostsTableView({page, rowsPerPage, rowsCountCallback, storeId}: PostsTa
 
     useEffect(() => {
         if (data) {
-            rowsCountCallback(data.totalPages);
+            const totalPages = data.totalPages > 0 ? data.totalPages : 1;
+            rowsCountCallback(totalPages);
         }
     }, [data]);
     return (
