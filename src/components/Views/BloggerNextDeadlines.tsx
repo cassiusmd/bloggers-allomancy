@@ -22,7 +22,9 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
 
     useEffect(() => {
         if (data) {
-            rowsCountCallback(data.totalPages);
+            // console.log(data.totalPages);
+            const totalPages = data.totalPages > 0 ? data.totalPages : 1;
+            rowsCountCallback(totalPages);
         }
     }, [data]);
 
