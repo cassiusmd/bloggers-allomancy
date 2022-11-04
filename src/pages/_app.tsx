@@ -7,6 +7,7 @@ import {GetServerSidePropsContext} from "next";
 import {NotificationsProvider} from '@mantine/notifications';
 import {AuthProvider} from "../auth/AuthContext";
 import Layout from "../components/Layouts/Layout";
+import myTheme from "../styles/MantineThemeOverride";
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     const {Component, pageProps} = props;
@@ -28,7 +29,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             </Head>
 
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-                <MantineProvider theme={{colorScheme, loader: 'dots'}} withGlobalStyles withNormalizeCSS>
+                <MantineProvider theme={{colorScheme, ...myTheme}} withGlobalStyles withNormalizeCSS>
                     <AuthProvider>
                         <Layout>
                             <NotificationsProvider position={'top-center'}>

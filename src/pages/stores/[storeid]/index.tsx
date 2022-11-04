@@ -87,7 +87,9 @@ const StoreView: NextPage = () => {
                                           sx={{
                                               cursor: "pointer",
                                               ":hover": {
-                                                  filter: 'brightness(1.2)'
+                                                  // filter: 'brightness(1.2)'
+                                                  transform: 'translateY(-5px)',
+                                                  transition: 'transform 0.2s ease-in-out',
                                               }
                                           }}>
                                         <Stack align={'center'}>

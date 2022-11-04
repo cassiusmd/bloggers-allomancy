@@ -20,17 +20,21 @@ export default function CardWithImage({description, imageUuid, sx, onClick, badg
                 shadow={'md'}
                 sx={{
                     ":hover": {
-                        filter: 'brightness(1.2)'
+                        // filter: 'brightness(1.2)'
+                        // smoothly float on hover
+                        transform: 'translateY(-5px)',
+                        transition: 'transform 0.2s ease-in-out',
                     }
                 }}
                 // add extra css
-                styles={{
-
-                    ":hover": {
-                        filter: 'brightness(1.2)'
-                    }
-
-                }}
+                // styles={{
+                //
+                //     ":hover": {
+                //         transform: 'translateY(-5px)',
+                //         transition: 'transform 0.2s ease-in-out',
+                //     }
+                //
+                // }}
                 onClick={onClick}>
                 <Card.Section>
 

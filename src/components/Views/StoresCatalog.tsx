@@ -52,14 +52,19 @@ function ViewStores({page, pageSize, search, totalPagesCallback}: ViewStoresProp
                         return (
                             <Box key={store.id}>
                                 <Link href={`/stores/view/${store.id}`}>
-                                    <Card sx={{
-                                        cursor: 'pointer',
-                                        minWidth: 240,
-                                        maxWidth: 240,
-                                        ":hover": {
-                                            filter: 'brightness(1.2)'
-                                        }
-                                    }}
+                                    <Card
+                                        withBorder
+                                        shadow={'md'}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            minWidth: 240,
+                                            maxWidth: 240,
+                                            ":hover": {
+                                                // filter: 'brightness(1.2)'
+                                                transform: 'translateY(-5px)',
+                                                transition: 'transform 0.2s ease-in-out',
+                                            }
+                                        }}
                                     >
                                         <Card.Section>
 

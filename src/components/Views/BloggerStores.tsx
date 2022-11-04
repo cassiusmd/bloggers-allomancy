@@ -45,12 +45,17 @@ const BloggerStores: NextPage = () => {
                         return (
                             <Box key={store.id}>
                                 <Link href={`/stores/${store.id}`}>
-                                    <Card sx={{
+                                    <Card
+                                        withBorder
+                                        shadow={'md'}
+                                        sx={{
                                         cursor: 'pointer',
                                         minWidth: 240,
                                         maxWidth: 240,
                                         ":hover": {
-                                            filter: 'brightness(1.2)'
+                                            // filter: 'brightness(1.2)'
+                                            transform: 'translateY(-5px)',
+                                            transition: 'transform 0.2s ease-in-out',
                                         }
                                     }}
                                         // sx={{
