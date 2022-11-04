@@ -81,6 +81,7 @@ const tabs = {
         {link: '/', label: 'Home', icon: IconHome,},
         {link: '/stores', label: 'Your stores', icon: IconBuildingStore},
         {link: '/stores/view', label: 'Apply for stores', icon: IconMapSearch},
+        {link: '/sent-applications', label: 'Sent applications', icon: IconFileAnalytics},
         // {link: '', label: 'Notifications', icon: IconBellRinging},
         // {link: '', label: 'Billing', icon: IconReceipt2},
         // {link: '', label: 'Other Settings', icon: IconSettings},
