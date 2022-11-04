@@ -57,8 +57,10 @@ function ViewStores({page, pageSize, search, totalPagesCallback}: ViewStoresProp
                                         shadow={'md'}
                                         sx={{
                                             cursor: 'pointer',
-                                            minWidth: 240,
-                                            maxWidth: 240,
+                                            minWidth: 200,
+                                            maxWidth: 200,
+                                            width: '100%',
+                                            height: '100%',
                                             ":hover": {
                                                 // filter: 'brightness(1.2)'
                                                 transform: 'translateY(-5px)',
@@ -77,7 +79,7 @@ function ViewStores({page, pageSize, search, totalPagesCallback}: ViewStoresProp
                                             >
                                                 <ImgSl
                                                     uuid={store.logo}
-                                                    height={'180px'}
+                                                    height={'100%'}
                                                     width={'100%'}
                                                 />
                                             </div>
