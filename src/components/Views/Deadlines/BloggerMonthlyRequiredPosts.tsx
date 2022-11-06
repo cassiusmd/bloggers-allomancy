@@ -1,10 +1,8 @@
 import {useFetchPaginatedApi} from "../../../services/api/Api";
 import {useEffect, useState} from "react";
-import {Loader, Pagination, Stack, Table, Text, Tooltip} from "@mantine/core";
-import BloggerProductDto from "../../../models/BloggerProductDto";
-import {ToFormattedDate} from "../../../services/utils/Timeformat";
+import {Group, Loader, Pagination, Stack, Table, Text, Tooltip} from "@mantine/core";
 import {useRouter} from "next/router";
-import {IconNavigation} from "@tabler/icons";
+import {IconInfoCircle, IconNavigation} from "@tabler/icons";
 import BloggerMonthlyRequiredPostsDto from "../../../models/BloggerMonthlyRequiredPostsDto";
 
 interface MonthlyRequiredPostsTableProps {
@@ -32,10 +30,18 @@ function MonthlyRequiredPostsTable({page, rowsPerPage, rowsCountCallback}: Month
     const rows = data?.data.map((row) => (
         <tr key={row.store.id}>
             <td>{row.store?.name ?? ''}</td>
-            <td>{row.requiredPostsCount - row.postsSubmitted} products</td>
+            <td>
+                <Group align={'center'} spacing={3}>
+                    <Tooltip
+                        label={`${row.store.name} requires that you post ${row.requiredPostsCount} products monthly. You currently posted ${row.postsSubmitted}`}>
+                        <Text color={'orange'}>{row.requiredPostsCount - row.postsSubmitted} products</Text>
+                    </Tooltip>
+
+                </Group>
+            </td>
             <td>
                 <Tooltip label={'Go to store posting page'}>
-                    <span><IconNavigation color={'lightblue'} style={{cursor: 'pointer'}}
+                    <span ><IconNavigation color={'orange'} style={{cursor: 'pointer'}}
                                           onClick={() => row.store?.id && router.push(`/stores/${row.store?.id}/newpost`)}/></span>
                 </Tooltip>
             </td>
@@ -88,7 +94,7 @@ export default function BloggerMonthlyRequiredPosts() {
         <Pagination total={totalRows} siblings={1} initialPage={1} page={page} onChange={x => setPage(x)}/>
         <Stack align={'center'} sx={{width: '100%'}}>
             <MonthlyRequiredPostsTable page={page} rowsPerPage={rowsPerPage}
-                            rowsCountCallback={(total) => setTotalRows(total)}/>
+                                       rowsCountCallback={(total) => setTotalRows(total)}/>
         </Stack>
     </Stack>);
 }

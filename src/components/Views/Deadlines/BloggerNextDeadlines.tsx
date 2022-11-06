@@ -37,7 +37,7 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
             <td>{row.name}</td>
             <td>
                 <Tooltip label={'Go to store posting page'}>
-                    <span><IconNavigation color={'lightblue'} style={{cursor: 'pointer'}}
+                    <span><IconNavigation color={'orange'} style={{cursor: 'pointer'}}
                                           onClick={() => row.store?.id && router.push(`/stores/${row.store?.id}/newpost`)}/></span>
                 </Tooltip>
             </td>
