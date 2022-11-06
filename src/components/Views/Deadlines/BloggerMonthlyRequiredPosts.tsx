@@ -81,7 +81,7 @@ function MonthlyRequiredPostsTable({page, rowsPerPage, rowsCountCallback}: Month
 export default function BloggerMonthlyRequiredPosts() {
 
     const [page, setPage] = useState(1);
-    const rowsPerPage = 50;
+    const rowsPerPage = 5;
     const [totalRows, setTotalRows] = useState(0);
 
     return (<Stack spacing={5} align={'center'}>
