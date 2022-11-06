@@ -95,6 +95,7 @@ const Post: NextPage = () => {
                 </Stack>
                 <Group align={'center'} mt={5}>
                     {isLoading && <Loader/>}
+                    {products.length === 0 && !isLoading && <Text italic>No products to post</Text>}
                     {products.map((product) => {
                         return (
                             <Box key={product.id}>

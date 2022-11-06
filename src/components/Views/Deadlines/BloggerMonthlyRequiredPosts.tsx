@@ -1,24 +1,25 @@
-import {useFetchPaginatedApi} from "../../services/api/Api";
+import {useFetchPaginatedApi} from "../../../services/api/Api";
 import {useEffect, useState} from "react";
 import {Loader, Pagination, Stack, Table, Text, Tooltip} from "@mantine/core";
-import BloggerProductDto from "../../models/BloggerProductDto";
-import {ToFormattedDate} from "../../services/utils/Timeformat";
+import BloggerProductDto from "../../../models/BloggerProductDto";
+import {ToFormattedDate} from "../../../services/utils/Timeformat";
 import {useRouter} from "next/router";
 import {IconNavigation} from "@tabler/icons";
+import BloggerMonthlyRequiredPostsDto from "../../../models/BloggerMonthlyRequiredPostsDto";
 
-interface DeadlinesTableProps {
+interface MonthlyRequiredPostsTableProps {
     page: number;
     rowsPerPage: number;
     rowsCountCallback: (total: number) => void;
 }
 
-function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTableProps) {
+function MonthlyRequiredPostsTable({page, rowsPerPage, rowsCountCallback}: MonthlyRequiredPostsTableProps) {
     const router = useRouter();
     const {
         data,
         error,
         isLoading
-    } = useFetchPaginatedApi<BloggerProductDto>("/blogger/next-deadlines", page, rowsPerPage);
+    } = useFetchPaginatedApi<BloggerMonthlyRequiredPostsDto>("/blogger/monthly-deadlines", page, rowsPerPage);
 
     useEffect(() => {
         if (data) {
@@ -29,12 +30,9 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
     }, [data]);
 
     const rows = data?.data.map((row) => (
-        <tr key={row.id}>
-            <td style={{color: ((new Date(row.expireDate).getTime() - Date.now()) < 5 * 24 * 3600 * 1000) ? 'red' : 'inherit'}}>
-                {ToFormattedDate(row.expireDate, 'system')}
-            </td>
+        <tr key={row.store.id}>
             <td>{row.store?.name ?? ''}</td>
-            <td>{row.name}</td>
+            <td>{row.requiredPostsCount - row.postsSubmitted} products</td>
             <td>
                 <Tooltip label={'Go to store posting page'}>
                     <span><IconNavigation color={'lightblue'} style={{cursor: 'pointer'}}
@@ -47,7 +45,7 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
         <>
             {isLoading ? <Loader/> : (
                 <>
-                    {(rows?.length ?? 0) === 0 ? <Text>No per product deadlines...</Text> :
+                    {(rows?.length ?? 0) === 0 ? <Text>No pending posts for this month!</Text> :
                         <Table highlightOnHover
                                sx={{
                                    // display: 'block',
@@ -64,9 +62,8 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
 
                             <thead>
                             <tr>
-                                <td>Expiration</td>
                                 <td>Store</td>
-                                <td>Product</td>
+                                <td>Required posts</td>
                                 <td>Action</td>
                             </tr>
                             </thead>
@@ -81,7 +78,7 @@ function DeadlinesTable({page, rowsPerPage, rowsCountCallback}: DeadlinesTablePr
     );
 }
 
-export default function BloggerNextDeadlines() {
+export default function BloggerMonthlyRequiredPosts() {
 
     const [page, setPage] = useState(1);
     const rowsPerPage = 50;
@@ -90,7 +87,7 @@ export default function BloggerNextDeadlines() {
     return (<Stack spacing={5} align={'center'}>
         <Pagination total={totalRows} siblings={1} initialPage={1} page={page} onChange={x => setPage(x)}/>
         <Stack align={'center'} sx={{width: '100%'}}>
-            <DeadlinesTable page={page} rowsPerPage={rowsPerPage}
+            <MonthlyRequiredPostsTable page={page} rowsPerPage={rowsPerPage}
                             rowsCountCallback={(total) => setTotalRows(total)}/>
         </Stack>
     </Stack>);
