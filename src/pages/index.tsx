@@ -6,16 +6,11 @@ import BloggerNextDeadlines from "../components/Views/Deadlines/BloggerNextDeadl
 import {NextPage} from "next";
 import {AuthGuard} from "../auth/AuthGuard";
 import BloggerMonthlyRequiredPosts from "../components/Views/Deadlines/BloggerMonthlyRequiredPosts";
+import {usernameParse} from "../services/utils/StringParsintService";
 
 const profileImageFetcher = (profileUuid: string) => getUserProfilePicture(profileUuid).then((res) => res)
 
-const usernameParse = (username: string) => {
-    // using regex, replace dots with space and capitalize first letter of each word
-    return username.replace(/\./g, ' ').replace(/\w\S*/g, (txt) => {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        }
-    );
-}
+
 
 const IndexPage: NextPage = () => {
     // const {data, error} = useSWR('818714f1-d474-48e3-a9b1-3d7b9b107273', profileImageFetcher)

@@ -7,6 +7,7 @@ import {List, Loader, Stack, Text} from "@mantine/core";
 import {BlogMessageDto} from "../../../../models/BlogMessageDto";
 import {ToFormattedDate} from "../../../../services/utils/Timeformat";
 import SelectedStoreLayout from "../../../../components/Layouts/SubLayouts/SelectedStores/SelectedStoreLayout";
+import {usernameParse} from "../../../../services/utils/StringParsintService";
 
 
 const Messages: NextPage = () => {
@@ -34,7 +35,7 @@ const Messages: NextPage = () => {
                         {messages.map((message, index) => (
                             <List.Item key={index}>
                                 <div>
-                                    <Text size={'xs'} color={'yellow'}>
+                                    <Text size={'xs'} color={'orange'}>
                                         {ToFormattedDate(message.created, 'system')}
                                     </Text>
                                     <Text
@@ -43,6 +44,9 @@ const Messages: NextPage = () => {
                                     >
                                         {message.message}
                                     </Text>
+                                    {message.sender && (
+                                        <Text color={'grey'} italic size={'xs'}>Sent by {usernameParse(message.sender.username)}</Text>
+                                    )}
                                 </div>
                             </List.Item>
                         ))}
