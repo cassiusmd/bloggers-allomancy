@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {createStyles, Navbar, Text} from '@mantine/core';
 import {
     IconBuildingStore,
@@ -99,15 +99,22 @@ const tabs = {
 
 export interface NavbarSegmentedProps {
     opened: boolean;
+    callback: () => void;
 }
 
-export function NavbarSegmented({opened}: NavbarSegmentedProps) {
+export function NavbarSegmented({opened, callback}: NavbarSegmentedProps) {
     const {classes, cx} = useStyles();
     const [section, setSection] = useState<'account' | 'general'>('account');
-    const [active, setActive] = useState('Billing');
+    // const [active, setActive] = useState('Billing');
 
     const router = useRouter();
     const route = router.route;
+
+    // detect route change
+    useEffect(() => {
+        // console.log(route);
+        callback();
+    }, [route]);
 
 
     const links = tabs[section].map((item) => (
@@ -120,7 +127,8 @@ export function NavbarSegmented({opened}: NavbarSegmentedProps) {
 
                 onClick={(event) => {
                     // event.preventDefault();
-                    setActive(item.label);
+                    // setActive(item.label);
+                    // callback();
                 }}
             >
                 <item.icon className={classes.linkIcon} stroke={1.5}/>

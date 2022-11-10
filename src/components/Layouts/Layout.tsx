@@ -30,7 +30,7 @@ export default function Layout({children}: LayoutProps) {
     const theme = useMantineTheme();
     const [opened, setOpened] = useState(false);
 
-    const router = useRouter();
+    // const router = useRouter();
     return (
         <AppShell
             styles={{
@@ -44,7 +44,7 @@ export default function Layout({children}: LayoutProps) {
                 // <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{sm: 200, lg: 300}}>
                 //     <Text>Application navbar</Text>
                 // </Navbar>
-                isAuthenticated ? <NavbarSegmented opened={opened}/> : <></>
+                isAuthenticated ? <NavbarSegmented opened={opened} callback={() => setOpened(false)} /> : <></>
             }
             // aside={
             //     <MediaQuery smallerThan="sm" styles={{display: 'none'}}>
