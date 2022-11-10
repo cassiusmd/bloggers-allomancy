@@ -34,6 +34,7 @@
 // }
 import axios from "axios";
 import {ImageResponseDto} from "./models/ImageResponseDto";
+import {NULL_KEY} from "../../constants/StringConstants";
 
 // const noImage = 'https://stores.allomancy.com/assets/noimage.png';
 
@@ -91,7 +92,7 @@ function getRegionSlUrl(region: string, position: string): string {
 
 export function NullKeyToNull(key?: string): string | null {
     if (key) {
-        if (key === '00000000-0000-0000-0000-000000000000') {
+        if (key === NULL_KEY) {
             return null;
         }
         return key;

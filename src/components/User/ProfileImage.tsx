@@ -4,6 +4,7 @@ import useSWR from "swr";
 import {useEffect} from "react";
 import ImgSl from "../Images/ImgSl";
 import {ApiPut} from "../../services/api/Api";
+import {NULL_KEY} from "../../constants/StringConstants";
 
 export interface ProfileImageProps {
     userProfile: UserProfile
@@ -16,7 +17,8 @@ export default function ProfileImage({userProfile}: ProfileImageProps) {
 
     useEffect(() => {
         if (imageResponse) {
-            if (userProfile.pictureUuid !== imageResponse.imageUuid) {
+            // console.log(imageResponse);
+            if (userProfile.pictureUuid !== imageResponse.imageUuid && imageResponse.imageUuid !== NULL_KEY) {
                 userProfile.pictureUuid = imageResponse.imageUuid
                 ApiPut('profile/update-picture', {uuid: userProfile.pictureUuid});
             }
