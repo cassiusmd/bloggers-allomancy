@@ -16,7 +16,7 @@ const ProductRequestDialog = ({product}: ProductRequestDialogProps) => {
 
     const productDesc = useFetchApi<string>(opened ? `blogger/product-desc/${product.id}` : null);
     const image = useSWR<string>(opened ? product.image : null, getBiggerResTexture, {
-        // fallbackData: `https://img.allomancy.net/sl-images/${product.image}.jpg`,
+        // fallbackData: `https://img.allomancy.net/sl-images/${product.image}`,
         // revalidateOnMount: true,
     });
 
