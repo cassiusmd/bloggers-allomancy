@@ -48,19 +48,18 @@ function bypassCorsOnDevelopment(url: string): string {
 }
 
 export async function getBiggerResTexture(uuid: string): Promise<string> {
-
     try {
-        const result = await axios.get<ImageResponseDto>(bypassCorsOnDevelopment('https://slimage.allomancy.net/imagestore/' + uuid));
+        // older: https://slimage.allomancy.net/imagestore/
+        const result = await axios.get<ImageResponseDto>(bypassCorsOnDevelopment('https://slimage.allomancy.vip/imagestore/' + uuid));
         return result.data.url ?? gettextureUuidSlUrl(uuid);
     } catch (e) {
         return gettextureUuidSlUrl(uuid);
     }
-
 }
 
 export async function getUserProfilePicture(userUuid: string): Promise<ImageResponseDto | null> {
     try {
-        const result = await axios.get<ImageResponseDto>(bypassCorsOnDevelopment('https://slimage.allomancy.net/profileimage/' + userUuid));
+        const result = await axios.get<ImageResponseDto>(bypassCorsOnDevelopment('https://slimage.allomancy.vip/profileimage/' + userUuid));
         return result.data ?? null;
     } catch (e) {
         return null;
