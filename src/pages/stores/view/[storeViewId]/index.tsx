@@ -25,12 +25,16 @@ interface ApplicationFormData {
     answers?: { question: string; value: string }[];
 }
 
+// const trimString = (u: unknown) => typeof u === "string" ? u.trim() : u;
+
 const postFormSchema = z.object({
     info: z.string().max(500, 'Description too long'),
     answers: z.array(
         z.object({
             question: z.string(),
-            value: z.string().min(1, 'Required answer').max(500, 'Answer too long'),
+            value: z.string().trim().min(1, 'Required answer').max(500, 'Answer too long'),
+            // value: z.preprocess(trimString, z.string().min(1, 'Required answer').max(500, 'Answer too long')),
+
         })
     ),
 });
